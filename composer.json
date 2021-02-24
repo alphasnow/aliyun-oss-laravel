@@ -1,0 +1,38 @@
+{
+    "name": "alphasnow/aliyun-oss-laravel",
+    "description": "aliyun oss filesystem storage for laravel 5+",
+    "keywords": ["aliyun", "oss", "laravel", "filesystems", "storage"],
+    "homepage": "https://github.com/alphasnow/aliyun-oss-laravel/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AlphaSnow",
+            "email": "wind91@foxmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "aliyuncs/oss-sdk-php": "^2.4",
+        "league/flysystem": "^1.0",
+        "illuminate/container": "^5.1 || ^6.0 || ^7.0 || ^8.0",
+        "illuminate/support": "~5.1|^6.0",
+        "illuminate/filesystem": "~5.1|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AlphaSnow\\AliyunOss\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AlphaSnow\\AliyunOss\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AlphaSnow\\AliyunOss\\AliyunOssServiceProvider"
+            ]
+        }
+    }
+}
