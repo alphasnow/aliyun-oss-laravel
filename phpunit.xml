@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+            <exclude>
+                <directory suffix="ServiceProvider.php">src/</directory>
+                <directory suffix="Exception.php">src/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <php>
+        <const name="PHPUNIT_RUNNING" value="true" />
+        <env name="ALIYUN_OSS_ACCESS_ID" value="access_id" />
+        <env name="ALIYUN_OSS_ACCESS_KEY" value="access_key" />
+        <env name="ALIYUN_OSS_BUCKET" value="bucket" />
+    </php>
+</phpunit>

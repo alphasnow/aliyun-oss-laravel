@@ -1,12 +1,17 @@
 <?php
+
 namespace AlphaSnow\AliyunOss\Tests;
 
-use Tests\TestCase;
+
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\Storage;
 
 class StorageTest extends TestCase
 {
-    public function testWrite()
+    public function testDist()
     {
+        $disk = Storage::disk('aliyun');
 
+        $this->assertTrue($disk instanceof FilesystemAdapter);
     }
 }

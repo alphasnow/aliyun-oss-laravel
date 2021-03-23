@@ -1,22 +1,28 @@
 {
     "name": "alphasnow/aliyun-oss-laravel",
-    "description": "aliyun oss filesystem storage for laravel 5+",
+    "description": "aliyun oss filesystem storage for laravel",
     "keywords": ["aliyun", "oss", "laravel", "filesystems", "storage"],
-    "homepage": "https://github.com/alphasnow/aliyun-oss-laravel/",
+    "homepage": "https://github.com/alphasnow/aliyun-oss-laravel",
     "license": "MIT",
     "authors": [
         {
-            "name": "AlphaSnow",
+            "name": "alphasnow",
             "email": "wind91@foxmail.com"
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": "^7.2.5 || ^8.0",
+        "illuminate/contracts": "^6.0 || ^7.0 || ^8.0",
+        "illuminate/support": "^6.0 || ^7.0 || ^8.0",
         "aliyuncs/oss-sdk-php": "^2.4",
-        "league/flysystem": "^1.0",
-        "illuminate/container": "^5.1 || ^6.0 || ^7.0 || ^8.0",
-        "illuminate/support": "~5.1|^6.0",
-        "illuminate/filesystem": "~5.1|^6.0"
+        "league/flysystem": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5",
+        "mockery/mockery": "^1.3.1",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpstan/phpstan": "^0.12.82",
+        "orchestra/testbench": "^5.18"
     },
     "autoload": {
         "psr-4": {
@@ -28,11 +34,32 @@
             "AlphaSnow\\AliyunOss\\Tests\\": "tests/"
         }
     },
+    "config": {
+        "preferred-install": "dist"
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "AlphaSnow\\AliyunOss\\AliyunOssServiceProvider"
             ]
+        },
+        "hooks": {
+            "pre-commit": [
+                "composer test",
+                "composer fix-style"
+            ],
+            "pre-push": [
+                "composer test",
+                "composer fix-style"
+            ]
         }
-    }
+    },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse",
+        "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=.php_cs --dry-run --ansi",
+        "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php_cs --ansi",
+        "test": "vendor/bin/phpunit --colors=always --testdox"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

@@ -11,7 +11,7 @@ namespace AlphaSnow\AliyunOss\Plugins;
 use League\Flysystem\Config;
 use League\Flysystem\Plugin\AbstractPlugin;
 
-class PutFile extends AbstractPlugin
+class PutRemoteFile extends AbstractPlugin
 {
     /**
      * Get the method name.
@@ -20,16 +20,19 @@ class PutFile extends AbstractPlugin
      */
     public function getMethod()
     {
-        return 'putFile';
+        return 'putRemoteFile';
     }
 
-    public function handle($path, $filePath, array $options = [])
+    public function handle($path, $remoteUrl, array $options = [])
     {
         $config = new Config($options);
         if (method_exists($this->filesystem, 'getConfig')) {
             $config->setFallback($this->filesystem->getConfig());
         }
 
-        return (bool)$this->filesystem->getAdapter()->writeFile($path, $filePath, $config);
+        //Get file stream from remote url
+        $resource = fopen($remoteUrl, 'r');
+
+        return (bool)$this->filesystem->getAdapter()->writeStream($path, $resource, $config);
     }
 }
