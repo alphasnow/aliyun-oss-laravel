@@ -85,7 +85,7 @@ Storage::disk('aliyun')->rename('path/to/file1.jpg', 'path/to/file2.jpg');
 Storage::disk('aliyun')->putRemoteFile('target/path/to/file/jacob.jpg', 'http://example.com/jacob.jpg');
 Storage::disk('aliyun')->url('path/to/img.jpg');
 
-Storage::disk('aliyun')->getTemporaryUrl('path/to/img.jpg',3600);
+Storage::disk('aliyun')->temporaryUrl('path/to/img.jpg',3600);
 
 Storage::disk('aliyun')->prepend('file.log', 'Prepended Text'); 
 Storage::disk('aliyun')->append('file.log', 'Appended Text');
