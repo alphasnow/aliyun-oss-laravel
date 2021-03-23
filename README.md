@@ -1,105 +1,113 @@
 # Aliyun-oss-storage for Laravel
-Aliyun oss filesystem storage adapter for laravel. You can use Aliyun OSS just like laravel Storage as usual.    
-借鉴了一些优秀的代码，综合各方，同时做了更多优化，将会添加更多完善的接口和插件，打造Laravel最好的OSS Storage扩展
 
-## Inspired By
-- [jacobcyl/ali-oss-storage](https://github.com/jacobcyl/Aliyun-oss-storage) 
+[![Latest Stable Version](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/v/stable)](https://packagist.org/packages/alphasnow/utils)
+[![Total Downloads](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/downloads)](https://packagist.org/packages/alphasnow/utils)
+[![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/utils)
 
-## Require
-- Laravel
+扩展借鉴了一些优秀的代码，综合各方，同时做了更多优化，将会添加更多完善的接口和插件，打造Laravel最好的OSS Storage扩展
+
+## 运行环境
+- PHP 7.0+
 - cURL extension
+- Laravel 5.5+
 
-##Installation
-In order to install AliyunOss-storage, just add
+## 安装方法
+1. 如果您通过composer管理您的项目依赖，可以在你的项目根目录运行：
 
-    "alphasnow/aliyun-oss-laravel": "~1.0"
+        $ composer require alphasnow/aliyun-oss-laravel
 
-to your composer.json. Then run `composer install` or `composer update`.  
-Or you can simply run below command to install:
+   或者在你的`composer.json`中声明对Aliyun OSS SDK for PHP的依赖：
 
-    "composer require alphasnow/aliyun-oss-laravel:~1.0"
-    
-Then in your `config/app.php` add this line to providers array:
+        "require": {
+            "alphasnow/aliyun-oss-laravel": "~1.0"
+        }
+
+   然后通过`composer install`安装依赖。composer安装完成后，在您的PHP代码中引入依赖即可：
+
+        require_once __DIR__ . '/vendor/autoload.php';
+
+2. 修改环境变量文件`.env`
+    ```
+    ALIYUN_OSS_ACCESS_ID=
+    ALIYUN_OSS_ACCESS_KEY=
+    ALIYUN_OSS_BUCKET=
+    ALIYUN_OSS_ENDPOINT=oss-cn-shanghai.aliyuncs.com
+    ALIYUN_OSS_ENDPOINT_INTERNAL=
+    ALIYUN_OSS_IS_CNAME=false
+    ALIYUN_OSS_CDN_DOMAIN=
+    ALIYUN_OSS_IS_CNAME=false
+    ALIYUN_OSS_SSL=false
+    ```
+
+3. (可选)修改配置文件 `config/filesystems.php`
+    ```
+    'default' => env('FILESYSTEM_DRIVER', 'aliyun'),
+    // ...
+    'disks'=>[
+        // ...
+        'aliyun' => [
+            'driver' => 'aliyun',
+            'access_id'  => env('ALIYUN_OSS_ACCESS_ID', ''),
+            'access_key' => env('ALIYUN_OSS_ACCESS_KEY', ''),
+            'bucket'     => env('ALIYUN_OSS_BUCKET', ''),
+            'endpoint'   => env('ALIYUN_OSS_ENDPOINT', ''),
+            'is_cname'   => env('ALIYUN_OSS_IS_CNAME', false),
+            'cdn_domain' => env('ALIYUN_OSS_CDN_DOMAIN', ''),
+            'ssl'        => env('ALIYUN_OSS_SSL', false),
+            'debug'      => env('ALIYUN_OSS_DEBUG', false),
+        ],
+        // ...
+    ]
+    ```
+
+## 快速使用
+
 ```
-AlphaSnow\AliyunOss\AliyunOssServiceProvider::class
-```
-## Configuration
-Add the following in app/filesystems.php:
-```
-'disks'=>[
-    ...
-    'aliyun' => [
-            'driver'        => 'aliyun',
-            'access_id'     => '<Your Aliyun OSS AccessKeyId>',
-            'access_key'    => '<Your Aliyun OSS AccessKeySecret>',
-            'bucket'        => '<OSS bucket name>',
-            'endpoint'      => '<the endpoint of OSS, E.g: oss-cn-hangzhou.aliyuncs.com | custom domain, E.g:img.abc.com>', // OSS 外网节点或自定义外部域名
-            //'endpoint_internal' => '<internal endpoint [OSS内网节点] 如：oss-cn-shenzhen-internal.aliyuncs.com>', // v2.0.4 新增配置属性，如果为空，则默认使用 endpoint 配置(由于内网上传有点小问题未解决，请大家暂时不要使用内网节点上传，正在与阿里技术沟通中)
-            'cdn_domain'     => '<CDN domain, cdn域名>', // 如果isCName为true, getUrl会判断cdnDomain是否设定来决定返回的url，如果cdnDomain未设置，则使用endpoint来生成url，否则使用cdn
-            'ssl'           => <true|false> // true to use 'https://' and false to use 'http://'. default is false,
-            'is_cname'       => <true|false> // 是否使用自定义域名,true: 则Storage.url()会使用自定义的cdn或域名生成文件url， false: 则使用外部节点生成url
-            'debug'         => <true|false>
-    ],
-    ...
-]
-```
-Then set the default driver in app/filesystems.php:
-```
-'default' => 'aliyun',
-```
-Ok, well! You are finish to configure. Just feel free to use Aliyun OSS like Storage!
+// 查询文件夹
+Storage::disk('aliyun')->files($directory);
+Storage::disk('aliyun')->allFiles($directory);
 
-## Usage
-See [Larave doc for Storage](https://laravel.com/docs/5.2/filesystem#custom-filesystems)
-Or you can learn here:
+// 写入文件
+Storage::disk('aliyun')->put('path/to/file/file.jpg', $contents); 
+Storage::disk('aliyun')->putFile('path/to/file/file.jpg', 'local/path/to/local_file.jpg');
 
-> First you must use Storage facade
+// 读取文件
+Storage::disk('aliyun')->get('path/to/file/file.jpg'); 
+Storage::disk('aliyun')->exists('path/to/file/file.jpg'); 
+Storage::disk('aliyun')->size('path/to/file/file.jpg'); 
+Storage::disk('aliyun')->lastModified('path/to/file/file.jpg');
 
-```
-use Illuminate\Support\Facades\Storage;
-```    
-> Then You can use all APIs of laravel Storage
+// 读取文件夹
+Storage::disk('aliyun')->directories($directory); 
+Storage::disk('aliyun')->allDirectories($directory); 
 
-```
-Storage::disk('aliyun'); // if default filesystems driver is oss, you can skip this step
+// 文件操作
+Storage::disk('aliyun')->copy('old/file1.jpg', 'new/file1.jpg');
+Storage::disk('aliyun')->move('old/file1.jpg', 'new/file1.jpg');
+Storage::disk('aliyun')->rename('path/to/file1.jpg', 'path/to/file2.jpg');
 
-//fetch all files of specified bucket(see upond configuration)
-Storage::files($directory);
-Storage::allFiles($directory);
+Storage::disk('aliyun')->putRemoteFile('target/path/to/file/jacob.jpg', 'http://example.com/jacob.jpg');
+Storage::disk('aliyun')->url('path/to/img.jpg');
 
-Storage::put('path/to/file/file.jpg', $contents); //first parameter is the target file path, second paramter is file content
-Storage::putFile('path/to/file/file.jpg', 'local/path/to/local_file.jpg'); // upload file from local path
+Storage::disk('aliyun')->getTemporaryUrl('path/to/img.jpg',3600);
 
-Storage::get('path/to/file/file.jpg'); // get the file object by path
-Storage::exists('path/to/file/file.jpg'); // determine if a given file exists on the storage(OSS)
-Storage::size('path/to/file/file.jpg'); // get the file size (Byte)
-Storage::lastModified('path/to/file/file.jpg'); // get date of last modification
+Storage::disk('aliyun')->prepend('file.log', 'Prepended Text'); 
+Storage::disk('aliyun')->append('file.log', 'Appended Text');
 
-Storage::directories($directory); // Get all of the directories within a given directory
-Storage::allDirectories($directory); // Get all (recursive) of the directories within a given directory
+Storage::disk('aliyun')->delete('file.jpg');
+Storage::disk('aliyun')->delete(['file1.jpg', 'file2.jpg']);
 
-Storage::copy('old/file1.jpg', 'new/file1.jpg');
-Storage::move('old/file1.jpg', 'new/file1.jpg');
-Storage::rename('path/to/file1.jpg', 'path/to/file2.jpg');
-
-Storage::prepend('file.log', 'Prepended Text'); // Prepend to a file.
-Storage::append('file.log', 'Appended Text'); // Append to a file.
-
-Storage::delete('file.jpg');
-Storage::delete(['file1.jpg', 'file2.jpg']);
-
-Storage::makeDirectory($directory); // Create a directory.
-Storage::deleteDirectory($directory); // Recursively delete a directory.It will delete all files within a given directory, SO Use with caution please.
-
-// upgrade logs
-// new plugin for v2.0 version
-Storage::putRemoteFile('target/path/to/file/jacob.jpg', 'http://example.com/jacob.jpg'); //upload remote file to storage by remote url
-// new function for v2.0.1 version
-Storage::url('path/to/img.jpg') // get the file url
+// 文件夹操作
+Storage::disk('aliyun')->makeDirectory($directory); 
+Storage::disk('aliyun')->deleteDirectory($directory); 
 ```
 
-## Documentation
-More development detail see [Aliyun OSS DOC](https://help.aliyun.com/document_detail/32099.html?spm=5176.doc31981.6.335.eqQ9dM)
+> [阿里云OSS文档](https://help.aliyun.com/document_detail/32099.html?spm=5176.doc31981.6.335.eqQ9dM)
+
+## 主要参考
+- [jacobcyl/ali-oss-storage](https://github.com/jacobcyl/Aliyun-oss-storage)
+- [overtrue/laravel-versionable](https://github.com/overtrue/laravel-versionable)
 
 ## License
 Source code is release under MIT license. Read LICENSE file for more information.
+ 
