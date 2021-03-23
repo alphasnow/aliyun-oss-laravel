@@ -16,17 +16,13 @@
 
         $ composer require alphasnow/aliyun-oss-laravel
 
-   或者在你的`composer.json`中声明对Aliyun OSS SDK for PHP的依赖：
+   或者在你的`composer.json`中声明依赖：
 
         "require": {
             "alphasnow/aliyun-oss-laravel": "~1.0"
         }
 
-   然后通过`composer install`安装依赖。composer安装完成后，在您的PHP代码中引入依赖即可：
-
-        require_once __DIR__ . '/vendor/autoload.php';
-
-2. 修改环境变量文件`.env`
+2. 修改环境文件`.env`
     ```
     ALIYUN_OSS_ACCESS_ID=
     ALIYUN_OSS_ACCESS_KEY=
