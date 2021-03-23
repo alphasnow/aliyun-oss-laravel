@@ -2,7 +2,6 @@
 
 namespace AlphaSnow\AliyunOss\Tests;
 
-
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 

@@ -1,35 +1,35 @@
 # Aliyun-oss-storage for Laravel
-Aliyun oss filesystem storage adapter for laravel 5. You can use Aliyun OSS just like laravel Storage as usual.    
+Aliyun oss filesystem storage adapter for laravel. You can use Aliyun OSS just like laravel Storage as usual.    
 借鉴了一些优秀的代码，综合各方，同时做了更多优化，将会添加更多完善的接口和插件，打造Laravel最好的OSS Storage扩展
+
 ## Inspired By
-- [thephpleague/flysystem-aws-s3-v2](https://github.com/thephpleague/flysystem-aws-s3-v2)
-- [apollopy/flysystem-aliyun-oss](https://github.com/apollopy/flysystem-aliyun-oss) 
+- [jacobcyl/ali-oss-storage](https://github.com/jacobcyl/Aliyun-oss-storage) 
 
 ## Require
-- Laravel 5+
+- Laravel
 - cURL extension
 
 ##Installation
 In order to install AliyunOss-storage, just add
 
-    "alphasnow/ali-oss-storage": "^2.1"
+    "alphasnow/aliyun-oss-laravel": "^2.1"
 
 to your composer.json. Then run `composer install` or `composer update`.  
 Or you can simply run below command to install:
 
-    "composer require alphasnow/ali-oss-storage:^2.1"
+    "composer require alphasnow/aliyun-oss-laravel:^2.1"
     
 Then in your `config/app.php` add this line to providers array:
-```php
-AlphaSnow\AliyunOss\AliyunOssServiceProvider::class,
+```
+AlphaSnow\AliyunOss\AliyunOssServiceProvider::class
 ```
 ## Configuration
 Add the following in app/filesystems.php:
-```php
+```
 'disks'=>[
     ...
-    'oss' => [
-            'driver'        => 'oss',
+    'aliyun' => [
+            'driver'        => 'aliyun',
             'access_id'     => '<Your Aliyun OSS AccessKeyId>',
             'access_key'    => '<Your Aliyun OSS AccessKeySecret>',
             'bucket'        => '<OSS bucket name>',
@@ -44,8 +44,8 @@ Add the following in app/filesystems.php:
 ]
 ```
 Then set the default driver in app/filesystems.php:
-```php
-'default' => 'oss',
+```
+'default' => 'aliyun',
 ```
 Ok, well! You are finish to configure. Just feel free to use Aliyun OSS like Storage!
 
@@ -55,13 +55,13 @@ Or you can learn here:
 
 > First you must use Storage facade
 
-```php
+```
 use Illuminate\Support\Facades\Storage;
 ```    
 > Then You can use all APIs of laravel Storage
 
-```php
-Storage::disk('oss'); // if default filesystems driver is oss, you can skip this step
+```
+Storage::disk('aliyun'); // if default filesystems driver is oss, you can skip this step
 
 //fetch all files of specified bucket(see upond configuration)
 Storage::files($directory);
@@ -100,5 +100,6 @@ Storage::url('path/to/img.jpg') // get the file url
 
 ## Documentation
 More development detail see [Aliyun OSS DOC](https://help.aliyun.com/document_detail/32099.html?spm=5176.doc31981.6.335.eqQ9dM)
+
 ## License
 Source code is release under MIT license. Read LICENSE file for more information.

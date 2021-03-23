@@ -6,7 +6,6 @@ use AlphaSnow\AliyunOss\Plugins\PutFile;
 use AlphaSnow\AliyunOss\Plugins\PutRemoteFile;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
 use OSS\OssClient;
@@ -20,13 +19,14 @@ class AliyunOssServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/config/config.php' => config_path('aliyun-oss.php'),
             ], 'config');
         }
         $this->mergeConfigFrom(
-            __DIR__.'/config/config.php', 'filesystems.disks.aliyun'
+            __DIR__.'/config/config.php',
+            'filesystems.disks.aliyun'
         );
 
         Storage::extend('aliyun', function (Application $app, array $config) {

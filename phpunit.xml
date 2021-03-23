@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -24,6 +24,7 @@
     </filter>
     <php>
         <const name="PHPUNIT_RUNNING" value="true" />
+        <env name="APP_ENV" value="testing"/>
         <env name="ALIYUN_OSS_ACCESS_ID" value="access_id" />
         <env name="ALIYUN_OSS_ACCESS_KEY" value="access_key" />
         <env name="ALIYUN_OSS_BUCKET" value="bucket" />
