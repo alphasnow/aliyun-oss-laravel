@@ -12,12 +12,12 @@ Aliyun oss filesystem storage adapter for laravel. You can use Aliyun OSS just l
 ##Installation
 In order to install AliyunOss-storage, just add
 
-    "alphasnow/aliyun-oss-laravel": "^2.1"
+    "alphasnow/aliyun-oss-laravel": "~1.0"
 
 to your composer.json. Then run `composer install` or `composer update`.  
 Or you can simply run below command to install:
 
-    "composer require alphasnow/aliyun-oss-laravel:^2.1"
+    "composer require alphasnow/aliyun-oss-laravel:~1.0"
     
 Then in your `config/app.php` add this line to providers array:
 ```
