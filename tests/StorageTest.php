@@ -11,15 +11,15 @@ class StorageTest extends TestCase
 {
     public function testDisk()
     {
+        $client = \Mockery::mock(OssClient::class);
+        $client->shouldReceive(['doesObjectExist' => false,'putObject' => null]);
+        $this->app->instance(OssClient::class, $client);
+
         $storage = Storage::disk('aliyun');
         $this->assertTrue($storage instanceof FilesystemAdapter);
 
         $adapter = $storage->getDriver()->getAdapter();
         $this->assertTrue($adapter instanceof AbstractAdapter);
-
-        $client = \Mockery::mock(OssClient::class);
-        $client->shouldReceive(['doesObjectExist' => false,'putObject' => null]);
-        $adapter->setClient($client);
 
         $putStatus = $storage->put('/tests.log', 'tests');
         $this->assertTrue($putStatus);

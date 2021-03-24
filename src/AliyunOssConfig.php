@@ -112,31 +112,11 @@ class AliyunOssConfig implements Arrayable
     }
 
     /**
-     * @param string $driver
-     * @return AliyunOssConfig
-     */
-    public function setDriver($driver)
-    {
-        $this->driver = $driver;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getAccessId()
     {
         return $this->accessId;
-    }
-
-    /**
-     * @param string $accessId
-     * @return AliyunOssConfig
-     */
-    public function setAccessId($accessId)
-    {
-        $this->accessId = $accessId;
-        return $this;
     }
 
     /**
@@ -148,31 +128,11 @@ class AliyunOssConfig implements Arrayable
     }
 
     /**
-     * @param string $accessKey
-     * @return AliyunOssConfig
-     */
-    public function setAccessKey($accessKey)
-    {
-        $this->accessKey = $accessKey;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getBucket()
     {
         return $this->bucket;
-    }
-
-    /**
-     * @param string $bucket
-     * @return AliyunOssConfig
-     */
-    public function setBucket($bucket)
-    {
-        $this->bucket = $bucket;
-        return $this;
     }
 
     /**
@@ -184,31 +144,11 @@ class AliyunOssConfig implements Arrayable
     }
 
     /**
-     * @param string $endpoint
-     * @return AliyunOssConfig
-     */
-    public function setEndpoint($endpoint)
-    {
-        $this->endpoint = $endpoint;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getEndpointInternal()
     {
         return $this->endpointInternal;
-    }
-
-    /**
-     * @param string $endpointInternal
-     * @return AliyunOssConfig
-     */
-    public function setEndpointInternal($endpointInternal)
-    {
-        $this->endpointInternal = $endpointInternal;
-        return $this;
     }
 
     /**
@@ -220,31 +160,11 @@ class AliyunOssConfig implements Arrayable
     }
 
     /**
-     * @param bool $ssl
-     * @return AliyunOssConfig
-     */
-    public function setSsl($ssl)
-    {
-        $this->ssl = $ssl;
-        return $this;
-    }
-
-    /**
      * @return bool
      */
     public function isCname()
     {
         return $this->isCname;
-    }
-
-    /**
-     * @param bool $isCname
-     * @return AliyunOssConfig
-     */
-    public function setIsCname($isCname)
-    {
-        $this->isCname = $isCname;
-        return $this;
     }
 
     /**
@@ -256,31 +176,11 @@ class AliyunOssConfig implements Arrayable
     }
 
     /**
-     * @param bool $debug
-     * @return AliyunOssConfig
-     */
-    public function setDebug($debug)
-    {
-        $this->debug = $debug;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getCdnDomain()
     {
         return $this->cdnDomain;
-    }
-
-    /**
-     * @param string $cdnDomain
-     * @return AliyunOssConfig
-     */
-    public function setCdnDomain($cdnDomain)
-    {
-        $this->cdnDomain = $cdnDomain;
-        return $this;
     }
 
     /**
@@ -292,30 +192,10 @@ class AliyunOssConfig implements Arrayable
     }
 
     /**
-     * @param string $securityToken
-     * @return AliyunOssConfig
-     */
-    public function setSecurityToken($securityToken)
-    {
-        $this->securityToken = $securityToken;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getRequestProxy()
     {
         return $this->requestProxy;
-    }
-
-    /**
-     * @param string $requestProxy
-     * @return AliyunOssConfig
-     */
-    public function setRequestProxy($requestProxy)
-    {
-        $this->requestProxy = $requestProxy;
-        return $this;
     }
 }
