@@ -15,13 +15,13 @@ class AdapterTest extends TestCase
         'accessId' => 'access_id',
         'accessKey' => 'access_key',
         'bucket' => 'bucket',
-        'endpoint'=>'endpoint'
+        'endpoint' => 'endpoint'
     ];
     public function aliyunProvider()
     {
-        $config = Mockery::mock(Config::class,['disable_asserts' => true])->makePartial();
-        $ossClient = Mockery::mock(OssClient::class,[$this->aliyunConfig['accessId'],$this->aliyunConfig['accessKey'],$this->aliyunConfig['bucket'],$this->aliyunConfig['endpoint']])->makePartial();
-        $ossConfig = Mockery::mock(AliyunOssConfig::class,[$this->aliyunConfig])->makePartial();
+        $config = Mockery::mock(Config::class, ['disable_asserts' => true])->makePartial();
+        $ossClient = Mockery::mock(OssClient::class, [$this->aliyunConfig['accessId'],$this->aliyunConfig['accessKey'],$this->aliyunConfig['bucket'],$this->aliyunConfig['endpoint']])->makePartial();
+        $ossConfig = Mockery::mock(AliyunOssConfig::class, [$this->aliyunConfig])->makePartial();
         $adapter = Mockery::mock(AliyunOssAdapter::class, [$ossClient, $ossConfig])->makePartial()->shouldAllowMockingProtectedMethods();
 
         return [
@@ -40,7 +40,7 @@ class AdapterTest extends TestCase
     /**
      * @dataProvider aliyunProvider
      */
-    public function testWrite($adapter,$ossClient,$config)
+    public function testWrite($adapter, $ossClient, $config)
     {
         $ossClient->shouldReceive(['putObject' => null]);
         $result = $adapter->write('dir/file.txt', 'contents', $config);
@@ -51,7 +51,7 @@ class AdapterTest extends TestCase
     /**
      * @dataProvider aliyunProvider
      */
-    public function testWriteStream($adapter,$ossClient,$config)
+    public function testWriteStream($adapter, $ossClient, $config)
     {
         $ossClient->shouldReceive(['putObject' => null]);
 
@@ -72,7 +72,7 @@ class AdapterTest extends TestCase
     /**
      * @dataProvider aliyunProvider
      */
-    public function testWriteFile($adapter,$ossClient,$config)
+    public function testWriteFile($adapter, $ossClient, $config)
     {
         $ossClient->shouldReceive(['uploadFile' => null]);
 

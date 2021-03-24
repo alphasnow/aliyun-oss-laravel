@@ -543,7 +543,7 @@ class AliyunOssAdapter extends AbstractAdapter
     protected function readObject($path)
     {
         $object = $this->applyPathPrefix($path);
-
+        $result = [];
         $result['Body'] = $this->client->getObject($this->bucket, $object);
         $result = array_merge($result, ['type' => 'file']);
         return $this->normalizeResponse($result, $path);
@@ -572,9 +572,9 @@ class AliyunOssAdapter extends AbstractAdapter
     public function getTemporaryUrl($path, $expiration, array $options = [])
     {
         if ($expiration instanceof Carbon) {
-            return $this->client->generatePresignedUrl($this->bucket, $path, $expiration->timestamp);
+            return $this->client->generatePresignedUrl($this->bucket, $path, $expiration->getTimestamp(), $options);
         }
-        return $this->client->signUrl($this->bucket, $path, $expiration);
+        return $this->client->signUrl($this->bucket, $path, $expiration, $options);
     }
 
     /**

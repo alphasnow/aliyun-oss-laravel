@@ -34,8 +34,8 @@ class AliyunOssServiceProvider extends ServiceProvider
 
         $this->app->make('filesystem')
             ->extend('aliyun', function ($app, array $config) {
+                $config = $app->make(AliyunOssConfig::class, ['config' => $config]);
                 $client = $app->get(OssClient::class);
-                $config = $app->get(AliyunOssConfig::class);
 
                 $adapter = new AliyunOssAdapter($client, $config);
                 $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
@@ -48,8 +48,12 @@ class AliyunOssServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(AliyunOssConfig::class, function ($app) {
-            $config = $app->get('config')->get('filesystems.disks.aliyun');
+        $this->app->singleton(AliyunOssConfig::class, function ($app, $params = []) {
+            if (isset($params['config'])) {
+                $config = $params['config'];
+            } else {
+                $config = $app->get('config')->get('filesystems.disks.aliyun');
+            }
             $ossConfig = new AliyunOssConfig($config);
             $ossConfig->checkRequired();
             return $ossConfig;
