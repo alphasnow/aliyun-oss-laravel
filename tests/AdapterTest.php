@@ -3,6 +3,7 @@
 namespace AlphaSnow\AliyunOss\Tests;
 
 use AlphaSnow\AliyunOss\AliyunOssAdapter;
+use AlphaSnow\AliyunOss\AliyunOssConfig;
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\Config;
 use OSS\OssClient;
@@ -10,47 +11,52 @@ use Mockery;
 
 class AdapterTest extends TestCase
 {
-    /**
-     * @var Config
-     */
-    protected $systemConfig;
-    /**
-     * @var OssClient
-     */
-    protected $mockClient;
-    /**
-     * @var AliyunOssAdapter
-     */
-    protected $adapter;
-
-    public function setUp(): void
+    protected $aliyunConfig = [
+        'accessId' => 'access_id',
+        'accessKey' => 'access_key',
+        'bucket' => 'bucket',
+        'endpoint'=>'endpoint'
+    ];
+    public function aliyunProvider()
     {
-        parent::setUp();
+        $config = Mockery::mock(Config::class,['disable_asserts' => true])->makePartial();
+        $ossClient = Mockery::mock(OssClient::class,[$this->aliyunConfig['accessId'],$this->aliyunConfig['accessKey'],$this->aliyunConfig['bucket'],$this->aliyunConfig['endpoint']])->makePartial();
+        $ossConfig = Mockery::mock(AliyunOssConfig::class,[$this->aliyunConfig])->makePartial();
+        $adapter = Mockery::mock(AliyunOssAdapter::class, [$ossClient, $ossConfig])->makePartial()->shouldAllowMockingProtectedMethods();
 
-        $this->systemConfig = new Config(['disable_asserts' => true]);
-        $this->mockClient = Mockery::mock(OssClient::class)->makePartial();
-        $this->adapter = $this->app->make(AliyunOssAdapter::class, ['client' => $this->mockClient]);
+        return [
+            [$adapter,$ossClient,$config]
+        ];
     }
 
-    public function testInstance()
+    /**
+     * @dataProvider aliyunProvider
+     */
+    public function testInstance($adapter)
     {
-        $this->assertTrue($this->adapter instanceof AbstractAdapter);
+        $this->assertTrue($adapter instanceof AbstractAdapter);
     }
 
-    public function testWrite()
+    /**
+     * @dataProvider aliyunProvider
+     */
+    public function testWrite($adapter,$ossClient,$config)
     {
-        $this->mockClient->shouldReceive(['putObject' => null]);
-        $result = $this->adapter->write('dir/file.txt', 'contents', $this->systemConfig);
+        $ossClient->shouldReceive(['putObject' => null]);
+        $result = $adapter->write('dir/file.txt', 'contents', $config);
 
         $this->assertWriteResult($result);
     }
 
-    public function testWriteStream()
+    /**
+     * @dataProvider aliyunProvider
+     */
+    public function testWriteStream($adapter,$ossClient,$config)
     {
-        $this->mockClient->shouldReceive(['putObject' => null]);
-        $fp = fopen(__DIR__.'/stubs/file.txt', 'r');
+        $ossClient->shouldReceive(['putObject' => null]);
 
-        $result = $this->adapter->writeStream('dir/file.txt', $fp, $this->systemConfig);
+        $fp = fopen(__DIR__.'/stubs/file.txt', 'r');
+        $result = $adapter->writeStream('dir/file.txt', $fp, $config);
 
         $this->assertWriteResult($result);
     }
@@ -63,12 +69,15 @@ class AdapterTest extends TestCase
         $this->assertSame($result['type'], 'file');
     }
 
-    public function testWriteFile()
+    /**
+     * @dataProvider aliyunProvider
+     */
+    public function testWriteFile($adapter,$ossClient,$config)
     {
-        $this->mockClient->shouldReceive(['uploadFile' => null]);
-        $filePath = __DIR__.'/stubs/file.txt';
+        $ossClient->shouldReceive(['uploadFile' => null]);
 
-        $result = $this->adapter->writeFile('dir/file.txt', $filePath, $this->systemConfig);
+        $filePath = __DIR__.'/stubs/file.txt';
+        $result = $adapter->writeFile('dir/file.txt', $filePath, $config);
 
         $this->assertWriteResult($result);
     }

@@ -102,13 +102,11 @@ class AliyunOssAdapter extends AbstractAdapter
      * AliyunOssAdapter constructor.
      * @param OssClient $client
      * @param AliyunOssConfig $config
-     * @param string|null $prefix
      * @param array $options
      */
     public function __construct(
         OssClient $client,
         AliyunOssConfig $config,
-        $prefix = null,
         array $options = []
     ) {
         $this->client = $client;
@@ -118,7 +116,6 @@ class AliyunOssAdapter extends AbstractAdapter
         $this->ssl = $config->isSsl();
         $this->isCname = $config->isCname();
         $this->cdnDomain = $config->getCdnDomain();
-        $this->setPathPrefix($prefix);
         $this->options = array_merge($this->options, $options);
     }
 
