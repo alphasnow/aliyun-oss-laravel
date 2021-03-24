@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 class AliyunOssAdapter extends AbstractAdapter
 {
     /**
-     * @var Log debug Mode true|false
+     * @var bool
      */
     protected $debug;
     /**
@@ -33,7 +33,6 @@ class AliyunOssAdapter extends AbstractAdapter
         'Size' => 'size',
         'StorageClass' => 'storage_class',
     ];
-
     /**
      * @var array
      */
@@ -49,6 +48,9 @@ class AliyunOssAdapter extends AbstractAdapter
         'ContentEncoding',
     ];
 
+    /**
+     * @var string[]
+     */
     protected static $metaMap = [
         'CacheControl' => 'Cache-Control',
         'Expires' => 'Expires',
@@ -61,35 +63,46 @@ class AliyunOssAdapter extends AbstractAdapter
         'ContentEncoding' => 'Content-Encoding',
     ];
 
-    //Aliyun OSS Client OssClient
+    /**
+     * @var OssClient
+     */
     protected $client;
-    //bucket name
+    /**
+     * @var string
+     */
     protected $bucket;
-
+    /**
+     * @var string
+     */
     protected $endPoint;
 
+    /**
+     * @var string
+     */
     protected $cdnDomain;
 
+    /**
+     * @var bool
+     */
     protected $ssl;
 
+    /**
+     * @var bool
+     */
     protected $isCname;
 
-    //配置
+    /**
+     * @var array|int[]
+     */
     protected $options = [
         'Multipart' => 128
     ];
 
-
     /**
      * AliyunOssAdapter constructor.
-     *
      * @param OssClient $client
-     * @param string $bucket
-     * @param string $endPoint
-     * @param bool $ssl
-     * @param bool $isCname
-     * @param bool $debug
-     * @param null $prefix
+     * @param AliyunOssConfig $config
+     * @param string|null $prefix
      * @param array $options
      */
     public function __construct(
@@ -140,13 +153,7 @@ class AliyunOssAdapter extends AbstractAdapter
     }
 
     /**
-     * Write a new file.
-     *
-     * @param string $path
-     * @param string $contents
-     * @param Config $config Config object
-     *
-     * @return array|false false on failure file meta data on success
+     * {@inheritdoc}
      */
     public function write($path, $contents, Config $config)
     {
@@ -169,13 +176,7 @@ class AliyunOssAdapter extends AbstractAdapter
     }
 
     /**
-     * Write a new file using a stream.
-     *
-     * @param string $path
-     * @param resource $resource
-     * @param Config $config Config object
-     *
-     * @return array|false false on failure file meta data on success
+     * {@inheritdoc}
      */
     public function writeStream($path, $resource, Config $config)
     {
@@ -185,6 +186,9 @@ class AliyunOssAdapter extends AbstractAdapter
         return $this->write($path, $contents, $config);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function writeFile($path, $filePath, Config $config)
     {
         $object = $this->applyPathPrefix($path);
@@ -205,13 +209,7 @@ class AliyunOssAdapter extends AbstractAdapter
     }
 
     /**
-     * Update a file.
-     *
-     * @param string $path
-     * @param string $contents
-     * @param Config $config Config object
-     *
-     * @return array|false false on failure file meta data on success
+     * {@inheritdoc}
      */
     public function update($path, $contents, Config $config)
     {
@@ -223,13 +221,7 @@ class AliyunOssAdapter extends AbstractAdapter
     }
 
     /**
-     * Update a file using a stream.
-     *
-     * @param string $path
-     * @param resource $resource
-     * @param Config $config Config object
-     *
-     * @return array|false false on failure file meta data on success
+     * {@inheritdoc}
      */
     public function updateStream($path, $resource, Config $config)
     {
@@ -293,6 +285,7 @@ class AliyunOssAdapter extends AbstractAdapter
         $dirObjects = $this->listDirObjects($dirname, true);
 
         if (count($dirObjects['objects']) > 0) {
+            $objects = [];
             foreach ($dirObjects['objects'] as $object) {
                 $objects[] = $object['Key'];
             }
@@ -313,6 +306,37 @@ class AliyunOssAdapter extends AbstractAdapter
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createDir($dirname, Config $config)
+    {
+        $object = $this->applyPathPrefix($dirname);
+        $options = $this->getOptionsFromConfig($config);
+
+        try {
+            $this->client->createObjectDir($this->bucket, $object, $options);
+        } catch (OssException $e) {
+            $this->logErr(__FUNCTION__, $e);
+            return false;
+        }
+
+        return ['path' => $dirname, 'type' => 'dir'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVisibility($path, $visibility)
+    {
+        $object = $this->applyPathPrefix($path);
+        $acl = ($visibility === AdapterInterface::VISIBILITY_PUBLIC) ? OssClient::OSS_ACL_TYPE_PUBLIC_READ : OssClient::OSS_ACL_TYPE_PRIVATE;
+
+        $this->client->putObjectAcl($this->bucket, $object, $acl);
+
+        return compact('visibility');
     }
 
     /**
@@ -395,37 +419,6 @@ class AliyunOssAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function createDir($dirname, Config $config)
-    {
-        $object = $this->applyPathPrefix($dirname);
-        $options = $this->getOptionsFromConfig($config);
-
-        try {
-            $this->client->createObjectDir($this->bucket, $object, $options);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        return ['path' => $dirname, 'type' => 'dir'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setVisibility($path, $visibility)
-    {
-        $object = $this->applyPathPrefix($path);
-        $acl = ($visibility === AdapterInterface::VISIBILITY_PUBLIC) ? OssClient::OSS_ACL_TYPE_PUBLIC_READ : OssClient::OSS_ACL_TYPE_PRIVATE;
-
-        $this->client->putObjectAcl($this->bucket, $object, $acl);
-
-        return compact('visibility');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function has($path)
     {
         $object = $this->applyPathPrefix($path);
@@ -453,26 +446,10 @@ class AliyunOssAdapter extends AbstractAdapter
         $result['stream'] = $result['raw_contents'];
         rewind($result['stream']);
         // Ensure the EntityBody object destruction doesn't close the stream
-        $result['raw_contents']->detachStream();
+        // $result['raw_contents']->detachStream();
         unset($result['raw_contents']);
 
         return $result;
-    }
-
-    /**
-     * Read an object from the OssClient.
-     *
-     * @param string $path
-     *
-     * @return array
-     */
-    protected function readObject($path)
-    {
-        $object = $this->applyPathPrefix($path);
-
-        $result['Body'] = $this->client->getObject($this->bucket, $object);
-        $result = array_merge($result, ['type' => 'file']);
-        return $this->normalizeResponse($result, $path);
     }
 
     /**
@@ -562,10 +539,21 @@ class AliyunOssAdapter extends AbstractAdapter
         return $res;
     }
 
+    /**
+     * @param string $path
+     * @return array|null[]|string[]
+     */
+    protected function readObject($path)
+    {
+        $object = $this->applyPathPrefix($path);
+
+        $result['Body'] = $this->client->getObject($this->bucket, $object);
+        $result = array_merge($result, ['type' => 'file']);
+        return $this->normalizeResponse($result, $path);
+    }
 
     /**
-     * @param $path
-     *
+     * @param string $path
      * @return string
      */
     public function getUrl($path)
@@ -689,13 +677,13 @@ class AliyunOssAdapter extends AbstractAdapter
     }
 
     /**
-     * @param $fun string function name : __FUNCTION__
-     * @param $e
+     * @param string $func
+     * @param \Exception $e
      */
-    protected function logErr($fun, $e)
+    protected function logErr($func, $e)
     {
         if ($this->debug) {
-            Log::error($fun . ": FAILED");
+            Log::error($func . ": FAILED");
             Log::error($e->getMessage());
         }
     }

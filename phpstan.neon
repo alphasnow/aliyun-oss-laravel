@@ -6,3 +6,4 @@ parameters:
     ignoreErrors:
         - '#Unsafe usage of new static\(\).#'
         - '#Psr.*Exception is not subtype of Throwable#'
+        - '#Call to an undefined method League\\Flysystem\\FilesystemInterface::getAdapter\(\).#'
