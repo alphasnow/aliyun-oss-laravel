@@ -1,17 +1,18 @@
+filter:
+    excluded_paths:
+        - 'tests/*'
+checks:
+    php: true
+coding_style:
+    php: {  }
 build:
     environment:
-        php: 7.4
-
-    nodes:
-        analysis:
-            project_setup:
-                override: true
-            tests:
-                override: [php-scrutinizer-run]
-        coverage:
-            tests:
-                override:
-                    - command: 'vendor/bin/phpunit --coverage-clover=some-file'
-                      coverage:
-                          file: 'some-file'
-                          format: 'clover'
+        php:
+            version: 7.2
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --coverage-clover=some-file'
+                coverage:
+                    file: 'some-file'
+                    format: 'clover'
