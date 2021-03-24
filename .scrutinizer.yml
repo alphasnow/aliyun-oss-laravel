@@ -1,15 +1,17 @@
-checks:
-    php:
-        code_rating: true
-        duplication: true
-filter:
-    excluded_paths:
-        - tests/*
 build:
-    tests:
-        override:
-            -
-                command: ./vendor/bin/phpunit --coverage-clover=phpunit-coverage-file
-                coverage:
-                    file: phpunit-coverage-file
-                    format: php-clover
+    environment:
+        php: 7.4
+
+    nodes:
+        analysis:
+            project_setup:
+                override: true
+            tests:
+                override: [php-scrutinizer-run]
+        coverage:
+            tests:
+                override:
+                    - command: 'vendor/bin/phpunit --coverage-clover=some-file'
+                      coverage:
+                          file: 'some-file'
+                          format: 'clover'
