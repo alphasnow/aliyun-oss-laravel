@@ -1,16 +1,14 @@
 <?php
-/**
- * Created by jacob.
- * User: jacob
- * Date: 16/5/20
- * Time: 下午8:31
- */
 
 namespace AlphaSnow\AliyunOss\Plugins;
 
 use League\Flysystem\Config;
 use League\Flysystem\Plugin\AbstractPlugin;
 
+/**
+ * Class PutRemoteFile
+ * @package AlphaSnow\AliyunOss\Plugins
+ */
 class PutRemoteFile extends AbstractPlugin
 {
     /**
@@ -23,6 +21,12 @@ class PutRemoteFile extends AbstractPlugin
         return 'putRemoteFile';
     }
 
+    /**
+     * @param string $path
+     * @param string $remoteUrl
+     * @param array $options
+     * @return bool
+     */
     public function handle($path, $remoteUrl, array $options = [])
     {
         $config = new Config($options);
@@ -30,7 +34,7 @@ class PutRemoteFile extends AbstractPlugin
             $config->setFallback($this->filesystem->getConfig());
         }
 
-        //Get file stream from remote url
+        // Get file stream from remote url
         $resource = fopen($remoteUrl, 'r');
 
         return (bool)$this->filesystem->getAdapter()->writeStream($path, $resource, $config);

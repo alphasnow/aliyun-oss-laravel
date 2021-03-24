@@ -94,23 +94,18 @@ class AliyunOssAdapter extends AbstractAdapter
      */
     public function __construct(
         OssClient $client,
-        $bucket,
-        $endPoint,
-        $ssl,
-        $isCname = false,
-        $debug = false,
-        $cdnDomain = '',
+        AliyunOssConfig $config,
         $prefix = null,
         array $options = []
     ) {
-        $this->debug = $debug;
         $this->client = $client;
-        $this->bucket = $bucket;
+        $this->debug = $config->isDebug();
+        $this->bucket = $config->getBucket();
+        $this->endPoint = $config->getEndpoint();
+        $this->ssl = $config->isSsl();
+        $this->isCname = $config->isCname();
+        $this->cdnDomain = $config->getCdnDomain();
         $this->setPathPrefix($prefix);
-        $this->endPoint = $endPoint;
-        $this->ssl = $ssl;
-        $this->isCname = $isCname;
-        $this->cdnDomain = $cdnDomain;
         $this->options = array_merge($this->options, $options);
     }
 
@@ -132,6 +127,16 @@ class AliyunOssAdapter extends AbstractAdapter
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * @param OssClient $client
+     * @return $this
+     */
+    public function setClient(OssClient $client)
+    {
+        $this->client = $client;
+        return $this;
     }
 
     /**

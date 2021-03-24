@@ -1,16 +1,14 @@
 <?php
-/**
- * Created by jacob.
- * User: jacob
- * Date: 16/5/20
- * Time: 下午8:31
- */
 
 namespace AlphaSnow\AliyunOss\Plugins;
 
 use League\Flysystem\Config;
 use League\Flysystem\Plugin\AbstractPlugin;
 
+/**
+ * Class PutFile
+ * @package AlphaSnow\AliyunOss\Plugins
+ */
 class PutFile extends AbstractPlugin
 {
     /**
@@ -23,6 +21,12 @@ class PutFile extends AbstractPlugin
         return 'putFile';
     }
 
+    /**
+     * @param string $path
+     * @param string $filePath
+     * @param array $options
+     * @return bool
+     */
     public function handle($path, $filePath, array $options = [])
     {
         $config = new Config($options);
