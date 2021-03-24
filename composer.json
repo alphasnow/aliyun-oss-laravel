@@ -40,7 +40,10 @@
         "laravel": {
             "providers": [
                 "AlphaSnow\\AliyunOss\\AliyunOssServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "AliyunOssClient": "AlphaSnow\\AliyunOss\\AliyunOssClientFacade"
+            }
         },
         "hooks": {
             "pre-commit": [

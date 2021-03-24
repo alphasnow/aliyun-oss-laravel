@@ -4,6 +4,7 @@ namespace AlphaSnow\AliyunOss\Tests;
 
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\Adapter\AbstractAdapter;
 use OSS\OssClient;
 
 class StorageTest extends TestCase
@@ -14,11 +15,13 @@ class StorageTest extends TestCase
         $this->assertTrue($storage instanceof FilesystemAdapter);
 
         $adapter = $storage->getDriver()->getAdapter();
+        $this->assertTrue($adapter instanceof AbstractAdapter);
 
         $client = \Mockery::mock(OssClient::class);
-        $client->shouldReceive(['doesObjectExist'=>false,'putObject'=>null]);
+        $client->shouldReceive(['doesObjectExist' => false,'putObject' => null]);
         $adapter->setClient($client);
 
-        $result = $storage->put('/tests.log','tests');
+        $putStatus = $storage->put('/tests.log', 'tests');
+        $this->assertTrue($putStatus);
     }
 }

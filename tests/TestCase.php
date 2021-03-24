@@ -2,6 +2,7 @@
 
 namespace AlphaSnow\AliyunOss\Tests;
 
+use AlphaSnow\AliyunOss\AliyunOssClientFacade;
 use AlphaSnow\AliyunOss\AliyunOssServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -16,6 +17,10 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [AliyunOssServiceProvider::class];
+    }
+    protected function getPackageAliases($app)
+    {
+        return ['AliyunOssClient' => AliyunOssClientFacade::class];
     }
 
     protected function getEnvironmentSetUp($app)

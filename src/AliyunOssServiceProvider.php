@@ -4,9 +4,8 @@ namespace AlphaSnow\AliyunOss;
 
 use AlphaSnow\AliyunOss\Plugins\PutFile;
 use AlphaSnow\AliyunOss\Plugins\PutRemoteFile;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Filesystem\Factory as FactoryContract;
 use Illuminate\Support\ServiceProvider;
+use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use OSS\OssClient;
 
@@ -33,26 +32,41 @@ class AliyunOssServiceProvider extends ServiceProvider
             'filesystems.disks.aliyun'
         );
 
-        $this->app->make(FactoryContract::class)
-            ->extend('aliyun', function (Application $app, array $config) {
-                $config = new AliyunOssConfig($config);
-                $config->checkRequired();
-
-                $client = new OssClient(
-                    $config->getAccessId(),
-                    $config->getAccessKey(),
-                    $config->getOssEndpoint(),
-                    $config->isCname(),
-                    $config->getSecurityToken(),
-                    $config->getRequestProxy()
-                );
+        $this->app->make('filesystem')
+            ->extend('aliyun', function ($app, array $config) {
+                $client = $app->get(OssClient::class);
+                $config = $app->get(AliyunOssConfig::class);
 
                 $adapter = new AliyunOssAdapter($client, $config);
-                $filesystem = new Filesystem($adapter);
+                $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
                 $filesystem->addPlugin(new PutFile());
                 $filesystem->addPlugin(new PutRemoteFile());
 
                 return $filesystem;
             });
+    }
+
+    public function register()
+    {
+        $this->app->singleton(AliyunOssConfig::class, function ($app) {
+            $config = $app->get('config')->get('filesystems.disks.aliyun');
+            $ossConfig = new AliyunOssConfig($config);
+            $ossConfig->checkRequired();
+            return $ossConfig;
+        });
+
+        $this->app->singleton(OssClient::class, function ($app) {
+            $ossConfig = $app->get(AliyunOssConfig::class);
+            $ossClient = new OssClient(
+                $ossConfig->getAccessId(),
+                $ossConfig->getAccessKey(),
+                $ossConfig->getOssEndpoint(),
+                $ossConfig->isCname(),
+                $ossConfig->getSecurityToken(),
+                $ossConfig->getRequestProxy()
+            );
+            return $ossClient;
+        });
+        $this->app->alias(OssClient::class, 'aliyun.oss.client');
     }
 }
