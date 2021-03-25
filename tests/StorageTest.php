@@ -3,25 +3,54 @@
 namespace AlphaSnow\AliyunOss\Tests;
 
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\Storage;
-use League\Flysystem\Adapter\AbstractAdapter;
 use OSS\OssClient;
+use Mockery;
 
 class StorageTest extends TestCase
 {
-    public function testDisk()
+    /**
+     * @var OssClient
+     */
+    protected $ossClient;
+    /**
+     * @var FilesystemAdapter
+     */
+    protected $storage;
+
+    public function setUp(): void
     {
-        $client = \Mockery::mock(OssClient::class);
-        $client->shouldReceive(['doesObjectExist' => false,'putObject' => null]);
-        $this->app->instance(OssClient::class, $client);
+        parent::setUp();
 
-        $storage = Storage::disk('aliyun');
-        $this->assertTrue($storage instanceof FilesystemAdapter);
+        $ossClient = Mockery::mock(OssClient::class,function($mock){
+            $mock->makePartial();
+        });
+        $this->app->instance(OssClient::class,$ossClient);
+        $storage = $this->app->make('filesystem')->disk('aliyun');
 
-        $adapter = $storage->getDriver()->getAdapter();
-        $this->assertTrue($adapter instanceof AbstractAdapter);
+        $this->ossClient = $ossClient;
+        $this->storage = $storage;
+    }
 
-        $putStatus = $storage->put('/tests.log', 'tests');
-        $this->assertTrue($putStatus);
+    public function testPut()
+    {
+        $this->ossClient->shouldReceive([
+            'putObject' => null
+        ]);
+
+        $status = $this->storage->put('/foo.md', 'bar','public');
+        $this->assertTrue($status);
+    }
+
+    public function testPermission()
+    {
+        $this->ossClient->shouldReceive([
+            'putObject' => null
+        ]);
+
+        $status = $this->storage->put('/foo.md', 'bar',[
+            OssClient::OSS_STORAGE => OssClient::OSS_STORAGE_IA,
+            OssClient::OSS_OBJECT_ACL => OssClient::OSS_ACL_TYPE_PRIVATE,
+        ]);
+        $this->assertTrue($status);
     }
 }

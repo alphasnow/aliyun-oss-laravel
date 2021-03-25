@@ -19,6 +19,7 @@ class AdapterTest extends TestCase
     ];
     public function aliyunProvider()
     {
+        // there is no $this->app
         $config = Mockery::mock(Config::class, ['disable_asserts' => true])->makePartial();
         $ossClient = Mockery::mock(OssClient::class, [$this->aliyunConfig['accessId'],$this->aliyunConfig['accessKey'],$this->aliyunConfig['bucket'],$this->aliyunConfig['endpoint']])->makePartial();
         $ossConfig = Mockery::mock(AliyunOssConfig::class, [$this->aliyunConfig])->makePartial();
@@ -45,7 +46,11 @@ class AdapterTest extends TestCase
         $ossClient->shouldReceive(['putObject' => null]);
         $result = $adapter->write('dir/file.txt', 'contents', $config);
 
-        $this->assertWriteResult($result);
+        $this->assertSame([
+            'path'=>'dir/file.txt',
+            'dirname'=>'dir',
+            'type'=>'file'
+        ],$result);
     }
 
     /**
@@ -58,15 +63,11 @@ class AdapterTest extends TestCase
         $fp = fopen(__DIR__.'/stubs/file.txt', 'r');
         $result = $adapter->writeStream('dir/file.txt', $fp, $config);
 
-        $this->assertWriteResult($result);
-    }
-
-    protected function assertWriteResult($result)
-    {
-        $this->assertIsArray($result);
-        $this->assertSame($result['path'], 'dir/file.txt');
-        $this->assertSame($result['dirname'], 'dir');
-        $this->assertSame($result['type'], 'file');
+        $this->assertSame([
+            'path'=>'dir/file.txt',
+            'dirname'=>'dir',
+            'type'=>'file'
+        ],$result);
     }
 
     /**
@@ -79,6 +80,10 @@ class AdapterTest extends TestCase
         $filePath = __DIR__.'/stubs/file.txt';
         $result = $adapter->writeFile('dir/file.txt', $filePath, $config);
 
-        $this->assertWriteResult($result);
+        $this->assertSame([
+            'path'=>'dir/file.txt',
+            'dirname'=>'dir',
+            'type'=>'file'
+        ],$result);
     }
 }

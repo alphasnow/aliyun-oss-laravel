@@ -1,9 +1,10 @@
 parameters:
     level: 3
-    paths:
-        - src
+
     inferPrivatePropertyTypeFromConstructor: true
+
+    paths:
+        - %currentWorkingDirectory%/src
+
     ignoreErrors:
-        - '#Unsafe usage of new static\(\).#'
-        - '#Psr.*Exception is not subtype of Throwable#'
-        - '#Call to an undefined method League\\Flysystem\\FilesystemInterface::getAdapter\(\).#'
+        - '~Call to an undefined method League\\Flysystem\\FilesystemInterface::getAdapter\(\).~'

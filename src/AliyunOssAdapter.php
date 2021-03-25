@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by jacob.
- * Date: 2016/5/19 0019
- * Time: 下午 17:07
- */
 
 namespace AlphaSnow\AliyunOss;
 
 use Carbon\Carbon;
 use League\Flysystem\Adapter\AbstractAdapter;
+use League\Flysystem\Adapter\CanOverwriteFiles;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use League\Flysystem\Util;
@@ -17,7 +13,7 @@ use OSS\Core\OssException;
 use OSS\OssClient;
 use Illuminate\Support\Facades\Log;
 
-class AliyunOssAdapter extends AbstractAdapter
+class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
 {
     /**
      * @var bool
@@ -92,10 +88,10 @@ class AliyunOssAdapter extends AbstractAdapter
     protected $isCname;
 
     /**
-     * @var array|int[]
+     * @var array
      */
     protected $options = [
-        'Multipart' => 128
+//        'Multipart' => 128
     ];
 
     /**
@@ -120,42 +116,12 @@ class AliyunOssAdapter extends AbstractAdapter
     }
 
     /**
-     * Get the OssClient bucket.
-     *
-     * @return string
-     */
-    public function getBucket()
-    {
-        return $this->bucket;
-    }
-
-    /**
-     * Get the OSSClient instance.
-     *
-     * @return OssClient
-     */
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-    /**
-     * @param OssClient $client
-     * @return $this
-     */
-    public function setClient(OssClient $client)
-    {
-        $this->client = $client;
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function write($path, $contents, Config $config)
     {
         $object = $this->applyPathPrefix($path);
-        $options = $this->getOptions($this->options, $config);
+        $options = $this->getOptions([], $config);
 
         if (!isset($options[OssClient::OSS_LENGTH])) {
             $options[OssClient::OSS_LENGTH] = Util::contentSize($contents);
@@ -163,12 +129,15 @@ class AliyunOssAdapter extends AbstractAdapter
         if (!isset($options[OssClient::OSS_CONTENT_TYPE])) {
             $options[OssClient::OSS_CONTENT_TYPE] = Util::guessMimeType($path, $contents);
         }
+
         try {
+            // https://help.aliyun.com/document_detail/31978.html
             $this->client->putObject($this->bucket, $object, $contents, $options);
         } catch (OssException $e) {
             $this->logErr(__FUNCTION__, $e);
             return false;
         }
+
         return $this->normalizeResponse($options, $path);
     }
 
@@ -177,10 +146,18 @@ class AliyunOssAdapter extends AbstractAdapter
      */
     public function writeStream($path, $resource, Config $config)
     {
-        $options = $this->getOptions($this->options, $config);
-        $contents = stream_get_contents($resource);
+        $object = $this->applyPathPrefix($path);
+        $options = $this->getOptions([], $config);
 
-        return $this->write($path, $contents, $config);
+        try {
+            // https://help.aliyun.com/document_detail/31959.html
+            $this->client->uploadStream($this->bucket, $object, $resource, $options);
+        } catch (OssException $e) {
+            $this->logErr(__FUNCTION__, $e);
+            return false;
+        }
+
+        return $this->normalizeResponse($options, $path);
     }
 
     /**
@@ -189,19 +166,22 @@ class AliyunOssAdapter extends AbstractAdapter
     public function writeFile($path, $filePath, Config $config)
     {
         $object = $this->applyPathPrefix($path);
-        $options = $this->getOptions($this->options, $config);
+        $options = $this->getOptions([], $config);
 
-        $options[OssClient::OSS_CHECK_MD5] = true;
-
+        if (!isset($options[OssClient::OSS_CONTENT_TYPE])) {
+            $options[OssClient::OSS_CHECK_MD5] = true;
+        }
         if (!isset($options[OssClient::OSS_CONTENT_TYPE])) {
             $options[OssClient::OSS_CONTENT_TYPE] = Util::guessMimeType($path, '');
         }
+
         try {
             $this->client->uploadFile($this->bucket, $object, $filePath, $options);
         } catch (OssException $e) {
             $this->logErr(__FUNCTION__, $e);
             return false;
         }
+
         return $this->normalizeResponse($options, $path);
     }
 
@@ -211,9 +191,12 @@ class AliyunOssAdapter extends AbstractAdapter
     public function update($path, $contents, Config $config)
     {
         if (!$config->has('visibility') && !$config->has('ACL')) {
+            // 新文件未配置权限情况下,继承旧文件权限
             $config->set(static::$metaMap['ACL'], $this->getObjectACL($path));
         }
-        // $this->delete($path);
+        // 允许覆盖同名文件
+        $config->set('x-oss-forbid-overwrite','false');
+
         return $this->write($path, $contents, $config);
     }
 
@@ -222,8 +205,14 @@ class AliyunOssAdapter extends AbstractAdapter
      */
     public function updateStream($path, $resource, Config $config)
     {
-        $contents = stream_get_contents($resource);
-        return $this->update($path, $contents, $config);
+        if (!$config->has('visibility') && !$config->has('ACL')) {
+            // 新文件未配置权限情况下,继承旧文件权限
+            $config->set(static::$metaMap['ACL'], $this->getObjectACL($path));
+        }
+        // 允许覆盖同名文件
+        $config->set('x-oss-forbid-overwrite','false');
+
+        return $this->writeStream($path, $resource, $config);
     }
 
     /**
@@ -245,6 +234,7 @@ class AliyunOssAdapter extends AbstractAdapter
     {
         $object = $this->applyPathPrefix($path);
         $newObject = $this->applyPathPrefix($newpath);
+
         try {
             $this->client->copyObject($this->bucket, $object, $this->bucket, $newObject);
         } catch (OssException $e) {
@@ -374,6 +364,7 @@ class AliyunOssAdapter extends AbstractAdapter
 
             if (!empty($objectList)) {
                 foreach ($objectList as $objectInfo) {
+                    $object = [];
                     $object['Prefix'] = $dirname;
                     $object['Key'] = $objectInfo->getKey();
                     $object['LastModified'] = $objectInfo->getLastModified();
@@ -657,17 +648,12 @@ class AliyunOssAdapter extends AbstractAdapter
         }
 
         if ($visibility = $config->get('visibility')) {
-            // For local reference
-            // $options['visibility'] = $visibility;
-            // For external reference
-            $options['x-oss-object-acl'] = $visibility === AdapterInterface::VISIBILITY_PUBLIC ? OssClient::OSS_ACL_TYPE_PUBLIC_READ : OssClient::OSS_ACL_TYPE_PRIVATE;
+            // Object ACL优先级高于Bucket ACL。
+            $options[OssClient::OSS_OBJECT_ACL] = $visibility === AdapterInterface::VISIBILITY_PUBLIC ? OssClient::OSS_ACL_TYPE_PUBLIC_READ : OssClient::OSS_ACL_TYPE_PRIVATE;
         }
 
         if ($mimetype = $config->get('mimetype')) {
-            // For local reference
-            // $options['mimetype'] = $mimetype;
-            // For external reference
-            $options['Content-Type'] = $mimetype;
+            $options[OssClient::OSS_CONTENT_TYPE] = $mimetype;
         }
 
         return $options;

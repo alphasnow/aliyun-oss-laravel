@@ -102,8 +102,7 @@ Storage::disk('aliyun')->deleteDirectory($directory);
 
 ## 主要参考
 - [jacobcyl/ali-oss-storage](https://github.com/jacobcyl/Aliyun-oss-storage)
-- [overtrue/laravel-versionable](https://github.com/overtrue/laravel-versionable)
+- [overtrue/flysystem-qiniu](https://github.com/overtrue/flysystem-qiniu)
 
 ## License
-Source code is release under MIT license. Read LICENSE file for more information.
- 
+See [LICENSE](LICENSE).
