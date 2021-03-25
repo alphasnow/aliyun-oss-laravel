@@ -60,8 +60,8 @@
 
 #### 文件写入
 ```php
-Storage::disk('aliyun')->putFile('prefix/path/', '/local/path/file.md');
-Storage::disk('aliyun')->putFileAs('prefix/path/', '/local/path/file.md', 'file.md');
+Storage::disk('aliyun')->putFile('prefix/path', '/local/path/file.md');
+Storage::disk('aliyun')->putFileAs('prefix/path', '/local/path/file.md', 'file.md');
 
 Storage::disk('aliyun')->put('prefix/path/file.md', file_get_contents('/local/path/file.md'));
 $fp = fopen('/local/path/file.md','r');
