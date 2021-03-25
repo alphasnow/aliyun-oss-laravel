@@ -2,14 +2,13 @@
 
 namespace AlphaSnow\AliyunOss;
 
-use Illuminate\Contracts\Support\Arrayable;
 use LogicException;
 
 /**
  * Class AliyunOssConfig
  * @package AlphaSnow\AliyunOss
  */
-class AliyunOssConfig implements Arrayable
+class AliyunOssConfig
 {
     /**
      * @var string
@@ -67,11 +66,6 @@ class AliyunOssConfig implements Arrayable
         foreach ($config as $key => $value) {
             $this->{$key} = $value;
         }
-    }
-
-    public function toArray()
-    {
-        return get_object_vars($this);
     }
 
     public function checkRequired()

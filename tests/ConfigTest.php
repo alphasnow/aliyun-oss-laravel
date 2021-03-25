@@ -13,10 +13,6 @@ class ConfigTest extends TestCase
         $ossConfig = new AliyunOssConfig($config);
 
         $this->assertSame($ossConfig->getDriver(), 'aliyun');
-
-        $ossConfigArray = $ossConfig->toArray();
-        $this->assertIsArray($ossConfigArray);
-        $this->assertArrayHasKey('driver', $ossConfigArray);
     }
 
     public function testCheckRequired()

@@ -32,8 +32,8 @@ class AliyunOssServiceProvider extends ServiceProvider
         );
 
         $this->app->make('filesystem')
-            ->extend('aliyun', function ($app, array $config) {
-                $config = $app->make(AliyunOssConfig::class, ['config' => $config]);
+            ->extend('aliyun', function ($app, array $appConfig) {
+                $config = $app->make(AliyunOssConfig::class, ['config' => $appConfig]);
                 $client = $app->get(OssClient::class);
 
                 $adapter = new AliyunOssAdapter($client, $config);
