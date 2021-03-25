@@ -12,6 +12,6 @@ class AliyunOssClient extends BaseFacade
 {
     public static function getFacadeAccessor()
     {
-        return 'aliyun.oss.client';
+        return 'aliyun-oss.client';
     }
 }

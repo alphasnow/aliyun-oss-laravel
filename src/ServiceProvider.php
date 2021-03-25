@@ -2,8 +2,8 @@
 
 namespace AlphaSnow\AliyunOss;
 
-use Aliyun\Flysystem\AliyunOss\Plugins\PutFile;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Aliyun\Flysystem\AliyunOss\Plugins\PutFile;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use OSS\OssClient;
@@ -16,11 +16,6 @@ class ServiceProvider extends BaseServiceProvider
 {
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/config/config.php' => config_path('aliyun-oss.php'),
-            ], 'config');
-        }
         $this->mergeConfigFrom(
             __DIR__.'/config/config.php',
             'filesystems.disks.aliyun'
@@ -42,15 +37,14 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->app->singleton(OssClient::class, function ($app) {
             $config = $app->get('config')->get('filesystems.disks.aliyun');
-            $ossClient = new OssClient(
+            return new OssClient(
                 $config['accessId'],
                 $config['accessKey'],
                 $config['endpoint'],
                 $config['isCname'],
                 $config['securityToken']
             );
-            return $ossClient;
         });
-        $this->app->alias(OssClient::class, 'aliyun.oss.client');
+        $this->app->alias(OssClient::class, 'aliyun-oss.client');
     }
 }

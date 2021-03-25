@@ -2,6 +2,7 @@
 
 namespace AlphaSnow\AliyunOss\Tests;
 
+use Illuminate\Http\File;
 use OSS\OssClient;
 use Mockery;
 
@@ -11,6 +12,9 @@ class StorageTest extends TestCase
      * @var OssClient
      */
     protected $ossClient;
+    /**
+     * @var \Illuminate\Filesystem\FilesystemAdapter
+     */
     protected $storage;
 
     public function setUp(): void
@@ -29,8 +33,6 @@ class StorageTest extends TestCase
 
     public function testPut()
     {
-        $time = new \DateTime("+8 hour");
-
         $this->ossClient->shouldReceive([
             'putObject' => null
         ]);
@@ -41,13 +43,14 @@ class StorageTest extends TestCase
         $this->ossClient->shouldReceive([
             'uploadStream' => true
         ]);
-        $file = __DIR__ . '/stubs/file.txt';
+        $filePath = __DIR__ . '/stubs/file.txt';
 
-        $fp = fopen($file, 'r');
-        $status = $this->storage->put('/foo', $fp);
-        fclose($fp);
+        $resource = fopen($filePath, 'r');
+        $status = $this->storage->put('/foo', $resource);
+        fclose($resource);
         $this->assertTrue($status);
 
+        $file = new File($filePath,false);
         $path = $this->storage->putFile('/foo', $file);
         $this->assertSame(preg_match('/^foo\/.+\.txt$/', $path), 1);
 
