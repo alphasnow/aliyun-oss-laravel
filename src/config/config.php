@@ -12,5 +12,6 @@ return [
     'ssl' => env('ALIYUN_OSS_SSL', false),
     'debug' => env('ALIYUN_OSS_DEBUG', false),
     'securityToken' => env('ALIYUN_OSS_TOKEN', null),
-    'requestProxy' => env('ALIYUN_OSS_PROXY', null),
+    'prefix' => env('ALIYUN_OSS_PREFIX', null),
+    'options'=> [],
 ];

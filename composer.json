@@ -12,8 +12,8 @@
     ],
     "require": {
         "php":">=7.0",
-        "aliyuncs/oss-sdk-php": "^2.4",
-        "league/flysystem": "^1.1"
+        "illuminate/support": ">=5.5",
+        "aliyuncs/aliyun-oss-flysystem": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
@@ -38,18 +38,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "AlphaSnow\\AliyunOss\\AliyunOssServiceProvider"
+                "AlphaSnow\\AliyunOss\\ServiceProvider"
             ],
             "aliases": {
-                "AliyunOssClient": "AlphaSnow\\AliyunOss\\AliyunOssClientFacade"
-            }
-        },
-        "think":{
-            "services":[
-                "AlphaSnow\\AliyunOss\\AliyunOssService"
-            ],
-            "config":{
-                "aliyun-oss": "src/config/config.php"
+                "AliyunOssClient": "AlphaSnow\\AliyunOss\\AliyunOssClient"
             }
         },
         "hooks": {

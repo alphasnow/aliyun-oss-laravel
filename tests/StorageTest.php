@@ -2,7 +2,6 @@
 
 namespace AlphaSnow\AliyunOss\Tests;
 
-use Illuminate\Filesystem\FilesystemAdapter;
 use OSS\OssClient;
 use Mockery;
 
@@ -12,9 +11,6 @@ class StorageTest extends TestCase
      * @var OssClient
      */
     protected $ossClient;
-    /**
-     * @var FilesystemAdapter
-     */
     protected $storage;
 
     public function setUp(): void
