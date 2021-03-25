@@ -63,43 +63,43 @@ $storage = Storage::disk('aliyun');
 ```
 #### 文件写入
 ```php
-Storage::disk('aliyun')->putFile('prefix/path', '/local/path/file.md');
-Storage::disk('aliyun')->putFileAs('prefix/path', '/local/path/file.md', 'file.md');
+Storage::disk('aliyun')->putFile('prefix/path', '/local/path/file.txt');
+Storage::disk('aliyun')->putFileAs('prefix/path', '/local/path/file.txt', 'file.txt');
 
-Storage::disk('aliyun')->put('prefix/path/file.md', file_get_contents('/local/path/file.md'));
-$fp = fopen('/local/path/file.md','r');
-Storage::disk('aliyun')->put('prefix/path/file.md', $fp);
+Storage::disk('aliyun')->put('prefix/path/file.txt', file_get_contents('/local/path/file.txt'));
+$fp = fopen('/local/path/file.txt','r');
+Storage::disk('aliyun')->put('prefix/path/file.txt', $fp);
 fclose($fp);
 
-Storage::disk('aliyun')->putRemoteFile('prefix/path/file.md', 'http://example.com/file.md');
+Storage::disk('aliyun')->putRemoteFile('prefix/path/file.txt', 'http://example.com/file.txt');
 
-Storage::disk('aliyun')->prepend('prefix/path/file.md', 'Prepended Text'); 
-Storage::disk('aliyun')->append('prefix/path/file.md', 'Appended Text');
+Storage::disk('aliyun')->prepend('prefix/path/file.txt', 'Prepend Text'); 
+Storage::disk('aliyun')->append('prefix/path/file.txt', 'Append Text');
 ```
 
 #### 文件查询
 ```php
-Storage::disk('aliyun')->url('prefix/path/file.md');
-Storage::disk('aliyun')->temporaryUrl('prefix/path/file.md',3600);
+Storage::disk('aliyun')->url('prefix/path/file.txt');
+Storage::disk('aliyun')->temporaryUrl('prefix/path/file.txt',3600);
 
-Storage::disk('aliyun')->get('prefix/path/file.md'); 
+Storage::disk('aliyun')->get('prefix/path/file.txt'); 
 
-Storage::disk('aliyun')->exists('prefix/path/file.md'); 
-Storage::disk('aliyun')->size('prefix/path/file.md'); 
-Storage::disk('aliyun')->lastModified('prefix/path/file.md');
+Storage::disk('aliyun')->exists('prefix/path/file.txt'); 
+Storage::disk('aliyun')->size('prefix/path/file.txt'); 
+Storage::disk('aliyun')->lastModified('prefix/path/file.txt');
 ```
 
 #### 文件操作
 ```php
-Storage::disk('aliyun')->copy('prefix/path/file.md', 'prefix/path/file_new.md');
-Storage::disk('aliyun')->move('prefix/path/file.md', 'prefix/path/file_new.md');
-Storage::disk('aliyun')->rename('prefix/path/file.md', 'prefix/path/file_new.md');
+Storage::disk('aliyun')->copy('prefix/path/file.txt', 'prefix/path/file_new.txt');
+Storage::disk('aliyun')->move('prefix/path/file.txt', 'prefix/path/file_new.txt');
+Storage::disk('aliyun')->rename('prefix/path/file.txt', 'prefix/path/file_new.txt');
 ```
 
 #### 文件删除
 ```php
-Storage::disk('aliyun')->delete('prefix/path/file.md');
-Storage::disk('aliyun')->delete(['prefix/path/file1.md', 'prefix/path/file2.md']);
+Storage::disk('aliyun')->delete('prefix/path/file.txt');
+Storage::disk('aliyun')->delete(['prefix/path/file1.txt', 'prefix/path/file2.txt']);
 ```
 
 #### 文件夹操作
