@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Log;
 
 class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
 {
+    use AliyunOssAdapterTrait;
+    use AliyunOssReadTrait;
+
     /**
      * @var bool
      */
@@ -22,42 +25,6 @@ class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
     /**
      * @var array
      */
-    protected static $resultMap = [
-        'Body' => 'raw_contents',
-        'Content-Length' => 'size',
-        'ContentType' => 'mimetype',
-        'Size' => 'size',
-        'StorageClass' => 'storage_class',
-    ];
-    /**
-     * @var array
-     */
-    protected static $metaOptions = [
-        'CacheControl',
-        'Expires',
-        'ServerSideEncryption',
-        'Metadata',
-        'ACL',
-        'ContentType',
-        'ContentDisposition',
-        'ContentLanguage',
-        'ContentEncoding',
-    ];
-
-    /**
-     * @var string[]
-     */
-    protected static $metaMap = [
-        'CacheControl' => 'Cache-Control',
-        'Expires' => 'Expires',
-        'ServerSideEncryption' => 'x-oss-server-side-encryption',
-        'Metadata' => 'x-oss-metadata-directive',
-        'ACL' => 'x-oss-object-acl',
-        'ContentType' => 'Content-Type',
-        'ContentDisposition' => 'Content-Disposition',
-        'ContentLanguage' => 'response-content-language',
-        'ContentEncoding' => 'Content-Encoding',
-    ];
 
     /**
      * @var OssClient
@@ -91,7 +58,7 @@ class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @var array
      */
     protected $options = [
-//        'Multipart' => 128
+
     ];
 
     /**
@@ -116,214 +83,34 @@ class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
     }
 
     /**
-     * {@inheritdoc}
+     * Used by \Illuminate\Filesystem\FilesystemAdapter::url
+     *
+     * @param string $path
+     * @return string
      */
-    public function write($path, $contents, Config $config)
+    public function getUrl($path)
     {
-        $object = $this->applyPathPrefix($path);
-        $options = $this->getOptions([], $config);
-
-        if (!isset($options[OssClient::OSS_LENGTH])) {
-            $options[OssClient::OSS_LENGTH] = Util::contentSize($contents);
-        }
-        if (!isset($options[OssClient::OSS_CONTENT_TYPE])) {
-            $options[OssClient::OSS_CONTENT_TYPE] = Util::guessMimeType($path, $contents);
-        }
-
-        try {
-            // https://help.aliyun.com/document_detail/31978.html
-            $this->client->putObject($this->bucket, $object, $contents, $options);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        return $this->normalizeResponse($options, $path);
+        // if (!$this->has($path)) throw new FileNotFoundException($path.' not found');
+        return ($this->ssl ? 'https://' : 'http://') . ($this->isCname ? ($this->cdnDomain == '' ? $this->endPoint : $this->cdnDomain) : $this->bucket . '.' . $this->endPoint) . '/' . ltrim($path, '/');
     }
 
     /**
-     * {@inheritdoc}
+     * Used by \Illuminate\Filesystem\FilesystemAdapter::temporaryUrl
+     * Get a temporary URL for the file at the given path.
+     *
+     * @param string $path
+     * @param \DateTimeInterface|int $expiration
+     * @param array $options
+     * @return string
+     *
+     * @throws \RuntimeException
      */
-    public function writeStream($path, $resource, Config $config)
+    public function getTemporaryUrl($path, $expiration, array $options = [])
     {
-        $object = $this->applyPathPrefix($path);
-        $options = $this->getOptions([], $config);
-
-        try {
-            // https://help.aliyun.com/document_detail/31959.html
-            $this->client->uploadStream($this->bucket, $object, $resource, $options);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
+        if ($expiration instanceof Carbon) {
+            return $this->client->generatePresignedUrl($this->bucket, $path, $expiration->getTimestamp(), $options);
         }
-
-        return $this->normalizeResponse($options, $path);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function writeFile($path, $filePath, Config $config)
-    {
-        $object = $this->applyPathPrefix($path);
-        $options = $this->getOptions([], $config);
-
-        if (!isset($options[OssClient::OSS_CONTENT_TYPE])) {
-            $options[OssClient::OSS_CHECK_MD5] = true;
-        }
-        if (!isset($options[OssClient::OSS_CONTENT_TYPE])) {
-            $options[OssClient::OSS_CONTENT_TYPE] = Util::guessMimeType($path, '');
-        }
-
-        try {
-            $this->client->uploadFile($this->bucket, $object, $filePath, $options);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        return $this->normalizeResponse($options, $path);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update($path, $contents, Config $config)
-    {
-        if (!$config->has('visibility') && !$config->has('ACL')) {
-            // 新文件未配置权限情况下,继承旧文件权限
-            $config->set(static::$metaMap['ACL'], $this->getObjectACL($path));
-        }
-        // 允许覆盖同名文件
-        $config->set('x-oss-forbid-overwrite','false');
-
-        return $this->write($path, $contents, $config);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function updateStream($path, $resource, Config $config)
-    {
-        if (!$config->has('visibility') && !$config->has('ACL')) {
-            // 新文件未配置权限情况下,继承旧文件权限
-            $config->set(static::$metaMap['ACL'], $this->getObjectACL($path));
-        }
-        // 允许覆盖同名文件
-        $config->set('x-oss-forbid-overwrite','false');
-
-        return $this->writeStream($path, $resource, $config);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rename($path, $newpath)
-    {
-        if (!$this->copy($path, $newpath)) {
-            return false;
-        }
-
-        return $this->delete($path);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function copy($path, $newpath)
-    {
-        $object = $this->applyPathPrefix($path);
-        $newObject = $this->applyPathPrefix($newpath);
-
-        try {
-            $this->client->copyObject($this->bucket, $object, $this->bucket, $newObject);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function delete($path)
-    {
-        $bucket = $this->bucket;
-        $object = $this->applyPathPrefix($path);
-
-        try {
-            $this->client->deleteObject($bucket, $object);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        return !$this->has($path);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteDir($dirname)
-    {
-        $dirname = rtrim($this->applyPathPrefix($dirname), '/') . '/';
-        $dirObjects = $this->listDirObjects($dirname, true);
-
-        if (count($dirObjects['objects']) > 0) {
-            $objects = [];
-            foreach ($dirObjects['objects'] as $object) {
-                $objects[] = $object['Key'];
-            }
-
-            try {
-                $this->client->deleteObjects($this->bucket, $objects);
-            } catch (OssException $e) {
-                $this->logErr(__FUNCTION__, $e);
-                return false;
-            }
-        }
-
-        try {
-            $this->client->deleteObject($this->bucket, $dirname);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createDir($dirname, Config $config)
-    {
-        $object = $this->applyPathPrefix($dirname);
-        $options = $this->getOptionsFromConfig($config);
-
-        try {
-            $this->client->createObjectDir($this->bucket, $object, $options);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        return ['path' => $dirname, 'type' => 'dir'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setVisibility($path, $visibility)
-    {
-        $object = $this->applyPathPrefix($path);
-        $acl = ($visibility === AdapterInterface::VISIBILITY_PUBLIC) ? OssClient::OSS_ACL_TYPE_PUBLIC_READ : OssClient::OSS_ACL_TYPE_PRIVATE;
-
-        $this->client->putObjectAcl($this->bucket, $object, $acl);
-
-        return compact('visibility');
+        return $this->client->signUrl($this->bucket, $path, $expiration, $options);
     }
 
     /**
@@ -333,7 +120,7 @@ class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @return mixed
      * @throws OssException
      */
-    public function listDirObjects($dirname = '', $recursive = false)
+    protected function listDirObjects($dirname = '', $recursive = false)
     {
         $delimiter = '/';
         $nextMarker = '';
@@ -405,131 +192,8 @@ class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function has($path)
-    {
-        $object = $this->applyPathPrefix($path);
-
-        return $this->client->doesObjectExist($this->bucket, $object);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function read($path)
-    {
-        $result = $this->readObject($path);
-        $result['contents'] = (string)$result['raw_contents'];
-        unset($result['raw_contents']);
-        return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function readStream($path)
-    {
-        $result = $this->readObject($path);
-        $result['stream'] = $result['raw_contents'];
-        rewind($result['stream']);
-        // Ensure the EntityBody object destruction doesn't close the stream
-        // $result['raw_contents']->detachStream();
-        unset($result['raw_contents']);
-
-        return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function listContents($directory = '', $recursive = false)
-    {
-        $dirObjects = $this->listDirObjects($directory, true);
-        $contents = $dirObjects["objects"];
-
-        $result = array_map([$this, 'normalizeResponse'], $contents);
-        $result = array_filter($result, function ($value) {
-            return $value['path'] !== false;
-        });
-
-        return Util::emulateDirectories($result);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMetadata($path)
-    {
-        $object = $this->applyPathPrefix($path);
-
-        try {
-            $objectMeta = $this->client->getObjectMeta($this->bucket, $object);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        return $objectMeta;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSize($path)
-    {
-        $object = $this->getMetadata($path);
-        $object['size'] = $object['content-length'];
-        return $object;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMimetype($path)
-    {
-        if ($object = $this->getMetadata($path)) {
-            $object['mimetype'] = $object['content-type'];
-        }
-        return $object;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTimestamp($path)
-    {
-        if ($object = $this->getMetadata($path)) {
-            $object['timestamp'] = strtotime($object['last-modified']);
-        }
-        return $object;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getVisibility($path)
-    {
-        $object = $this->applyPathPrefix($path);
-        try {
-            $acl = $this->client->getObjectAcl($this->bucket, $object);
-        } catch (OssException $e) {
-            $this->logErr(__FUNCTION__, $e);
-            return false;
-        }
-
-        if ($acl == OssClient::OSS_ACL_TYPE_PUBLIC_READ) {
-            $res['visibility'] = AdapterInterface::VISIBILITY_PUBLIC;
-        } else {
-            $res['visibility'] = AdapterInterface::VISIBILITY_PRIVATE;
-        }
-
-        return $res;
-    }
-
-    /**
      * @param string $path
-     * @return array|null[]|string[]
+     * @return array
      */
     protected function readObject($path)
     {
@@ -538,34 +202,6 @@ class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
         $result['Body'] = $this->client->getObject($this->bucket, $object);
         $result = array_merge($result, ['type' => 'file']);
         return $this->normalizeResponse($result, $path);
-    }
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    public function getUrl($path)
-    {
-        // if (!$this->has($path)) throw new FileNotFoundException($path.' not found');
-        return ($this->ssl ? 'https://' : 'http://') . ($this->isCname ? ($this->cdnDomain == '' ? $this->endPoint : $this->cdnDomain) : $this->bucket . '.' . $this->endPoint) . '/' . ltrim($path, '/');
-    }
-
-    /**
-     * Get a temporary URL for the file at the given path.
-     *
-     * @param string $path
-     * @param \DateTimeInterface|int $expiration
-     * @param array $options
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    public function getTemporaryUrl($path, $expiration, array $options = [])
-    {
-        if ($expiration instanceof Carbon) {
-            return $this->client->generatePresignedUrl($this->bucket, $path, $expiration->getTimestamp(), $options);
-        }
-        return $this->client->signUrl($this->bucket, $path, $expiration, $options);
     }
 
     /**
@@ -606,7 +242,7 @@ class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
             return $result;
         }
 
-        $result = array_merge($result, Util::map($object, static::$resultMap), ['type' => 'file']);
+        $result = array_merge($result, Util::map($object, AliyunOssUtil::$resultMap), ['type' => 'file']);
 
         return $result;
     }
@@ -638,25 +274,34 @@ class AliyunOssAdapter extends AbstractAdapter implements CanOverwriteFiles
      */
     protected function getOptionsFromConfig(Config $config)
     {
-        $options = [];
+        $options = AliyunOssUtil::getHeadersFromConfig($config);
 
-        foreach (static::$metaOptions as $option) {
-            if (!$config->has($option)) {
-                continue;
-            }
-            $options[static::$metaMap[$option]] = $config->get($option);
-        }
-
+        // 常用 visibility mimetype
         if ($visibility = $config->get('visibility')) {
             // Object ACL优先级高于Bucket ACL。
             $options[OssClient::OSS_OBJECT_ACL] = $visibility === AdapterInterface::VISIBILITY_PUBLIC ? OssClient::OSS_ACL_TYPE_PUBLIC_READ : OssClient::OSS_ACL_TYPE_PRIVATE;
         }
-
         if ($mimetype = $config->get('mimetype')) {
             $options[OssClient::OSS_CONTENT_TYPE] = $mimetype;
         }
 
         return $options;
+    }
+
+    /**
+     * @return OssClient
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBucket()
+    {
+        return $this->bucket;
     }
 
     /**

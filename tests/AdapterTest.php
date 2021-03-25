@@ -47,10 +47,10 @@ class AdapterTest extends TestCase
         $result = $adapter->write('dir/file.txt', 'contents', $config);
 
         $this->assertSame([
-            'path'=>'dir/file.txt',
-            'dirname'=>'dir',
-            'type'=>'file'
-        ],$result);
+            'path' => 'dir/file.txt',
+            'dirname' => 'dir',
+            'type' => 'file'
+        ], $result);
     }
 
     /**
@@ -64,10 +64,10 @@ class AdapterTest extends TestCase
         $result = $adapter->writeStream('dir/file.txt', $fp, $config);
 
         $this->assertSame([
-            'path'=>'dir/file.txt',
-            'dirname'=>'dir',
-            'type'=>'file'
-        ],$result);
+            'path' => 'dir/file.txt',
+            'dirname' => 'dir',
+            'type' => 'file'
+        ], $result);
     }
 
     /**
@@ -81,9 +81,9 @@ class AdapterTest extends TestCase
         $result = $adapter->writeFile('dir/file.txt', $filePath, $config);
 
         $this->assertSame([
-            'path'=>'dir/file.txt',
-            'dirname'=>'dir',
-            'type'=>'file'
-        ],$result);
+            'path' => 'dir/file.txt',
+            'dirname' => 'dir',
+            'type' => 'file'
+        ], $result);
     }
 }

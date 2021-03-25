@@ -2,7 +2,6 @@
 
 namespace AlphaSnow\AliyunOss;
 
-use AlphaSnow\AliyunOss\Plugins\PutFile;
 use AlphaSnow\AliyunOss\Plugins\PutRemoteFile;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Config;
@@ -39,7 +38,6 @@ class AliyunOssServiceProvider extends ServiceProvider
 
                 $adapter = new AliyunOssAdapter($client, $config);
                 $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
-                $filesystem->addPlugin(new PutFile());
                 $filesystem->addPlugin(new PutRemoteFile());
 
                 return $filesystem;

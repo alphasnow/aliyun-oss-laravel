@@ -58,44 +58,61 @@
 
 ## 快速使用
 
+#### 文件写入
+```php
+Storage::disk('aliyun')->putFile('prefix/path/', '/local/path/file.md');
+Storage::disk('aliyun')->putFileAs('prefix/path/', '/local/path/file.md', 'file.md');
+
+Storage::disk('aliyun')->put('prefix/path/file.md', file_get_contents('/local/path/file.md'));
+$fp = fopen('/local/path/file.md','r');
+Storage::disk('aliyun')->put('prefix/path/file.md', $fp);
+fclose($fp);
+
+Storage::disk('aliyun')->putRemoteFile('prefix/path/file.md', 'http://example.com/file.md');
+
+Storage::disk('aliyun')->prepend('prefix/path/file.md', 'Prepended Text'); 
+Storage::disk('aliyun')->append('prefix/path/file.md', 'Appended Text');
 ```
-// 查询文件夹
-Storage::disk('aliyun')->files($directory);
-Storage::disk('aliyun')->allFiles($directory);
 
-// 写入文件
-Storage::disk('aliyun')->put('path/to/file/file.jpg', $contents); 
-Storage::disk('aliyun')->putFile('path/to/file/file.jpg', 'local/path/to/local_file.jpg');
+#### 文件查询
+```php
+Storage::disk('aliyun')->url('prefix/path/file.md');
+Storage::disk('aliyun')->temporaryUrl('prefix/path/file.md',3600);
 
-// 读取文件
-Storage::disk('aliyun')->get('path/to/file/file.jpg'); 
-Storage::disk('aliyun')->exists('path/to/file/file.jpg'); 
-Storage::disk('aliyun')->size('path/to/file/file.jpg'); 
-Storage::disk('aliyun')->lastModified('path/to/file/file.jpg');
+Storage::disk('aliyun')->get('prefix/path/file.md'); 
 
-// 读取文件夹
-Storage::disk('aliyun')->directories($directory); 
-Storage::disk('aliyun')->allDirectories($directory); 
+Storage::disk('aliyun')->exists('prefix/path/file.md'); 
+Storage::disk('aliyun')->size('prefix/path/file.md'); 
+Storage::disk('aliyun')->lastModified('prefix/path/file.md');
+```
 
-// 文件操作
-Storage::disk('aliyun')->copy('old/file1.jpg', 'new/file1.jpg');
-Storage::disk('aliyun')->move('old/file1.jpg', 'new/file1.jpg');
-Storage::disk('aliyun')->rename('path/to/file1.jpg', 'path/to/file2.jpg');
+#### 文件操作
+```php
+Storage::disk('aliyun')->copy('prefix/path/file.md', 'prefix/path/file_new.md');
+Storage::disk('aliyun')->move('prefix/path/file.md', 'prefix/path/file_new.md');
+Storage::disk('aliyun')->rename('prefix/path/file.md', 'prefix/path/file_new.md');
+```
 
-Storage::disk('aliyun')->putRemoteFile('target/path/to/file/jacob.jpg', 'http://example.com/jacob.jpg');
-Storage::disk('aliyun')->url('path/to/img.jpg');
+#### 文件删除
+```php
+Storage::disk('aliyun')->delete('prefix/path/file.md');
+Storage::disk('aliyun')->delete(['prefix/path/file1.md', 'prefix/path/file2.md']);
+```
 
-Storage::disk('aliyun')->temporaryUrl('path/to/img.jpg',3600);
+#### 文件夹操作
+```php
+Storage::disk('aliyun')->makeDirectory('prefix/path'); 
+Storage::disk('aliyun')->deleteDirectory('prefix/path');
 
-Storage::disk('aliyun')->prepend('file.log', 'Prepended Text'); 
-Storage::disk('aliyun')->append('file.log', 'Appended Text');
+// 查询一级子目录文件
+Storage::disk('aliyun')->files('prefix/path');
+// 递归查询多级子目录文件
+Storage::disk('aliyun')->allFiles('prefix/path');
 
-Storage::disk('aliyun')->delete('file.jpg');
-Storage::disk('aliyun')->delete(['file1.jpg', 'file2.jpg']);
-
-// 文件夹操作
-Storage::disk('aliyun')->makeDirectory($directory); 
-Storage::disk('aliyun')->deleteDirectory($directory); 
+// 查询一级子目录
+Storage::disk('aliyun')->directories('prefix/path'); 
+// 递归查询多级子目录
+Storage::disk('aliyun')->allDirectories('prefix/path'); 
 ```
 
 > [阿里云OSS文档](https://help.aliyun.com/document_detail/32099.html?spm=5176.doc31981.6.335.eqQ9dM)
