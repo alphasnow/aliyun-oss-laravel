@@ -29,6 +29,8 @@ class StorageTest extends TestCase
 
     public function testPut()
     {
+        $time = new \DateTime("+8 hour");
+
         $this->ossClient->shouldReceive([
             'putObject' => null
         ]);
@@ -49,7 +51,14 @@ class StorageTest extends TestCase
         $path = $this->storage->putFile('/foo', $file);
         $this->assertSame(preg_match('/^foo\/.+\.txt$/', $path), 1);
 
-        $path = $this->storage->putFileAs('/foo', $file, 'file.txt');
-        $this->assertSame($path, 'foo/file.txt');
+        $path = $this->storage->putFileAs('/foo', $file, 'bar.txt');
+        $this->assertSame($path, 'foo/bar.txt');
+    }
+
+    public function testUrl()
+    {
+        $url = $this->storage->url('foo/bar.txt');
+
+        $this->assertSame(preg_match('/foo\/bar\.txt$/', $url), 1);
     }
 }
