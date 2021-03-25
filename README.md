@@ -57,11 +57,12 @@
     ```
 
 ## 快速使用
-
-#### 文件写入
 ```php
 use Illuminate\Support\Facades\Storage;
-
+$storage = Storage::disk('aliyun');
+```
+#### 文件写入
+```php
 Storage::disk('aliyun')->putFile('prefix/path', '/local/path/file.md');
 Storage::disk('aliyun')->putFileAs('prefix/path', '/local/path/file.md', 'file.md');
 
