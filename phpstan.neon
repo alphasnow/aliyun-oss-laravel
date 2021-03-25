@@ -7,4 +7,3 @@ parameters:
         - %currentWorkingDirectory%/src
 
     ignoreErrors:
-        - '~Call to an undefined method League\\Flysystem\\FilesystemInterface::getAdapter\(\).~'

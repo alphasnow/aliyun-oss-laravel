@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AlphaSnow\AliyunOss;
 
 use Aliyun\Flysystem\AliyunOss\AliyunOssAdapter as BaseAdapter;
@@ -12,5 +11,4 @@ use League\Flysystem\Adapter\CanOverwriteFiles;
  */
 class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
 {
-
 }

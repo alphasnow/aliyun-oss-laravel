@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AlphaSnow\AliyunOss;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
