@@ -58,7 +58,7 @@ class AdapterTest extends TestCase
      */
     public function testWriteStream($adapter, $ossClient, $config)
     {
-        $ossClient->shouldReceive(['putObject' => null]);
+        $ossClient->shouldReceive(['uploadStream' => null]);
 
         $fp = fopen(__DIR__.'/stubs/file.txt', 'r');
         $result = $adapter->writeStream('dir/file.txt', $fp, $config);
