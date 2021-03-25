@@ -30,7 +30,7 @@ class ServiceProvider extends BaseServiceProvider
             ->extend('aliyun', function ($app, array $config) {
                 $client = $app->get(OssClient::class);
 
-                $adapter = new AliyunOssAdapter($config,$client);
+                $adapter = new AliyunOssAdapter($config, $client);
                 $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
                 $filesystem->addPlugin(new PutFile());
 

@@ -22,7 +22,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
     public function __construct(array $config, OssClient $client)
     {
         $this->config = $config;
-        parent::__construct($client,$config['bucket'], $config['prefix'], $config['options']);
+        parent::__construct($client, $config['bucket'], $config['prefix'], $config['options']);
     }
 
     /**
@@ -50,15 +50,15 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
     {
         $url = '';
 
-        if($this->config['ssl']){
+        if ($this->config['ssl']) {
             $url .= 'https://';
-        }else{
+        } else {
             $url .= 'http://';
         }
 
-        if($this->config['isCname']){
+        if ($this->config['isCname']) {
             $url .= $this->config['cdnDomain'];
-        }else{
+        } else {
             $url .= $this->config['bucket'] . '.' . $this->config['endpoint'];
         }
 
