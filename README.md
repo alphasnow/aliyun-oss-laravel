@@ -31,7 +31,6 @@
     ALIYUN_OSS_ENDPOINT=oss-cn-shanghai.aliyuncs.com
     ALIYUN_OSS_IS_CNAME=false
     ALIYUN_OSS_CDN_DOMAIN=
-    ALIYUN_OSS_IS_CNAME=false
     ALIYUN_OSS_SSL=false
     ```
 
@@ -50,7 +49,6 @@
             'is_cname'   => env('ALIYUN_OSS_IS_CNAME', false),
             'cdn_domain' => env('ALIYUN_OSS_CDN_DOMAIN', ''),
             'ssl'        => env('ALIYUN_OSS_SSL', false),
-            'debug'      => env('ALIYUN_OSS_DEBUG', false),
         ],
         // ...
     ]
