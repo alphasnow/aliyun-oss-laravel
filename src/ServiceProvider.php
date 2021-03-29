@@ -21,40 +21,31 @@ class ServiceProvider extends BaseServiceProvider
             'filesystems.disks.aliyun'
         );
 
-        /**
-         * @var \Illuminate\Filesystem\FilesystemManager $filesystem
-         */
-        $filesystem = $this->app->make('filesystem');
-        $filesystem->extend('aliyun', function ($app, array $config) {
-            $client = $this->makeOssClient($app, $config);
-            $adapter = new AliyunOssAdapter($client, $config);
-            $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
-            $filesystem->addPlugin(new PutFile());
-            return $filesystem;
-        });
-    }
-
-    /**
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     * @param array $config
-     * @return OssClient
-     */
-    protected function makeOssClient($app, $config)
-    {
-        return $app->make(OssClient::class, [
-            'accessKeyId' => $config['accessId'],
-            'accessKeySecret' => $config['accessKey'],
-            'endpoint' => $config['endpoint'],
-            'isCName' => $config['isCname'],
-            'securityToken' => $config['securityToken']
-        ]);
+        $this->app->make('filesystem')
+            ->extend('aliyun', function ($app, array $config) {
+                $client = $app->make('aliyun-oss.oss-client', $config);
+                $adapter = new AliyunOssAdapter($client, $config);
+                $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
+                $filesystem->addPlugin(new PutFile());
+                return $filesystem;
+            });
     }
 
     public function register()
     {
+        $this->app->bind('aliyun-oss.oss-client', function ($app, array $config) {
+            return $app->make(OssClient::class, [
+                'accessKeyId' => $config['accessId'],
+                'accessKeySecret' => $config['accessKey'],
+                'endpoint' => $config['endpoint'],
+                'isCName' => $config['isCname'],
+                'securityToken' => $config['securityToken']
+            ]);
+        });
+
         $this->app->singleton('aliyun-oss.client', function ($app) {
             $config = $app->get('config')->get('filesystems.disks.aliyun');
-            return $this->makeOssClient($app, $config);
+            return $app->make('aliyun-oss.oss-client', $config);
         });
     }
 }
