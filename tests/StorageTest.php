@@ -69,4 +69,17 @@ class StorageTest extends TestCase
 
         $this->assertSame(preg_match('/foo\/bar\.txt$/', $url), 1);
     }
+
+    public function testTemporaryUrl()
+    {
+        /**
+         * @var \Illuminate\Filesystem\FilesystemAdapter $storage
+         */
+        $storage = $this->app->make('filesystem')->disk('aliyun');
+
+        $expiration = new \DateTime('+30 minutes');
+        $url = $storage->temporaryUrl('foo/bar.txt', $expiration);
+
+        $this->assertSame(preg_match('/foo\/bar\.txt/', $url), 1);
+    }
 }

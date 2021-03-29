@@ -79,7 +79,7 @@ Storage::disk('aliyun')->append('prefix/path/file.txt', 'Append Text');
 #### 文件查询
 ```php
 Storage::disk('aliyun')->url('prefix/path/file.txt');
-Storage::disk('aliyun')->temporaryUrl('prefix/path/file.txt',3600);
+Storage::disk('aliyun')->temporaryUrl('prefix/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
 
 Storage::disk('aliyun')->get('prefix/path/file.txt'); 
 

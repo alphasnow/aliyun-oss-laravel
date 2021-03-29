@@ -83,6 +83,6 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
         $clientOptions = $this->getOptionsFromConfig(new Config($options));
         $timeout = $expiration->getTimestamp() - time();
 
-        return $this->client->signUrl($this->bucket, $object, $timeout, $clientOptions);
+        return $this->client->signUrl($this->bucket, $object, $timeout, OssClient::OSS_HTTP_GET, $clientOptions);
     }
 }
