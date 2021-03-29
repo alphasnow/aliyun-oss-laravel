@@ -25,6 +25,9 @@ class StorageTest extends TestCase
     public function testPut()
     {
         $ossClient = $this->partialMock(OssClient::class);
+        $this->app->singleton(OssClient::class, function ($app) use ($ossClient) {
+            return $ossClient;
+        });
 
         /**
          * @var \Illuminate\Filesystem\FilesystemAdapter $storage

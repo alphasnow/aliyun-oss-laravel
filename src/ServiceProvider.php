@@ -21,14 +21,17 @@ class ServiceProvider extends BaseServiceProvider
             'filesystems.disks.aliyun'
         );
 
-        $this->app->make('filesystem')
-            ->extend('aliyun', function ($app, array $config) {
-                $client = $this->makeOssClient($app, $config);
-                $adapter = new AliyunOssAdapter($client, $config);
-                $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
-                $filesystem->addPlugin(new PutFile());
-                return $filesystem;
-            });
+        /**
+         * @var \Illuminate\Filesystem\FilesystemManager $filesystem
+         */
+        $filesystem = $this->app->make('filesystem');
+        $filesystem->extend('aliyun', function ($app, array $config) {
+            $client = $this->makeOssClient($app, $config);
+            $adapter = new AliyunOssAdapter($client, $config);
+            $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
+            $filesystem->addPlugin(new PutFile());
+            return $filesystem;
+        });
     }
 
     /**
