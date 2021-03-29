@@ -50,14 +50,14 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
     {
         $url = '';
 
-        if ($this->config['ssl']) {
+        if ($this->config['is_ssl']) {
             $url .= 'https://';
         } else {
             $url .= 'http://';
         }
 
-        if ($this->config['isCname']) {
-            $url .= $this->config['cdnDomain'];
+        if ($this->config['is_cname']) {
+            $url .= $this->config['cdn_domain'];
         } else {
             $url .= $this->config['bucket'] . '.' . $this->config['endpoint'];
         }

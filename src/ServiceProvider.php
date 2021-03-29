@@ -32,11 +32,11 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->app->bind('aliyun-oss.oss-client', function ($app, array $config) {
             return $app->make(OssClient::class, [
-                'accessKeyId' => $config['accessId'],
-                'accessKeySecret' => $config['accessKey'],
+                'accessKeyId' => $config['access_id'],
+                'accessKeySecret' => $config['access_key'],
                 'endpoint' => $config['endpoint'],
-                'isCName' => $config['isCname'],
-                'securityToken' => $config['securityToken']
+                'isCName' => $config['is_cname'],
+                'securityToken' => $config['security_token']
             ]);
         });
 

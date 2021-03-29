@@ -33,9 +33,9 @@ class AdapterTest extends TestCase
     public function testCdnUrl()
     {
         $config = require __DIR__.'/../src/config/config.php';
-        $config['ssl'] = true;
-        $config['isCname'] = true;
-        $config['cdnDomain'] = 'www.cdn-domain.com';
+        $config['is_ssl'] = true;
+        $config['is_cname'] = true;
+        $config['cdn_domain'] = 'www.cdn-domain.com';
 
         $adapter = new AliyunOssAdapter($this->app->make(OssClient::class,$this->toOssClientParameters($config)), $config);
         $url = $adapter->getUrl('foo/bar.txt');

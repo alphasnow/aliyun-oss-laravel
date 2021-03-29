@@ -49,7 +49,7 @@
             'endpoint'   => env('ALIYUN_OSS_ENDPOINT', 'oss-cn-shanghai.aliyuncs.com'),
             'is_cname'   => env('ALIYUN_OSS_IS_CNAME', false),
             'cdn_domain' => env('ALIYUN_OSS_CDN_DOMAIN', ''),
-            'ssl'        => env('ALIYUN_OSS_SSL', false),
+            'is_ssl'     => env('ALIYUN_OSS_IS_SSL', false),
         ],
         // ...
     ]

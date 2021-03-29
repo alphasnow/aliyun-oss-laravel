@@ -27,11 +27,11 @@ class TestCase extends BaseTestCase
     protected function toOssClientParameters(array $config)
     {
         return [
-            'accessKeyId' => $config['accessId'],
-            'accessKeySecret' => $config['accessKey'],
+            'accessKeyId' => $config['access_id'],
+            'accessKeySecret' => $config['access_key'],
             'endpoint' => $config['endpoint'],
-            'isCName' => $config['isCname'],
-            'securityToken' => $config['securityToken']
+            'isCName' => $config['is_cname'],
+            'securityToken' => $config['security_token']
         ];
     }
 }
