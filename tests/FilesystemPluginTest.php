@@ -40,5 +40,4 @@ class FilesystemPluginTest extends TestCase
         $status = $filesystem->putRemoteFile('/foo/bar.txt', 'file://'.$filePath);
         $this->assertTrue($status);
     }
-
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AlphaSnow\AliyunOss\Plugins;
 
 use League\Flysystem\Config;
@@ -31,5 +30,4 @@ class PutRemoteFile extends AbstractPlugin
         fclose($resource);
         return $status;
     }
-
 }

@@ -31,6 +31,16 @@ class AdapterTest extends TestCase
     }
 
     /**
+     * @dataProvider adapterProvider
+     */
+    public function testUrl($adapter)
+    {
+        $url = $adapter->getUrl('foo/bar.txt');
+
+        $this->assertSame('http://bucket.oss-cn-shanghai.aliyuncs.com/foo/bar.txt', $url);
+    }
+
+    /**
      * @param AliyunOssAdapter $adapter
      * @dataProvider adapterProvider
      */
