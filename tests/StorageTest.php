@@ -24,7 +24,7 @@ class StorageTest extends TestCase
 
     public function testPut()
     {
-        $ossClient = $this->partialMock(OssClient::class);
+        $ossClient = \Mockery::mock(OssClient::class)->makePartial();
         $this->app->singleton(OssClient::class, function ($app) use ($ossClient) {
             return $ossClient;
         });
