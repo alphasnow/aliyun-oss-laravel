@@ -2,7 +2,6 @@
 
 namespace AlphaSnow\AliyunOss;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Aliyun\Flysystem\AliyunOss\Plugins\PutFile;
 use League\Flysystem\Config;
@@ -33,7 +32,7 @@ class ServiceProvider extends BaseServiceProvider
     }
 
     /**
-     * @param Application $app
+     * @param \Illuminate\Contracts\Foundation\Application $app
      * @param array $config
      * @return OssClient
      */

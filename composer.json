@@ -12,7 +12,6 @@
     ],
     "require": {
         "php": ">=7.0.0",
-        "illuminate/support": ">=5.5.0",
         "aliyuncs/aliyun-oss-flysystem": "^1.2"
     },
     "require-dev": {
