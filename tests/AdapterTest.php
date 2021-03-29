@@ -30,14 +30,17 @@ class AdapterTest extends TestCase
         $this->assertSame('http://bucket.oss-cn-shanghai.aliyuncs.com/foo/bar.txt', $url);
     }
 
-    /**
-     * @dataProvider adapterProvider
-     */
-    public function testUrl($adapter)
+    public function testCdnUrl()
     {
+        $config = require __DIR__.'/../src/config/config.php';
+        $config['ssl'] = true;
+        $config['isCname'] = true;
+        $config['cdnDomain'] = 'www.cdn-domain.com';
+
+        $adapter = new AliyunOssAdapter($this->app->make(OssClient::class,$this->toOssClientParameters($config)), $config);
         $url = $adapter->getUrl('foo/bar.txt');
 
-        $this->assertSame('http://bucket.oss-cn-shanghai.aliyuncs.com/foo/bar.txt', $url);
+        $this->assertSame('https://www.cdn-domain.com/foo/bar.txt', $url);
     }
 
     /**
