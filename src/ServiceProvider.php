@@ -2,6 +2,7 @@
 
 namespace AlphaSnow\AliyunOss;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Aliyun\Flysystem\AliyunOss\Plugins\PutFile;
 use League\Flysystem\Config;
@@ -23,28 +24,35 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->make('filesystem')
             ->extend('aliyun', function ($app, array $config) {
-                $client = $app->get(OssClient::class);
-
-                $adapter = new AliyunOssAdapter($config, $client);
+                $client = $this->makeOssClient($app, $config);
+                $adapter = new AliyunOssAdapter($client, $config);
                 $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
                 $filesystem->addPlugin(new PutFile());
-
                 return $filesystem;
             });
     }
 
+    /**
+     * @param Application $app
+     * @param array $config
+     * @return OssClient
+     */
+    protected function makeOssClient($app, $config)
+    {
+        return $app->make(OssClient::class, [
+            'accessKeyId' => $config['accessId'],
+            'accessKeySecret' => $config['accessKey'],
+            'endpoint' => $config['endpoint'],
+            'isCName' => $config['isCname'],
+            'securityToken' => $config['securityToken']
+        ]);
+    }
+
     public function register()
     {
-        $this->app->singleton(OssClient::class, function ($app) {
+        $this->app->singleton('aliyun-oss.client', function ($app) {
             $config = $app->get('config')->get('filesystems.disks.aliyun');
-            return new OssClient(
-                $config['accessId'],
-                $config['accessKey'],
-                $config['endpoint'],
-                $config['isCname'],
-                $config['securityToken']
-            );
+            return $this->makeOssClient($app, $config);
         });
-        $this->app->alias(OssClient::class, 'aliyun-oss.client');
     }
 }

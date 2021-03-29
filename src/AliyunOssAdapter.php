@@ -19,7 +19,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
      */
     protected $config;
 
-    public function __construct(array $config, OssClient $client)
+    public function __construct(OssClient $client, array $config)
     {
         $this->config = $config;
         parent::__construct($client, $config['bucket'], $config['prefix'], $config['options']);

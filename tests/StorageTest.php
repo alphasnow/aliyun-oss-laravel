@@ -26,18 +26,28 @@ class StorageTest extends TestCase
         });
         $this->app->instance(OssClient::class, $ossClient);
         $this->ossClient = $ossClient;
+    }
 
-        $storage = $this->app->make('filesystem')->disk('aliyun');
-        $this->storage = $storage;
+    public function testMultiBucket()
+    {
+        $config = require __DIR__.'/../src/config/config.php';
+        $config['bucket'] = 'multi-bucket';
+        $this->app->get('config')->set('filesystems.disks.oss', $config);
+
+        $storage = $this->app->make('filesystem')->disk('oss');
+        $bucket = $storage->getDriver()->getAdapter()->getBucket();
+
+        $this->assertSame($bucket, 'multi-bucket');
     }
 
     public function testPut()
     {
+        $storage = $this->app->make('filesystem')->disk('aliyun');
+
         $this->ossClient->shouldReceive([
             'putObject' => null
         ]);
-
-        $status = $this->storage->put('/foo', 'bar');
+        $status = $storage->put('/foo', 'bar');
         $this->assertTrue($status);
 
         $this->ossClient->shouldReceive([
@@ -46,21 +56,22 @@ class StorageTest extends TestCase
         $filePath = __DIR__ . '/stubs/file.txt';
 
         $resource = fopen($filePath, 'r');
-        $status = $this->storage->put('/foo', $resource);
+        $status = $storage->put('/foo', $resource);
         fclose($resource);
         $this->assertTrue($status);
 
-        $file = new File($filePath,false);
-        $path = $this->storage->putFile('/foo', $file);
+        $file = new File($filePath, false);
+        $path = $storage->putFile('/foo', $file);
         $this->assertSame(preg_match('/^foo\/.+\.txt$/', $path), 1);
 
-        $path = $this->storage->putFileAs('/foo', $file, 'bar.txt');
+        $path = $storage->putFileAs('/foo', $file, 'bar.txt');
         $this->assertSame($path, 'foo/bar.txt');
     }
 
     public function testUrl()
     {
-        $url = $this->storage->url('foo/bar.txt');
+        $storage = $this->app->make('filesystem')->disk('aliyun');
+        $url = $storage->url('foo/bar.txt');
 
         $this->assertSame(preg_match('/foo\/bar\.txt$/', $url), 1);
     }

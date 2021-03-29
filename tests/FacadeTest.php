@@ -2,14 +2,21 @@
 
 namespace AlphaSnow\AliyunOss\Tests;
 
-use AlphaSnow\AliyunOss\AliyunOssClient;
+use OSS\OssClient;
 
 class FacadeTest extends TestCase
 {
     public function testMethod()
     {
-        AliyunOssClient::setUseSSL(true);
+        $client = \AlphaSnow\AliyunOss\AliyunOssClient::getFacadeRoot();
 
-        $this->assertTrue(AliyunOssClient::isUseSSL());
+        $this->assertInstanceOf(OssClient::class, $client);
+    }
+
+    public function testRootClass()
+    {
+        $client = \AliyunOssClient::getFacadeRoot();
+
+        $this->assertInstanceOf(OssClient::class, $client);
     }
 }
