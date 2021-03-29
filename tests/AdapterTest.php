@@ -37,7 +37,7 @@ class AdapterTest extends TestCase
         $config['is_cname'] = true;
         $config['cdn_domain'] = 'www.cdn-domain.com';
 
-        $adapter = new AliyunOssAdapter($this->app->make(OssClient::class,$this->toOssClientParameters($config)), $config);
+        $adapter = new AliyunOssAdapter($this->app->make(OssClient::class, $this->toOssClientParameters($config)), $config);
         $url = $adapter->getUrl('foo/bar.txt');
 
         $this->assertSame('https://www.cdn-domain.com/foo/bar.txt', $url);

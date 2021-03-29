@@ -24,7 +24,7 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->make('filesystem')
             ->extend('aliyun', function ($app, array $config) {
-                return $app->make('aliyun-oss.oss-filesystem',$config);
+                return $app->make('aliyun-oss.oss-filesystem', $config);
             });
     }
 
@@ -40,7 +40,7 @@ class ServiceProvider extends BaseServiceProvider
             ]);
         });
 
-        $this->app->bind('aliyun-oss.oss-filesystem',function($app, array $config){
+        $this->app->bind('aliyun-oss.oss-filesystem', function ($app, array $config) {
             $client = $app->make('aliyun-oss.oss-client', $config);
             $adapter = new AliyunOssAdapter($client, $config);
             $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
