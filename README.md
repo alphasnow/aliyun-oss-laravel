@@ -32,7 +32,7 @@
     ALIYUN_OSS_ENDPOINT=oss-cn-shanghai.aliyuncs.com
     ALIYUN_OSS_IS_CNAME=false
     ALIYUN_OSS_CDN_DOMAIN=
-    ALIYUN_OSS_SSL=false
+    ALIYUN_OSS_IS_CNAME=false
     ```
 
 3. (可选)修改配置文件 `config/filesystems.php`
