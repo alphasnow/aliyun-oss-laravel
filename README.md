@@ -6,7 +6,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/?branch=master)
 
-扩展借鉴了一些优秀的代码，综合各方，同时做了更多优化，将会添加更多完善的接口和插件，打造Laravel最好的OSS Storage扩展
+[Aliyun-oss-storage](https://alphasnow.github.io/aliyun-oss-laravel/) 扩展借鉴了一些优秀的代码，综合各方，同时做了更多优化，将会添加更多完善的接口和插件，打造Laravel最好的OSS Storage扩展
 
 ## 运行环境
 - PHP 7.0+
@@ -31,7 +31,7 @@
     ALIYUN_OSS_BUCKET    = <Your oss bucket name, Required>
     ALIYUN_OSS_ENDPOINT  = <Your oss endpoint domain, Required>
     ALIYUN_OSS_IS_CNAME  = false
-    ALIYUN_OSS_CDN_DOMAIN= 
+    ALIYUN_OSS_CDN_DOMAIN= <Your cdn domain, Optional>
     ALIYUN_OSS_IS_SSL    = false
     ```
 
