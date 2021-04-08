@@ -26,13 +26,13 @@
 
 2. 修改环境文件`.env`
     ```
-    ALIYUN_OSS_ACCESS_ID=
-    ALIYUN_OSS_ACCESS_KEY=
-    ALIYUN_OSS_BUCKET=
-    ALIYUN_OSS_ENDPOINT=oss-cn-shanghai.aliyuncs.com
-    ALIYUN_OSS_IS_CNAME=false
-    ALIYUN_OSS_CDN_DOMAIN=
-    ALIYUN_OSS_IS_SSL=false
+    ALIYUN_OSS_ACCESS_ID = <Your aliyun accessKeyId, Required>
+    ALIYUN_OSS_ACCESS_KEY= <Your aliyun accessKeySecret, Required>
+    ALIYUN_OSS_BUCKET    = <Your oss bucket name, Required>
+    ALIYUN_OSS_ENDPOINT  = <Your oss endpoint domain, Required>
+    ALIYUN_OSS_IS_CNAME  = false
+    ALIYUN_OSS_CDN_DOMAIN= 
+    ALIYUN_OSS_IS_SSL    = false
     ```
 
 3. (可选)修改配置文件 `config/filesystems.php`
