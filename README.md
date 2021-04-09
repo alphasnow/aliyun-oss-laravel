@@ -8,7 +8,7 @@ English | [简体中文](README-CN.md)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/?branch=master)
 
-Alibaba Cloud Object Storage For Laravel
+Alibaba Cloud Object Storage Service For Laravel
 
 ## Requirements
 - PHP >= 7.0
@@ -19,7 +19,7 @@ Alibaba Cloud Object Storage For Laravel
     ```bash
     $ composer require alphasnow/aliyun-oss-laravel
     ```
-    You can also declare the dependency on Alibaba Cloud Object Storage For Laravel in the composer.json file.
+    You can also declare the dependency on Alibaba Cloud Object Storage Service For Laravel in the composer.json file.
     ```
     "require": {
         "alphasnow/aliyun-oss-laravel": "~2.0"

@@ -9,28 +9,37 @@ on:
 
 jobs:
   phpcs:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
     - uses: actions/checkout@v2
-    - name: Setup PHP environment
-      uses: shivammathur/setup-php@v2
-    - name: Install dependencies
-      run: composer install
-    - name: PHPCSFixer check
-      run: composer check-style
-  phpunit:
-    strategy:
-      matrix:
-        php_version: [7.0]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
+
     - name: Setup PHP environment
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php_version }}
-        coverage: xdebug
+          php-version: '7.0'
+
     - name: Install dependencies
-      run: composer install
+      run: composer install --prefer-dist --no-progress
+
+    - name: PHPCSFixer check
+      run: composer check-style
+
+  phpunit:
+    strategy:
+      matrix:
+        php-versions: ['7.0','7.1','7.2','7.3']
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP environment
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        coverage: xdebug
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
     - name: PHPUnit check
       run: ./vendor/bin/phpunit --coverage-text

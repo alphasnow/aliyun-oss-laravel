@@ -1,8 +1,8 @@
 {
     "name": "alphasnow/aliyun-oss-laravel",
-    "description": "aliyun oss filesystem storage for laravel",
+    "description": "alibaba cloud object storage service for laravel",
     "keywords": ["aliyun", "oss", "laravel", "filesystems", "storage"],
-    "homepage": "https://github.com/alphasnow/aliyun-oss-laravel",
+    "homepage": "https://alphasnow.github.io/aliyun-oss-laravel/",
     "license": "MIT",
     "authors": [
         {
@@ -31,9 +31,6 @@
             "AlphaSnow\\AliyunOss\\Tests\\": "tests/"
         }
     },
-    "config": {
-        "preferred-install": "dist"
-    },
     "extra": {
         "laravel": {
             "providers": [
@@ -42,16 +39,6 @@
             "aliases": {
                 "AliyunOssClient": "AlphaSnow\\AliyunOss\\AliyunOssClient"
             }
-        },
-        "hooks": {
-            "pre-commit": [
-                "composer test",
-                "composer fix-style"
-            ],
-            "pre-push": [
-                "composer test",
-                "composer fix-style"
-            ]
         }
     },
     "scripts": {
@@ -60,6 +47,9 @@
         "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php_cs --ansi",
         "test": "vendor/bin/phpunit --colors=always --testdox"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "scripts-descriptions": {
+        "check-style": "Run style checks (only dry run - no fixing!).",
+        "fix-style": "Run style checks and fix violations.",
+        "test": "Run all tests."
+    }
 }

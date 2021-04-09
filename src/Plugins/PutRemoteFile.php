@@ -3,10 +3,19 @@
 namespace AlphaSnow\AliyunOss\Plugins;
 
 use League\Flysystem\Config;
+use League\Flysystem\Filesystem;
 use League\Flysystem\Plugin\AbstractPlugin;
 
 class PutRemoteFile extends AbstractPlugin
 {
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return 'putRemoteFile';
