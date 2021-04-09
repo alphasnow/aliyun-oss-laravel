@@ -9,14 +9,14 @@ on:
 
 jobs:
   phpcs:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
 
     - name: Setup PHP environment
       uses: shivammathur/setup-php@v2
       with:
-          php-version: '7.0'
+          php-version: '7.1'
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
@@ -24,11 +24,27 @@ jobs:
     - name: PHPCSFixer check
       run: composer check-style
 
+  phpstan:
+      runs-on: ubuntu-18.04
+      steps:
+          - uses: actions/checkout@v2
+
+          - name: Setup PHP environment
+            uses: shivammathur/setup-php@v2
+            with:
+                php-version: '7.1'
+
+          - name: Install dependencies
+            run: composer install --prefer-dist --no-progress
+
+          - name: PHP Static Analysis
+            run: composer phpstan
+
   phpunit:
     strategy:
       matrix:
-        php-versions: ['7.0','7.1','7.2','7.3']
-    runs-on: ubuntu-16.04
+        php-versions: ['7.1','7.2','7.3']
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
 

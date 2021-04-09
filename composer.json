@@ -19,7 +19,7 @@
         "phpunit/phpunit": "~6.0",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpstan/phpstan": "^0.12.82",
-        "orchestra/testbench": "3.5.*"
+        "orchestra/testbench": "^3.5.6"
     },
     "autoload": {
         "psr-4": {
@@ -48,6 +48,7 @@
         "test": "vendor/bin/phpunit --colors=always --testdox"
     },
     "scripts-descriptions": {
+        "phpstan": "Run static analysis",
         "check-style": "Run style checks (only dry run - no fixing!).",
         "fix-style": "Run style checks and fix violations.",
         "test": "Run all tests."
