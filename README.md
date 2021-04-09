@@ -11,7 +11,7 @@ English | [简体中文](README-CN.md)
 Alibaba Cloud Object Storage Service For Laravel
 
 ## Requirements
-- PHP >= 7.1
+- PHP >= 7.0
 - laravel/framework >= 5.5
 
 ## Installation
