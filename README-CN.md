@@ -8,26 +8,26 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/?branch=master)
 
-Alibaba Cloud Object Storage For Laravel
+[aliyun-oss-laravel](https://alphasnow.github.io/aliyun-oss-laravel/) 打造 Laravel 最好的 OSS Storage 扩展
 
-## Requirements
+## 环境要求
 - PHP >= 7.0
 - laravel/framework >= 5.5
 
-## Installation
-1. If you use the composer to manage project dependencies, run the following command in your project's root directory:
-    ```bash
+## 安装依赖
+1. 通过composer管理您的项目依赖，可以在你的项目根目录运行：  
+    ```
     $ composer require alphasnow/aliyun-oss-laravel
     ```
-    You can also declare the dependency on Alibaba Cloud Object Storage For Laravel in the composer.json file.
+    或者在你的`composer.json`中声明依赖：  
     ```
     "require": {
         "alphasnow/aliyun-oss-laravel": "~2.0"
     }
     ```
-    Then run `composer install` to install the dependency.
+    然后通过`composer install`安装依赖。  
 
-2. Modify the environment file `.env`
+2. 修改环境配置 `.env`
     ```
     ALIYUN_OSS_ACCESS_ID = <Your aliyun accessKeyId, Required>
     ALIYUN_OSS_ACCESS_KEY= <Your aliyun accessKeySecret, Required>
@@ -38,7 +38,7 @@ Alibaba Cloud Object Storage For Laravel
     ALIYUN_OSS_IS_SSL    = false
     ```
 
-3. (Optional) Modify the configuration file `config/filesystems.php`
+3. (可选) 修改文件配置 `config/filesystems.php`
     ```
     'default' => env('FILESYSTEM_DRIVER', 'aliyun'),
     // ...
@@ -58,12 +58,12 @@ Alibaba Cloud Object Storage For Laravel
     ]
     ```
 
-## Usage
+## 快速使用
 ```php
 use Illuminate\Support\Facades\Storage;
 $storage = Storage::disk('aliyun');
 ```
-#### Write
+#### 写入
 ```php
 Storage::disk('aliyun')->putFile('prefix/path', '/local/path/file.txt');
 Storage::disk('aliyun')->putFileAs('prefix/path', '/local/path/file.txt', 'file.txt');
@@ -79,7 +79,7 @@ Storage::disk('aliyun')->prepend('prefix/path/file.txt', 'Prepend Text');
 Storage::disk('aliyun')->append('prefix/path/file.txt', 'Append Text');
 ```
 
-#### Read
+#### 读取
 ```php
 Storage::disk('aliyun')->url('prefix/path/file.txt');
 Storage::disk('aliyun')->temporaryUrl('prefix/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
@@ -91,20 +91,20 @@ Storage::disk('aliyun')->size('prefix/path/file.txt');
 Storage::disk('aliyun')->lastModified('prefix/path/file.txt');
 ```
 
-#### Delete
+#### 删除
 ```php
 Storage::disk('aliyun')->delete('prefix/path/file.txt');
 Storage::disk('aliyun')->delete(['prefix/path/file1.txt', 'prefix/path/file2.txt']);
 ```
 
-#### File operation
+#### 文件操作
 ```php
 Storage::disk('aliyun')->copy('prefix/path/file.txt', 'prefix/path/file_new.txt');
 Storage::disk('aliyun')->move('prefix/path/file.txt', 'prefix/path/file_new.txt');
 Storage::disk('aliyun')->rename('prefix/path/file.txt', 'prefix/path/file_new.txt');
 ```
 
-#### Folder operation
+#### 文件夹操作
 ```php
 Storage::disk('aliyun')->makeDirectory('prefix/path'); 
 Storage::disk('aliyun')->deleteDirectory('prefix/path');
@@ -116,11 +116,11 @@ Storage::disk('aliyun')->directories('prefix/path');
 Storage::disk('aliyun')->allDirectories('prefix/path'); 
 ```
 
-## Documentation
-- [Object storage OSS-aliyun](https://help.aliyun.com/product/31815.html)
+## 文档
+- [对象存储 OSS-阿里云](https://help.aliyun.com/product/31815.html)
 
-## Issues
-[Opening an Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues/new)
+## 问题
+如使用中遇到问题，[提交 Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues/new)
 
-## License
+## 许可证
 [MIT](LICENSE)
