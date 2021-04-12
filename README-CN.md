@@ -22,7 +22,7 @@
     或者在你的`composer.json`中声明依赖：  
     ```
     "require": {
-        "alphasnow/aliyun-oss-laravel": "~2.0"
+        "alphasnow/aliyun-oss-laravel": "~2.5"
     }
     ```
     然后通过`composer install`安装依赖。  

@@ -22,7 +22,7 @@ Alibaba Cloud Object Storage Service For Laravel
     You can also declare the dependency on Alibaba Cloud Object Storage Service For Laravel in the composer.json file.
     ```
     "require": {
-        "alphasnow/aliyun-oss-laravel": "~2.0"
+        "alphasnow/aliyun-oss-laravel": "~2.5"
     }
     ```
     Then run `composer install` to install the dependency.
