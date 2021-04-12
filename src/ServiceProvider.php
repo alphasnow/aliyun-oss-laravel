@@ -31,13 +31,15 @@ class ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->app->bind('aliyun-oss.oss-client', function ($app, array $config) {
-            return $app->make(OssClient::class, [
+            $client = $app->make(OssClient::class, [
                 'accessKeyId' => $config['access_id'],
                 'accessKeySecret' => $config['access_key'],
-                'endpoint' => $config['endpoint'],
+                'endpoint' => $config['is_cname'] ? $config['cdn_domain'] : $config['endpoint'],
                 'isCName' => $config['is_cname'],
                 'securityToken' => $config['security_token']
             ]);
+            $client->setUseSSL($config['is_ssl']);
+            return $client;
         });
 
         $this->app->bind('aliyun-oss.oss-filesystem', function ($app, array $config) {

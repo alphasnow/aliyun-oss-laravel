@@ -8,10 +8,6 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use OSS\OssClient;
 
-/**
- * Class AliyunOssAdapter
- * @package AlphaSnow\AliyunOss
- */
 class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
 {
     /**
@@ -19,6 +15,10 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
      */
     protected $config;
 
+    /**
+     * @param OssClient $client
+     * @param array $config
+     */
     public function __construct(OssClient $client, array $config)
     {
         $this->config = $config;
@@ -42,6 +42,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
 
     /**
      * Used by \Illuminate\Filesystem\FilesystemAdapter::url
+     * Get the URL for the file at the given path.
      *
      * @param string $path
      * @return string
