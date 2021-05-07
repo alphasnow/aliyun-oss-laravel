@@ -29,5 +29,6 @@
         <env name="ALIYUN_OSS_ACCESS_KEY" value="access_key" />
         <env name="ALIYUN_OSS_BUCKET" value="bucket" />
         <env name="ALIYUN_OSS_ENDPOINT" value="endpoint.com" />
+        <env name="ALIYUN_OSS_INTERNAL" value="internal.com" />
     </php>
 </phpunit>

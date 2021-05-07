@@ -16,6 +16,12 @@ class AliyunOssConfig extends Collection
         return $protocol.'://'.$domain;
     }
 
+    public function getInternalDomain()
+    {
+        $protocol = $this->get('use_ssl', false) ? 'https' : 'http';
+        return $protocol.'://'.$this->get('bucket').'.'.$this->get('internal');
+    }
+
     /**
      * @return string
      */

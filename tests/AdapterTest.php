@@ -11,14 +11,14 @@ class AdapterTest extends TestCase
 {
     public function adapterProvider()
     {
-        $config = require __DIR__.'/../src/config/config.php';
-        $ossConfig = new AliyunOssConfig($config);
-        $ossClientParameters = $ossConfig->getOssClientParameters();
-        $client = \Mockery::mock(OssClient::class, array_values($ossClientParameters))
+        $defaultConfig = require __DIR__.'/../src/config/config.php';
+        $config = new AliyunOssConfig($defaultConfig);
+        $clientParameters = $config->getOssClientParameters();
+        $client = \Mockery::mock(OssClient::class, array_values($clientParameters))
             ->makePartial();
-        $adapter = new AliyunOssAdapter($client, $ossConfig);
+        $adapter = new AliyunOssAdapter($client, $config);
         return [
-            [$adapter,$client]
+            [$adapter,$config]
         ];
     }
 
@@ -28,34 +28,25 @@ class AdapterTest extends TestCase
     public function testUrl($adapter)
     {
         $url = $adapter->getUrl('foo/bar.txt');
-
         $this->assertSame('http://bucket.endpoint.com/foo/bar.txt', $url);
     }
 
-    public function testCdnUrl()
+    /**
+     * @dataProvider adapterProvider
+     */
+    public function testDomainUrl($adapter, $config)
     {
-        $config = require __DIR__.'/../src/config/config.php';
-        $config['use_ssl'] = true;
-        $config['domain'] = 'www.cdn-domain.com';
-        $ossConfig = new AliyunOssConfig($config);
-        $ossClientParameters = $ossConfig->getOssClientParameters();
-        $ossClient = $this->app->make(OssClient::class, $ossClientParameters);
-        $adapter = new AliyunOssAdapter($ossClient, $ossConfig);
-
+        $config['domain'] = 'www.domain.com';
         $url = $adapter->getUrl('foo/bar.txt');
-
-        $this->assertSame('https://www.cdn-domain.com/foo/bar.txt', $url);
+        $this->assertSame('http://www.domain.com/foo/bar.txt', $url);
     }
 
     /**
-     * @param AliyunOssAdapter $adapter
      * @dataProvider adapterProvider
      */
     public function testTemporaryUrl($adapter)
     {
-        $expiration = new \DateTime('+30 minutes');
-        $url = $adapter->getTemporaryUrl('foo/bar.txt', $expiration);
-
+        $url = $adapter->getTemporaryUrl('foo/bar.txt', new \DateTime('+30 minutes'));
         $preg = '/http:\/\/bucket.endpoint.com\/foo\/bar.txt\?OSSAccessKeyId=access_id&Expires=\d{10}&Signature=.+/';
         $this->assertSame(1, preg_match($preg, $url));
     }
@@ -64,7 +55,6 @@ class AdapterTest extends TestCase
     {
         $adapter = \Mockery::mock(AliyunOssAdapter::class);
         $adapter->makePartial()->shouldAllowMockingProtectedMethods();
-
         $options = $adapter->getOptionsFromConfig(new Config(['visibility' => 'private']));
         $this->assertSame([OssClient::OSS_OBJECT_ACL => 'private'], $options);
     }
