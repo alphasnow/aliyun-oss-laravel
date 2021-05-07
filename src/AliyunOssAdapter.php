@@ -11,18 +11,18 @@ use OSS\OssClient;
 class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
 {
     /**
-     * @var array
+     * @var AliyunOssConfig
      */
-    protected $config;
+    protected $ossConfig;
 
     /**
-     * @param OssClient $client
-     * @param array $config
+     * @param OssClient $ossClient
+     * @param AliyunOssConfig $ossConfig
      */
-    public function __construct(OssClient $client, array $config)
+    public function __construct(OssClient $ossClient, AliyunOssConfig $ossConfig)
     {
-        $this->config = $config;
-        parent::__construct($client, $config['bucket'], $config['prefix'], $config['options']);
+        $this->ossConfig = $ossConfig;
+        parent::__construct($ossClient, $ossConfig->get('bucket'), $ossConfig->get('prefix', null), $ossConfig->get('options', []));
     }
 
     /**
@@ -49,22 +49,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
      */
     public function getUrl($path)
     {
-        $url = '';
-
-        if ($this->config['is_ssl']) {
-            $url .= 'https://';
-        } else {
-            $url .= 'http://';
-        }
-
-        if ($this->config['is_cname']) {
-            $url .= $this->config['cdn_domain'];
-        } else {
-            $url .= $this->config['bucket'] . '.' . $this->config['endpoint'];
-        }
-
-        $url .= '/' . ltrim($path, '/');
-        return $url;
+        return $this->ossConfig->getUrlDomain().'/' . ltrim($path, '/');
     }
 
     /**

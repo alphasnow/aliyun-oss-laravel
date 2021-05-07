@@ -22,7 +22,7 @@ Alibaba Cloud Object Storage Service For Laravel
     You can also declare the dependency on Alibaba Cloud Object Storage Service For Laravel in the composer.json file.
     ```
     "require": {
-        "alphasnow/aliyun-oss-laravel": "~2.5"
+        "alphasnow/aliyun-oss-laravel": "~2.6"
     }
     ```
     Then run `composer install` to install the dependency.
@@ -33,9 +33,9 @@ Alibaba Cloud Object Storage Service For Laravel
     ALIYUN_OSS_ACCESS_KEY= <Your aliyun accessKeySecret, Required>
     ALIYUN_OSS_BUCKET    = <Your oss bucket name, Required>
     ALIYUN_OSS_ENDPOINT  = <Your oss endpoint domain, Required>
-    ALIYUN_OSS_IS_CNAME  = false
-    ALIYUN_OSS_CDN_DOMAIN= <Your cdn domain, Optional>
-    ALIYUN_OSS_IS_SSL    = false
+    ALIYUN_OSS_INTERNAL  = <Your oss internal domain, Optional>
+    ALIYUN_OSS_DOMAIN    = <Your oss cdn domain, Optional>
+    ALIYUN_OSS_USE_SSL   = false
     ```
 
 3. (Optional) Modify the configuration file `config/filesystems.php`
@@ -46,13 +46,13 @@ Alibaba Cloud Object Storage Service For Laravel
         // ...
         'aliyun' => [
             'driver'     => 'aliyun',
-            'access_id'  => env('ALIYUN_OSS_ACCESS_ID'),
-            'access_key' => env('ALIYUN_OSS_ACCESS_KEY'),
-            'bucket'     => env('ALIYUN_OSS_BUCKET'),
-            'endpoint'   => env('ALIYUN_OSS_ENDPOINT', 'oss-cn-shanghai.aliyuncs.com'),
-            'is_cname'   => env('ALIYUN_OSS_IS_CNAME', false),
-            'cdn_domain' => env('ALIYUN_OSS_CDN_DOMAIN', ''),
-            'is_ssl'     => env('ALIYUN_OSS_IS_SSL', false),
+            'access_id'  => env('ALIYUN_OSS_ACCESS_ID'),      // For example: LTAI4**************qgcsA
+            'access_key' => env('ALIYUN_OSS_ACCESS_KEY'),     // For example: PkT4F********************Bl9or
+            'bucket'     => env('ALIYUN_OSS_BUCKET'),         // For example: my-storage
+            'endpoint'   => env('ALIYUN_OSS_ENDPOINT'),       // For example: oss-cn-shanghai.aliyuncs.com
+            'internal'   => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
+            'domain'     => env('ALIYUN_OSS_DOMAIN', null),   // For example: oss.my-domain.com
+            'use_ssl'    => env('ALIYUN_OSS_USE_SSL', false), // Whether to use https
         ],
         // ...
     ]

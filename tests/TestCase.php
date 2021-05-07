@@ -23,15 +23,4 @@ class TestCase extends BaseTestCase
     {
         return ['AliyunOssClient' => AliyunOssClient::class];
     }
-
-    protected function toOssClientParameters(array $config)
-    {
-        return [
-            'accessKeyId' => $config['access_id'],
-            'accessKeySecret' => $config['access_key'],
-            'endpoint' => $config['endpoint'],
-            'isCName' => $config['is_cname'],
-            'securityToken' => $config['security_token']
-        ];
-    }
 }

@@ -14,3 +14,4 @@ phpstan.neon export-ignore
 .travis.yml export-ignore
 _config.yml export-ignore
 /.github export-ignore
+CHANGELOG.md export-ignore

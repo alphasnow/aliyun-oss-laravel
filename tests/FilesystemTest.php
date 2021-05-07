@@ -2,6 +2,7 @@
 
 namespace AlphaSnow\AliyunOss\Tests;
 
+use AlphaSnow\AliyunOss\AliyunOssConfig;
 use Illuminate\Filesystem\FilesystemAdapter;
 use OSS\OssClient;
 use Mockery\MockInterface;
@@ -13,8 +14,8 @@ class FilesystemTest extends TestCase
         $this->setUpTheTestEnvironment();
 
         $config = require __DIR__.'/../src/config/config.php';
-        $ossConfig = $this->toOssClientParameters($config);
-        $client = \Mockery::mock(OssClient::class, array_values($ossConfig))
+        $ossClientParameters = (new AliyunOssConfig($config))->getOssClientParameters();
+        $client = \Mockery::mock(OssClient::class, array_values($ossClientParameters))
             ->makePartial();
         $this->app->singleton('aliyun-oss.oss-client', function ($app) use ($client) {
             return $client;
@@ -72,7 +73,7 @@ class FilesystemTest extends TestCase
     {
         $url = $filesystem->url('foo/bar.txt');
 
-        $this->assertSame('http://bucket.oss-cn-shanghai.aliyuncs.com/foo/bar.txt', $url);
+        $this->assertSame('http://bucket.endpoint.com/foo/bar.txt', $url);
     }
 
     /**
@@ -84,7 +85,7 @@ class FilesystemTest extends TestCase
         $expiration = new \DateTime('+30 minutes');
         $url = $filesystem->temporaryUrl('foo/bar.txt', $expiration);
 
-        $preg = '/http:\/\/bucket.oss-cn-shanghai.aliyuncs.com\/foo\/bar.txt\?OSSAccessKeyId=access_id&Expires=\d{10}&Signature=.+/';
+        $preg = '/http:\/\/bucket.endpoint.com\/foo\/bar.txt\?OSSAccessKeyId=access_id&Expires=\d{10}&Signature=.+/';
         $this->assertSame(1, preg_match($preg, $url));
     }
 }

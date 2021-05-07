@@ -3,6 +3,7 @@
 namespace AlphaSnow\AliyunOss\Tests;
 
 use AlphaSnow\AliyunOss\AliyunOssAdapter;
+use AlphaSnow\AliyunOss\AliyunOssConfig;
 use League\Flysystem\Config;
 use OSS\OssClient;
 
@@ -11,10 +12,11 @@ class AdapterTest extends TestCase
     public function adapterProvider()
     {
         $config = require __DIR__.'/../src/config/config.php';
-        $ossConfig = $this->toOssClientParameters($config);
-        $client = \Mockery::mock(OssClient::class, array_values($ossConfig))
+        $ossConfig = new AliyunOssConfig($config);
+        $ossClientParameters = $ossConfig->getOssClientParameters();
+        $client = \Mockery::mock(OssClient::class, array_values($ossClientParameters))
             ->makePartial();
-        $adapter = new AliyunOssAdapter($client, $config);
+        $adapter = new AliyunOssAdapter($client, $ossConfig);
         return [
             [$adapter,$client]
         ];
@@ -27,17 +29,19 @@ class AdapterTest extends TestCase
     {
         $url = $adapter->getUrl('foo/bar.txt');
 
-        $this->assertSame('http://bucket.oss-cn-shanghai.aliyuncs.com/foo/bar.txt', $url);
+        $this->assertSame('http://bucket.endpoint.com/foo/bar.txt', $url);
     }
 
     public function testCdnUrl()
     {
         $config = require __DIR__.'/../src/config/config.php';
-        $config['is_ssl'] = true;
-        $config['is_cname'] = true;
-        $config['cdn_domain'] = 'www.cdn-domain.com';
+        $config['use_ssl'] = true;
+        $config['domain'] = 'www.cdn-domain.com';
+        $ossConfig = new AliyunOssConfig($config);
+        $ossClientParameters = $ossConfig->getOssClientParameters();
+        $ossClient = $this->app->make(OssClient::class, $ossClientParameters);
+        $adapter = new AliyunOssAdapter($ossClient, $ossConfig);
 
-        $adapter = new AliyunOssAdapter($this->app->make(OssClient::class, $this->toOssClientParameters($config)), $config);
         $url = $adapter->getUrl('foo/bar.txt');
 
         $this->assertSame('https://www.cdn-domain.com/foo/bar.txt', $url);
@@ -52,7 +56,7 @@ class AdapterTest extends TestCase
         $expiration = new \DateTime('+30 minutes');
         $url = $adapter->getTemporaryUrl('foo/bar.txt', $expiration);
 
-        $preg = '/http:\/\/bucket.oss-cn-shanghai.aliyuncs.com\/foo\/bar.txt\?OSSAccessKeyId=access_id&Expires=\d{10}&Signature=.+/';
+        $preg = '/http:\/\/bucket.endpoint.com\/foo\/bar.txt\?OSSAccessKeyId=access_id&Expires=\d{10}&Signature=.+/';
         $this->assertSame(1, preg_match($preg, $url));
     }
 

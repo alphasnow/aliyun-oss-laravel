@@ -2,6 +2,7 @@
 
 namespace AlphaSnow\AliyunOss\Tests;
 
+use AlphaSnow\AliyunOss\AliyunOssConfig;
 use Illuminate\Filesystem\FilesystemAdapter;
 use OSS\OssClient;
 use Mockery\MockInterface;
@@ -13,8 +14,8 @@ class FilesystemPluginTest extends TestCase
         $this->setUpTheTestEnvironment();
 
         $config = require __DIR__.'/../src/config/config.php';
-        $ossConfig = $this->toOssClientParameters($config);
-        $client = \Mockery::mock(OssClient::class, array_values($ossConfig))
+        $ossClientParameters = (new AliyunOssConfig($config))->getOssClientParameters();
+        $client = \Mockery::mock(OssClient::class, array_values($ossClientParameters))
             ->makePartial();
         $this->app->singleton('aliyun-oss.oss-client', function ($app) use ($client) {
             return $client;

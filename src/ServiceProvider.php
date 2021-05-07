@@ -31,20 +31,15 @@ class ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->app->bind('aliyun-oss.oss-client', function ($app, array $config) {
-            $client = $app->make(OssClient::class, [
-                'accessKeyId' => $config['access_id'],
-                'accessKeySecret' => $config['access_key'],
-                'endpoint' => $config['is_cname'] ? $config['cdn_domain'] : $config['endpoint'],
-                'isCName' => $config['is_cname'],
-                'securityToken' => $config['security_token']
-            ]);
-            $client->setUseSSL($config['is_ssl']);
+            $ossConfig = new AliyunOssConfig($config);
+            $client = $app->make(OssClient::class, $ossConfig->getOssClientParameters());
+            $client->setUseSSL($ossConfig->get('use_ssl', false));
             return $client;
         });
 
         $this->app->bind('aliyun-oss.oss-filesystem', function ($app, array $config) {
             $client = $app->make('aliyun-oss.oss-client', $config);
-            $adapter = new AliyunOssAdapter($client, $config);
+            $adapter = new AliyunOssAdapter($client, new AliyunOssConfig($config));
             $filesystem = new Filesystem($adapter, new Config(['disable_asserts' => true]));
             $filesystem->addPlugin(new PutFile());
             $filesystem->addPlugin(new PutRemoteFile());
