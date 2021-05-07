@@ -56,6 +56,6 @@ class AdapterTest extends TestCase
         $adapter = \Mockery::mock(AliyunOssAdapter::class);
         $adapter->makePartial()->shouldAllowMockingProtectedMethods();
         $options = $adapter->getOptionsFromConfig(new Config(['visibility' => 'private']));
-        $this->assertSame([OssClient::OSS_OBJECT_ACL => 'private'], $options);
+        $this->assertSame([OssClient::OSS_HEADERS => [OssClient::OSS_OBJECT_ACL => 'private']], $options);
     }
 }

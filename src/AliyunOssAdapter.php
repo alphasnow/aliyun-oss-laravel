@@ -34,7 +34,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
 
         if ($visibility = $config->get('visibility')) {
             // Object ACL > Bucket ACL
-            $options[OssClient::OSS_OBJECT_ACL] = $visibility === AdapterInterface::VISIBILITY_PUBLIC ? OssClient::OSS_ACL_TYPE_PUBLIC_READ : OssClient::OSS_ACL_TYPE_PRIVATE;
+            $options[OssClient::OSS_HEADERS][OssClient::OSS_OBJECT_ACL] = $visibility === AdapterInterface::VISIBILITY_PUBLIC ? OssClient::OSS_ACL_TYPE_PUBLIC_READ : OssClient::OSS_ACL_TYPE_PRIVATE;
         }
 
         return $options;
