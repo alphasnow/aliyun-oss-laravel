@@ -3,7 +3,6 @@
 namespace AlphaSnow\AliyunOss\Tests;
 
 use AlphaSnow\AliyunOss\AliyunOssConfig;
-use Illuminate\Support\Collection;
 
 class ConfigTest extends TestCase
 {
