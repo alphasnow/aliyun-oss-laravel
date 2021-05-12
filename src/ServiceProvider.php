@@ -2,9 +2,9 @@
 
 namespace AlphaSnow\AliyunOss;
 
+use Aliyun\Flysystem\AliyunOss\Plugins\PutFile;
 use AlphaSnow\AliyunOss\Plugins\PutRemoteFile;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Aliyun\Flysystem\AliyunOss\Plugins\PutFile;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use OSS\OssClient;

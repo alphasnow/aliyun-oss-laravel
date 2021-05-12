@@ -3,6 +3,7 @@
 namespace AlphaSnow\AliyunOss;
 
 use Aliyun\Flysystem\AliyunOss\AliyunOssAdapter as BaseAdapter;
+use Carbon\Carbon;
 use League\Flysystem\Adapter\CanOverwriteFiles;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
@@ -22,7 +23,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
     public function __construct(OssClient $ossClient, AliyunOssConfig $ossConfig)
     {
         $this->ossConfig = $ossConfig;
-        parent::__construct($ossClient, $ossConfig->get('bucket'), $ossConfig->get('prefix', null), $ossConfig->get('options', []));
+        parent::__construct($ossClient, $ossConfig->get('bucket'), ltrim($ossConfig->get('prefix', null), '/'), $ossConfig->get('options', []));
     }
 
     /**
@@ -49,7 +50,8 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
      */
     public function getUrl($path)
     {
-        return $this->ossConfig->getUrlDomain().'/' . ltrim($path, '/');
+        $object = $this->applyPathPrefix($path);
+        return $this->ossConfig->getUrlDomain() . '/' . ltrim($object, '/');
     }
 
     /**
@@ -57,23 +59,23 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
      * Get a temporary URL for the file at the given path.
      *
      * @param string $path
-     * @param \DateTimeInterface $expiration
+     * @param \DateTimeInterface|null $expiration
      * @param array $options
      * @return string
      *
      * @throws \RuntimeException
      */
-    public function getTemporaryUrl($path, $expiration, array $options = [])
+    public function getTemporaryUrl($path, $expiration = null, array $options = [])
     {
         $object = $this->applyPathPrefix($path);
         $clientOptions = $this->getOptionsFromConfig(new Config($options));
+        if (is_null($expiration)) {
+            $expiration = Carbon::parse($this->ossConfig->get('signature_expires'));
+        }
         $timeout = $expiration->getTimestamp() - (new \DateTime('now'))->getTimestamp();
 
         $url = $this->client->signUrl($this->bucket, $object, $timeout, OssClient::OSS_HTTP_GET, $clientOptions);
-        // correct internal domain
-        if ($this->ossConfig->get('internal')) {
-            return str_replace($this->ossConfig->getInternalDomain(), $this->ossConfig->getUrlDomain(), $url);
-        }
-        return $url;
+
+        return $this->ossConfig->correctUrl($url);
     }
 }

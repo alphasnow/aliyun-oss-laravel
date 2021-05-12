@@ -11,15 +11,33 @@ class AliyunOssConfig extends Collection
      */
     public function getUrlDomain()
     {
-        $protocol = $this->get('use_ssl', false) ? 'https' : 'http';
-        $domain = $this->get('domain') ?: $this->get('bucket').'.'.$this->get('endpoint');
-        return $protocol.'://'.$domain;
+        if ($this->get('domain')) {
+            return $this->getProtocol().'://'.$this->get('domain');
+        }
+        return $this->getEndpointDomain();
     }
 
-    public function getInternalDomain()
+    /**
+     * @return string
+     */
+    protected function getEndpointDomain()
     {
-        $protocol = $this->get('use_ssl', false) ? 'https' : 'http';
-        return $protocol.'://'.$this->get('bucket').'.'.$this->get('internal');
+        return $this->getProtocol().'://'.$this->get('bucket').'.'.$this->get('endpoint');
+    }
+    /**
+     * @return string
+     */
+    protected function getInternalDomain()
+    {
+        return $this->getProtocol().'://'.$this->get('bucket').'.'.$this->get('internal');
+    }
+
+    /**
+     * @return string
+     */
+    protected function getProtocol()
+    {
+        return $this->get('use_ssl', false) ? 'https' : 'http';
     }
 
     /**
@@ -27,16 +45,19 @@ class AliyunOssConfig extends Collection
      */
     public function getOssEndpoint()
     {
-        if ($this->isCName()) {
-            return $this->get('domain');
-        }
         if ($internal = $this->get('internal')) {
             return $internal;
+        }
+        if ($this->isCName()) {
+            return $this->get('domain');
         }
         return $this->get('endpoint');
     }
 
-    public function isCName()
+    /**
+     * @return bool
+     */
+    protected function isCName()
     {
         return $this->get('use_domain_endpoint') && $this->get('domain');
     }
@@ -53,5 +74,20 @@ class AliyunOssConfig extends Collection
             'isCName' => $this->isCName(),
             'securityToken' => $this->get('security_token', null)
         ];
+    }
+
+    public function correctUrl($url)
+    {
+        // correct internal domain
+        if ($this->get('internal')) {
+            return str_replace($this->getInternalDomain(), $this->getUrlDomain(), $url);
+        }
+
+        // correct domain
+        if ($this->get('domain') && $this->get('use_domain_endpoint') == false) {
+            return str_replace($this->getEndpointDomain(), $this->getUrlDomain(), $url);
+        }
+
+        return $url;
     }
 }

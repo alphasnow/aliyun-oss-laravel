@@ -82,6 +82,7 @@ Storage::disk('aliyun')->append('prefix/path/file.txt', 'Append Text');
 #### Read
 ```php
 Storage::disk('aliyun')->url('prefix/path/file.txt');
+Storage::disk('aliyun')->temporaryUrl('prefix/path/file.txt');
 Storage::disk('aliyun')->temporaryUrl('prefix/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
 
 Storage::disk('aliyun')->get('prefix/path/file.txt'); 

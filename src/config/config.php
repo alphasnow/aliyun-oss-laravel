@@ -12,4 +12,5 @@ return [
     'security_token' => env('ALIYUN_OSS_TOKEN', null), // Used by \OSS\OssClient
     'prefix' => env('ALIYUN_OSS_PREFIX', null), // Used by Aliyun\Flysystem\AliyunOss\AliyunOssAdapter
     'use_domain_endpoint' => env('ALIYUN_OSS_USE_DOMAIN_ENDPOINT', false), // Whether to upload using domain
+    'signature_expires' => env('ALIYUN_OSS_SIGNATURE_EXPIRES', '+60 minutes'), // The valid time of the temporary url
 ];
