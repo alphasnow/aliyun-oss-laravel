@@ -23,4 +23,5 @@ class TestCase extends BaseTestCase
     {
         return ['AliyunOssClient' => AliyunOssClient::class];
     }
+
 }

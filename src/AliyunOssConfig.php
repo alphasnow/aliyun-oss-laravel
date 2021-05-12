@@ -27,14 +27,18 @@ class AliyunOssConfig extends Collection
      */
     public function getOssEndpoint()
     {
+        if ($this->isCName()) {
+            return $this->get('domain');
+        }
         if ($internal = $this->get('internal')) {
             return $internal;
         }
-        if ($domain = $this->get('domain')) {
-            return $domain;
-        }
-
         return $this->get('endpoint');
+    }
+
+    public function isCName()
+    {
+        return $this->get('use_domain_endpoint') && $this->get('domain');
     }
 
     /**
@@ -42,12 +46,11 @@ class AliyunOssConfig extends Collection
      */
     public function getOssClientParameters()
     {
-        $isCName = $this->get('domain') ? true : false;
         return [
             'accessKeyId' => $this->get('access_id'),
             'accessKeySecret' => $this->get('access_key'),
             'endpoint' => $this->getOssEndpoint(),
-            'isCName' => $isCName,
+            'isCName' => $this->isCName(),
             'securityToken' => $this->get('security_token', null)
         ];
     }
