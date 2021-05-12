@@ -3,6 +3,7 @@
 namespace AlphaSnow\AliyunOss\Tests;
 
 use AlphaSnow\AliyunOss\AliyunOssConfig;
+use Illuminate\Support\Collection;
 
 class ConfigTest extends TestCase
 {
@@ -33,14 +34,14 @@ class ConfigTest extends TestCase
         $endpoint = $ossConfig->getOssEndpoint();
         $this->assertSame($config['endpoint'], $endpoint);
 
-        $config['internal'] = 'oss-cn-shanghai-internal.aliyuncs.com';
-        $ossConfig = new AliyunOssConfig($config);
-        $endpoint = $ossConfig->getOssEndpoint();
-        $this->assertSame($config['internal'], $endpoint);
-
         $config['use_domain_endpoint'] = true;
         $ossConfig = new AliyunOssConfig($config);
         $endpoint = $ossConfig->getOssEndpoint();
         $this->assertSame($config['domain'], $endpoint);
+
+        $config['internal'] = 'oss-cn-shanghai-internal.aliyuncs.com';
+        $ossConfig = new AliyunOssConfig($config);
+        $endpoint = $ossConfig->getOssEndpoint();
+        $this->assertSame($config['internal'], $endpoint);
     }
 }

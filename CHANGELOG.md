@@ -1,3 +1,10 @@
+## [2.7.0](https://github.com/alphasnow/aliyun-oss-laravel/tree/2.7.0) (2021-05-12)
+[Show detail](https://github.com/alphasnow/aliyun-oss-laravel/compare/2.6.0...2.7.0)
+
+* Add env field : `ALIYUN_OSS_USE_DOMAIN_ENDPOINT`
+* Add env field : `ALIYUN_OSS_SIGNATURE_EXPIRES`
+* Feat: add default expire time for temporary url
+
 ## [2.6.0](https://github.com/alphasnow/aliyun-oss-laravel/tree/2.6.0) (2021-05-07)
 [Show detail](https://github.com/alphasnow/aliyun-oss-laravel/compare/2.5.1...2.6.0)
 
