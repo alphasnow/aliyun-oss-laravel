@@ -2,8 +2,7 @@
 
 namespace AlphaSnow\AliyunOss;
 
-use Aliyun\Flysystem\AliyunOss\AliyunOssAdapter as BaseAdapter;
-use Carbon\Carbon;
+use AlphaSnow\Flysystem\AliyunOss\AliyunOssAdapter as BaseAdapter;
 use League\Flysystem\Adapter\CanOverwriteFiles;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
@@ -70,7 +69,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
         $object = $this->applyPathPrefix($path);
         $clientOptions = $this->getOptionsFromConfig(new Config($options));
         if (is_null($expiration)) {
-            $expiration = Carbon::parse($this->ossConfig->get('signature_expires'));
+            $expiration = new \DateTime($this->ossConfig->get('signature_expires'));
         }
         $timeout = $expiration->getTimestamp() - (new \DateTime('now'))->getTimestamp();
 

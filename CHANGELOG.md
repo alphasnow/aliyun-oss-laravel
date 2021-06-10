@@ -1,3 +1,8 @@
+## [2.8.0](https://github.com/alphasnow/aliyun-oss-laravel/tree/2.8.0) (2021-06-10)
+[Show detail](https://github.com/alphasnow/aliyun-oss-laravel/compare/2.7.0...2.8.0)
+
+* Feat: Modify the package, use `alphasnow/aliyun-oss-flysystem` instead of `aliyuncs/aliyun-oss-flysystem`.
+
 ## [2.7.0](https://github.com/alphasnow/aliyun-oss-laravel/tree/2.7.0) (2021-05-12)
 [Show detail](https://github.com/alphasnow/aliyun-oss-laravel/compare/2.6.0...2.7.0)
 

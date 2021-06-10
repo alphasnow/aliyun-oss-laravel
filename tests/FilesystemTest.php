@@ -48,7 +48,7 @@ class FilesystemTest extends TestCase
     public function testPutFile($filesystem, $client)
     {
         $client->shouldReceive([
-            'putObject' => true
+            'putObject' => []
         ]);
         $filePath = __DIR__ . '/stubs/file.txt';
 
