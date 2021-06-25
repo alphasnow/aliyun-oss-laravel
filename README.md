@@ -1,6 +1,8 @@
 English | [简体中文](README-CN.md)  
 
 # Aliyun Oss Storage for Laravel
+Alibaba Cloud Object Storage Service For Laravel
+
 [![Build Status](https://github.com/alphasnow/aliyun-oss-laravel/workflows/CI/badge.svg)](https://github.com/alphasnow/aliyun-oss-laravel/actions)
 [![Latest Stable Version](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/v/stable)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Build Status](https://travis-ci.com/alphasnow/aliyun-oss-laravel.svg?branch=master)](https://travis-ci.com/alphasnow/aliyun-oss-laravel)
@@ -9,7 +11,7 @@ English | [简体中文](README-CN.md)
 [![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel?ref=badge_shield)
 
-Alibaba Cloud Object Storage Service For Laravel
+This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) into Laravel as an available storage disk.
 
 ## Requirements
 - PHP >= 7.0
@@ -23,7 +25,7 @@ Alibaba Cloud Object Storage Service For Laravel
     You can also declare the dependency on Alibaba Cloud Object Storage Service For Laravel in the composer.json file.
     ```
     "require": {
-        "alphasnow/aliyun-oss-laravel": "~2.6"
+        "alphasnow/aliyun-oss-laravel": "~2.8"
     }
     ```
     Then run `composer install` to install the dependency.
@@ -34,9 +36,6 @@ Alibaba Cloud Object Storage Service For Laravel
     ALIYUN_OSS_ACCESS_KEY= <Your aliyun accessKeySecret, Required>
     ALIYUN_OSS_BUCKET    = <Your oss bucket name, Required>
     ALIYUN_OSS_ENDPOINT  = <Your oss endpoint domain, Required>
-    ALIYUN_OSS_INTERNAL  = <Your oss internal domain, Optional>
-    ALIYUN_OSS_DOMAIN    = <Your oss cdn domain, Optional>
-    ALIYUN_OSS_USE_SSL   = false
     ```
 
 3. (Optional) Modify the configuration file `config/filesystems.php`
@@ -54,6 +53,7 @@ Alibaba Cloud Object Storage Service For Laravel
             'internal'   => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
             'domain'     => env('ALIYUN_OSS_DOMAIN', null),   // For example: oss.my-domain.com
             'use_ssl'    => env('ALIYUN_OSS_USE_SSL', false), // Whether to use https
+            'prefix'     => env('ALIYUN_OSS_PREFIX', null),   // The prefix of the store path
         ],
         // ...
     ]
@@ -78,6 +78,9 @@ Storage::disk('aliyun')->putRemoteFile('prefix/path/file.txt', 'http://example.c
 
 Storage::disk('aliyun')->prepend('prefix/path/file.txt', 'Prepend Text'); 
 Storage::disk('aliyun')->append('prefix/path/file.txt', 'Append Text');
+
+Storage::disk('aliyun')->put('prefix/path/file.txt', 'My secret', 'private');
+Storage::disk('aliyun')->put('prefix/path/file.txt', 'My secret', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
 ```
 
 #### Read

@@ -9,8 +9,8 @@ return [
     'internal' => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
     'domain' => env('ALIYUN_OSS_DOMAIN', null), // For example: oss.my-domain.com
     'use_ssl' => env('ALIYUN_OSS_USE_SSL', false), // Whether to use https
+    'prefix' => env('ALIYUN_OSS_PREFIX', null), // The prefix of the store path
     'security_token' => env('ALIYUN_OSS_TOKEN', null), // Used by \OSS\OssClient
-    'prefix' => env('ALIYUN_OSS_PREFIX', null), // Used by AlphaSnow\Flysystem\AliyunOss\AliyunOssAdapter
     'use_domain_endpoint' => env('ALIYUN_OSS_USE_DOMAIN_ENDPOINT', false), // Whether to upload using domain
     'signature_expires' => env('ALIYUN_OSS_SIGNATURE_EXPIRES', '+60 minutes'), // The valid time of the temporary url
 ];
