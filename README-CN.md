@@ -78,8 +78,8 @@ Storage::disk('aliyun')->putRemoteFile('prefix/path/file.txt', 'http://example.c
 Storage::disk('aliyun')->prepend('prefix/path/file.txt', 'Prepend Text'); 
 Storage::disk('aliyun')->append('prefix/path/file.txt', 'Append Text');
 
-Storage::disk('aliyun')->put('prefix/path/file.txt', 'My secret', 'private');
-Storage::disk('aliyun')->put('prefix/path/file.txt', 'My secret', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
+Storage::disk('aliyun')->put('prefix/path/secret.txt', 'My secret', 'private');
+Storage::disk('aliyun')->put('prefix/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
 ```
 
 #### 读取
