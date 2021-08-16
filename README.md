@@ -3,13 +3,12 @@ English | [简体中文](README-CN.md)
 # Aliyun Oss Storage for Laravel
 Alibaba Cloud Object Storage Service For Laravel
 
-[![Build Status](https://github.com/alphasnow/aliyun-oss-laravel/workflows/CI/badge.svg)](https://github.com/alphasnow/aliyun-oss-laravel/actions)
 [![Latest Stable Version](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/v/stable)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
-[![Build Status](https://travis-ci.com/alphasnow/aliyun-oss-laravel.svg?branch=master)](https://travis-ci.com/alphasnow/aliyun-oss-laravel)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alphasnow/aliyun-oss-laravel/?branch=master)
-[![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
+[![Build Status](https://github.com/alphasnow/aliyun-oss-laravel/workflows/CI/badge.svg)](https://github.com/alphasnow/aliyun-oss-laravel/actions)
+[![Build Status](https://travis-ci.com/alphasnow/aliyun-oss-laravel.svg?branch=master)](https://travis-ci.com/alphasnow/aliyun-oss-laravel)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel?ref=badge_shield)
+[![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 
 This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) into Laravel as an available storage disk.
 
@@ -66,64 +65,66 @@ $storage = Storage::disk('aliyun');
 ```
 #### Write
 ```php
-Storage::disk('aliyun')->putFile('prefix/path', '/local/path/file.txt');
-Storage::disk('aliyun')->putFileAs('prefix/path', '/local/path/file.txt', 'file.txt');
+Storage::disk('aliyun')->putFile('dir/path', '/local/path/file.txt');
+Storage::disk('aliyun')->putFileAs('dir/path', '/local/path/file.txt', 'file.txt');
 
-Storage::disk('aliyun')->put('prefix/path/file.txt', file_get_contents('/local/path/file.txt'));
+Storage::disk('aliyun')->put('dir/path/file.txt', file_get_contents('/local/path/file.txt'));
 $fp = fopen('/local/path/file.txt','r');
-Storage::disk('aliyun')->put('prefix/path/file.txt', $fp);
+Storage::disk('aliyun')->put('dir/path/file.txt', $fp);
 fclose($fp);
 
-Storage::disk('aliyun')->putRemoteFile('prefix/path/file.txt', 'http://example.com/file.txt');
+Storage::disk('aliyun')->putRemoteFile('dir/path/file.txt', 'http://example.com/file.txt');
 
-Storage::disk('aliyun')->prepend('prefix/path/file.txt', 'Prepend Text'); 
-Storage::disk('aliyun')->append('prefix/path/file.txt', 'Append Text');
+Storage::disk('aliyun')->prepend('dir/path/file.txt', 'Prepend Text'); 
+Storage::disk('aliyun')->append('dir/path/file.txt', 'Append Text');
 
-Storage::disk('aliyun')->put('prefix/path/secret.txt', 'My secret', 'private');
-Storage::disk('aliyun')->put('prefix/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
+Storage::disk('aliyun')->put('dir/path/secret.txt', 'My secret', 'private');
+Storage::disk('aliyun')->put('dir/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
 ```
 
 #### Read
 ```php
-Storage::disk('aliyun')->url('prefix/path/file.txt');
-Storage::disk('aliyun')->temporaryUrl('prefix/path/file.txt');
-Storage::disk('aliyun')->temporaryUrl('prefix/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
+Storage::disk('aliyun')->url('dir/path/file.txt');
+Storage::disk('aliyun')->temporaryUrl('dir/path/file.txt');
+Storage::disk('aliyun')->temporaryUrl('dir/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
 
-Storage::disk('aliyun')->get('prefix/path/file.txt'); 
+Storage::disk('aliyun')->get('dir/path/file.txt'); 
 
-Storage::disk('aliyun')->exists('prefix/path/file.txt'); 
-Storage::disk('aliyun')->size('prefix/path/file.txt'); 
-Storage::disk('aliyun')->lastModified('prefix/path/file.txt');
+Storage::disk('aliyun')->exists('dir/path/file.txt'); 
+Storage::disk('aliyun')->size('dir/path/file.txt'); 
+Storage::disk('aliyun')->lastModified('dir/path/file.txt');
 ```
 
 #### Delete
 ```php
-Storage::disk('aliyun')->delete('prefix/path/file.txt');
-Storage::disk('aliyun')->delete(['prefix/path/file1.txt', 'prefix/path/file2.txt']);
+Storage::disk('aliyun')->delete('dir/path/file.txt');
+Storage::disk('aliyun')->delete(['dir/path/file1.txt', 'dir/path/file2.txt']);
 ```
 
 #### File operation
 ```php
-Storage::disk('aliyun')->copy('prefix/path/file.txt', 'prefix/path/file_new.txt');
-Storage::disk('aliyun')->move('prefix/path/file.txt', 'prefix/path/file_new.txt');
-Storage::disk('aliyun')->rename('prefix/path/file.txt', 'prefix/path/file_new.txt');
+Storage::disk('aliyun')->copy('dir/path/file.txt', 'dir/path/file_new.txt');
+Storage::disk('aliyun')->move('dir/path/file.txt', 'dir/path/file_new.txt');
+Storage::disk('aliyun')->rename('dir/path/file.txt', 'dir/path/file_new.txt');
 ```
 
 #### Folder operation
 ```php
-Storage::disk('aliyun')->makeDirectory('prefix/path'); 
-Storage::disk('aliyun')->deleteDirectory('prefix/path');
+Storage::disk('aliyun')->makeDirectory('dir/path'); 
+Storage::disk('aliyun')->deleteDirectory('dir/path');
 
-Storage::disk('aliyun')->files('prefix/path');
-Storage::disk('aliyun')->allFiles('prefix/path');
+Storage::disk('aliyun')->files('dir/path');
+Storage::disk('aliyun')->allFiles('dir/path');
 
-Storage::disk('aliyun')->directories('prefix/path'); 
-Storage::disk('aliyun')->allDirectories('prefix/path'); 
+Storage::disk('aliyun')->directories('dir/path'); 
+Storage::disk('aliyun')->allDirectories('dir/path'); 
 ```
 
-#### Get the instance of `OssClient`
+#### Use OssClient
 ```php
-$client = Storage::disk('aliyun')->getAdapter()->getClient(); 
+$adapter = Storage::disk('aliyun')->getAdapter(); 
+$client = $adapter->getClient();
+$client->appendObject($adapter->getBucket(), $adapter->applyPathPrefix('dir/path/file.txt'), 'Append Text', 0);
 ```
 
 ## Documentation
