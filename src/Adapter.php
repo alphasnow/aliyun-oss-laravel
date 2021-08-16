@@ -5,21 +5,21 @@ namespace AlphaSnow\AliyunOss;
 use AlphaSnow\Flysystem\AliyunOss\AliyunOssAdapter as BaseAdapter;
 use League\Flysystem\Adapter\CanOverwriteFiles;
 use League\Flysystem\AdapterInterface;
-use League\Flysystem\Config;
+use League\Flysystem\Config as FlysystemConfig;
 use OSS\OssClient;
 
-class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
+class Adapter extends BaseAdapter implements CanOverwriteFiles
 {
     /**
-     * @var AliyunOssConfig
+     * @var Config
      */
     protected $ossConfig;
 
     /**
      * @param OssClient $ossClient
-     * @param AliyunOssConfig $ossConfig
+     * @param Config $ossConfig
      */
-    public function __construct(OssClient $ossClient, AliyunOssConfig $ossConfig)
+    public function __construct(OssClient $ossClient, Config $ossConfig)
     {
         $this->ossConfig = $ossConfig;
         parent::__construct($ossClient, $ossConfig->get('bucket'), ltrim($ossConfig->get('prefix', null), '/'), $ossConfig->get('options', []));
@@ -28,7 +28,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
     /**
      * {@inheritdoc}
      */
-    protected function getOptionsFromConfig(Config $config)
+    protected function getOptionsFromConfig(FlysystemConfig $config)
     {
         $options = parent::getOptionsFromConfig($config);
 
@@ -67,7 +67,7 @@ class AliyunOssAdapter extends BaseAdapter implements CanOverwriteFiles
     public function getTemporaryUrl($path, $expiration = null, array $options = [])
     {
         $object = $this->applyPathPrefix($path);
-        $clientOptions = $this->getOptionsFromConfig(new Config($options));
+        $clientOptions = $this->getOptionsFromConfig(new FlysystemConfig($options));
         if (is_null($expiration)) {
             $expiration = new \DateTime($this->ossConfig->get('signature_expires'));
         }

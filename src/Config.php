@@ -4,7 +4,7 @@ namespace AlphaSnow\AliyunOss;
 
 use Illuminate\Support\Collection;
 
-class AliyunOssConfig extends Collection
+class Config extends Collection
 {
     /**
      * @return string

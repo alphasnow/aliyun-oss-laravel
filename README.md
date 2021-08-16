@@ -121,6 +121,11 @@ Storage::disk('aliyun')->directories('prefix/path');
 Storage::disk('aliyun')->allDirectories('prefix/path'); 
 ```
 
+#### Get the instance of `OssClient`
+```php
+$client = Storage::disk('aliyun')->getAdapter()->getClient(); 
+```
+
 ## Documentation
 - [Object storage OSS-aliyun](https://help.aliyun.com/product/31815.html)
 

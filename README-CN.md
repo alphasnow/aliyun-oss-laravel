@@ -24,7 +24,7 @@ Laravel 的阿里云对象存储 Storage 扩展
     或者在你的`composer.json`中声明依赖：  
     ```
     "require": {
-        "alphasnow/aliyun-oss-laravel": "~2.8"
+        "alphasnow/aliyun-oss-laravel": "^2.8"
     }
     ```
     然后通过`composer install`安装依赖。  
@@ -118,6 +118,11 @@ Storage::disk('aliyun')->allFiles('prefix/path');
 
 Storage::disk('aliyun')->directories('prefix/path'); 
 Storage::disk('aliyun')->allDirectories('prefix/path'); 
+```
+
+#### 获取实例 `OssClient`
+```php
+$client = Storage::disk('aliyun')->getAdapter()->getClient(); 
 ```
 
 ## 文档

@@ -2,9 +2,8 @@
 
 namespace AlphaSnow\AliyunOss\Tests;
 
-use AlphaSnow\AliyunOss\AliyunOssAdapter;
-use AlphaSnow\AliyunOss\AliyunOssConfig;
-use League\Flysystem\Config;
+use AlphaSnow\AliyunOss\Adapter;
+use AlphaSnow\AliyunOss\Config;
 use OSS\OssClient;
 
 class AdapterTest extends TestCase
@@ -12,11 +11,11 @@ class AdapterTest extends TestCase
     public function adapterProvider()
     {
         $defaultConfig = require __DIR__.'/../src/config/config.php';
-        $config = new AliyunOssConfig($defaultConfig);
+        $config = new Config($defaultConfig);
         $clientParameters = $config->getOssClientParameters();
         $client = \Mockery::mock(OssClient::class, array_values($clientParameters))
             ->makePartial();
-        $adapter = new AliyunOssAdapter($client, $config);
+        $adapter = new Adapter($client, $config);
         return [
             [$adapter,$config]
         ];
@@ -49,13 +48,5 @@ class AdapterTest extends TestCase
         $url = $adapter->getTemporaryUrl('foo/bar.txt', new \DateTime('+30 minutes'));
         $preg = '/http:\/\/bucket.endpoint.com\/foo\/bar.txt\?OSSAccessKeyId=access_id&Expires=\d{10}&Signature=.+/';
         $this->assertSame(1, preg_match($preg, $url));
-    }
-
-    public function testGetOptionsFromConfig()
-    {
-        $adapter = \Mockery::mock(AliyunOssAdapter::class);
-        $adapter->makePartial()->shouldAllowMockingProtectedMethods();
-        $options = $adapter->getOptionsFromConfig(new Config(['visibility' => 'private']));
-        $this->assertSame([OssClient::OSS_HEADERS => [OssClient::OSS_OBJECT_ACL => 'private']], $options);
     }
 }
