@@ -21,12 +21,6 @@ This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alp
     ```bash
     $ composer require alphasnow/aliyun-oss-laravel
     ```
-    You can also declare the dependency on Alibaba Cloud Object Storage Service For Laravel in the composer.json file.
-    ```
-    "require": {
-        "alphasnow/aliyun-oss-laravel": "~2.8"
-    }
-    ```
     Then run `composer install` to install the dependency.
 
 2. Modify the environment file `.env`

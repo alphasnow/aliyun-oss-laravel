@@ -21,12 +21,6 @@ Laravel 的阿里云对象存储 Storage 扩展
     ```
     $ composer require alphasnow/aliyun-oss-laravel
     ```
-    或者在你的`composer.json`中声明依赖：  
-    ```
-    "require": {
-        "alphasnow/aliyun-oss-laravel": "^2.8"
-    }
-    ```
     然后通过`composer install`安装依赖。  
 
 2. 修改环境配置 `.env`
