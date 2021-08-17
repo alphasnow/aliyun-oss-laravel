@@ -1,5 +1,5 @@
-## [2.9.0](https://github.com/alphasnow/aliyun-oss-laravel/tree/2.8.0) (2021-08-16)
-[Show detail](https://github.com/alphasnow/aliyun-oss-laravel/compare/2.8.0...2.9.0)
+## [3.0.0](https://github.com/alphasnow/aliyun-oss-laravel/tree/3.0.0) (2021-08-16)
+[Show detail](https://github.com/alphasnow/aliyun-oss-laravel/compare/2.8.0...3.0.0)
 
 * Remove the facade of OssClient
 * Rename the name of base class
