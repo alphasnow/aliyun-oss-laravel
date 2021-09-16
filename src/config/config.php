@@ -2,8 +2,8 @@
 
 return [
     'driver' => 'aliyun',
-    'access_id' => env('ALIYUN_OSS_ACCESS_ID'), // For example: LTAI4**************qgcsA
-    'access_key' => env('ALIYUN_OSS_ACCESS_KEY'), // For example: PkT4F********************Bl9or
+    'access_id' => env('ALIYUN_OSS_ACCESS_ID'), // AccessKey ID, For example: LTAI4**************qgcsA
+    'access_key' => env('ALIYUN_OSS_ACCESS_KEY'), // AccessKey Secret, For example: PkT4F********************Bl9or
     'bucket' => env('ALIYUN_OSS_BUCKET'), // For example: my-storage
     'endpoint' => env('ALIYUN_OSS_ENDPOINT'), // For example: oss-cn-shanghai.aliyuncs.com
     'internal' => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
