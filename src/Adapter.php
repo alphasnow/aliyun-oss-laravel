@@ -28,7 +28,7 @@ class Adapter extends BaseAdapter implements CanOverwriteFiles
     /**
      * {@inheritdoc}
      */
-    protected function getOptionsFromConfig(FlysystemConfig $config)
+    public function getOptionsFromConfig(FlysystemConfig $config)
     {
         $options = parent::getOptionsFromConfig($config);
 
