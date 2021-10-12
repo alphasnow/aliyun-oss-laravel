@@ -1,61 +1,61 @@
 name: CI
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
 
 
 jobs:
-  phpcs:
-    runs-on: ubuntu-18.04
-    steps:
-    - uses: actions/checkout@v2
+    phpcs:
+        runs-on: ubuntu-18.04
+        steps:
+            - uses: actions/checkout@v2
 
-    - name: Setup PHP environment
-      uses: shivammathur/setup-php@v2
-      with:
-          php-version: '7.1'
+            - name: Setup PHP environment
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.2'
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress
 
-    - name: PHPCSFixer check
-      run: composer check-style
+            - name: PHPCSFixer check
+              run: composer check-style
 
-  phpstan:
-      runs-on: ubuntu-18.04
-      steps:
-          - uses: actions/checkout@v2
+    phpstan:
+        runs-on: ubuntu-18.04
+        steps:
+            - uses: actions/checkout@v2
 
-          - name: Setup PHP environment
-            uses: shivammathur/setup-php@v2
-            with:
-                php-version: '7.1'
+            - name: Setup PHP environment
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.2'
 
-          - name: Install dependencies
-            run: composer install --prefer-dist --no-progress
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress
 
-          - name: PHP Static Analysis
-            run: composer phpstan
+            - name: PHP Static Analysis
+              run: composer phpstan
 
-  phpunit:
-    strategy:
-      matrix:
-        php-versions: ['7.1','7.2','7.3']
-    runs-on: ubuntu-18.04
-    steps:
-    - uses: actions/checkout@v2
+    phpunit:
+        strategy:
+            matrix:
+                php-versions: ['7.2','7.3','7.4','8.0']
+        runs-on: ubuntu-18.04
+        steps:
+            - uses: actions/checkout@v2
 
-    - name: Setup PHP environment
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-versions }}
-        coverage: xdebug
+            - name: Setup PHP environment
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  coverage: xdebug
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress
 
-    - name: PHPUnit check
-      run: ./vendor/bin/phpunit --coverage-text
+            - name: PHPUnit check
+              run: ./vendor/bin/phpunit --coverage-text
