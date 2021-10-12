@@ -3,7 +3,6 @@
 namespace AlphaSnow\AliyunOss;
 
 use AlphaSnow\Flysystem\AliyunOss\Plugins\AppendContent;
-use AlphaSnow\AliyunOss\Plugins\PutRemoteFile;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use League\Flysystem\Config as FlysystemConfig;
 use League\Flysystem\Filesystem;
@@ -49,7 +48,6 @@ class ServiceProvider extends BaseServiceProvider
             $adapter = $app->make('aliyun-oss.oss-adapter', $config);
 
             $filesystem = new Filesystem($adapter, new FlysystemConfig(['disable_asserts' => true]));
-            $filesystem->addPlugin(new PutRemoteFile());
             $filesystem->addPlugin(new AppendContent());
             return $filesystem;
         });

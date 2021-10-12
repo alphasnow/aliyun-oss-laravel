@@ -67,8 +67,6 @@ $fp = fopen('/local/path/file.txt','r');
 Storage::disk('aliyun')->put('dir/path/file.txt', $fp);
 fclose($fp);
 
-Storage::disk('aliyun')->putRemoteFile('dir/path/file.txt', 'http://example.com/file.txt');
-
 Storage::disk('aliyun')->prepend('dir/path/file.txt', 'Prepend Text'); 
 Storage::disk('aliyun')->append('dir/path/file.txt', 'Append Text');
 
@@ -112,6 +110,13 @@ Storage::disk('aliyun')->allFiles('dir/path');
 
 Storage::disk('aliyun')->directories('dir/path'); 
 Storage::disk('aliyun')->allDirectories('dir/path'); 
+```
+
+#### 使用 Plugin
+```php
+Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The first line paragraph.', 0);
+Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The second line paragraph.', 25);
+Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The last line paragraph.', 51);
 ```
 
 #### 使用 OssClient

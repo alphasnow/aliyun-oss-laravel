@@ -1,5 +1,5 @@
 <?php
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR2' => true,
         'binary_operator_spaces' => true,
@@ -34,7 +34,7 @@ return PhpCsFixer\Config::create()
         'unary_operator_spaces' => true,
         'visibility_required' => [
             'elements' => [
-                'const',
+//                'const',
                 'method',
                 'property',
             ],
@@ -45,4 +45,4 @@ return PhpCsFixer\Config::create()
             ->exclude('vendor')
             ->in([__DIR__.'/src/',__DIR__.'/tests/'])
     )
-;
+    ;

@@ -4,8 +4,8 @@ namespace AlphaSnow\AliyunOss\Tests;
 
 use AlphaSnow\AliyunOss\Config;
 use Illuminate\Filesystem\FilesystemAdapter;
-use OSS\OssClient;
 use Mockery\MockInterface;
+use OSS\OssClient;
 
 class FilesystemTest extends TestCase
 {
