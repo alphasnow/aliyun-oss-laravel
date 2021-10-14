@@ -135,4 +135,4 @@ $client->appendObject($adapter->getBucket(), $adapter->applyPathPrefix('dir/path
 ## License
 [MIT](LICENSE)
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel?ref=badge_large)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel?ref=badge_large) [![Join the chat at https://gitter.im/aliyun-oss-laravel/community](https://badges.gitter.im/aliyun-oss-laravel/community.svg)](https://gitter.im/aliyun-oss-laravel/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
