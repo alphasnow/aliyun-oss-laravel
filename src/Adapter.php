@@ -6,6 +6,9 @@ use AlphaSnow\Flysystem\AliyunOss\AliyunOssAdapter as BaseAdapter;
 use League\Flysystem\Config as FlysystemConfig;
 use OSS\OssClient;
 
+/**
+ * Class Adapter
+ */
 class Adapter extends BaseAdapter
 {
     /**

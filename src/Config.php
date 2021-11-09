@@ -4,6 +4,9 @@ namespace AlphaSnow\AliyunOss;
 
 use Illuminate\Support\Collection;
 
+/**
+ * Class Config
+ */
 class Config extends Collection
 {
     /**
@@ -76,6 +79,10 @@ class Config extends Collection
         ];
     }
 
+    /**
+     * @param string $url
+     * @return string
+     */
     public function correctUrl($url)
     {
         // correct internal domain

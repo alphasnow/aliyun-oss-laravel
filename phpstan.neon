@@ -1,9 +1,9 @@
 parameters:
-    level: 3
-
-    inferPrivatePropertyTypeFromConstructor: true
+    level: 6
 
     paths:
-        - %currentWorkingDirectory%/src
+        - src
 
     ignoreErrors:
+
+    checkMissingIterableValueType: false

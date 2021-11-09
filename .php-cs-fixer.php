@@ -34,7 +34,6 @@ return (new PhpCsFixer\Config())
         'unary_operator_spaces' => true,
         'visibility_required' => [
             'elements' => [
-//                'const',
                 'method',
                 'property',
             ],

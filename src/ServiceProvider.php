@@ -10,10 +10,13 @@ use OSS\OssClient;
 
 /**
  * Class ServiceProvider
- * @package AlphaSnow\AliyunOss
  */
 class ServiceProvider extends BaseServiceProvider
 {
+    /**
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return void
+     */
     public function boot()
     {
         $this->mergeConfigFrom(
@@ -27,6 +30,9 @@ class ServiceProvider extends BaseServiceProvider
             });
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function register()
     {
         $this->app->bind('aliyun-oss.oss-client', function ($app, array $config) {
