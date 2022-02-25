@@ -1,6 +1,6 @@
 <?php
 
-namespace AlphaSnow\AliyunOss;
+namespace AlphaSnow\LaravelFilesystem\Aliyun;
 
 use Illuminate\Support\Collection;
 
@@ -72,7 +72,7 @@ class Config extends Collection
     {
         return [
             'accessKeyId' => $this->get('access_id'),
-            'accessKeySecret' => $this->get('access_key'),
+            'accessKeySecret' => $this->get('access_secret'),
             'endpoint' => $this->getOssEndpoint(),
             'isCName' => $this->isCName(),
             'securityToken' => $this->get('security_token', null)

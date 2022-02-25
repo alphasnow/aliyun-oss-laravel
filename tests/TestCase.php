@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaSnow\AliyunOss\Tests;
+namespace AlphaSnow\LaravelFilesystem\Aliyun\Tests;
 
-use AlphaSnow\AliyunOss\ServiceProvider;
+use AlphaSnow\LaravelFilesystem\Aliyun\ServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 /**

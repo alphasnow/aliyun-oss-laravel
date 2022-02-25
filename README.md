@@ -12,9 +12,11 @@ Alibaba Cloud Object Storage Service For Laravel
 
 This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) into Laravel as an available storage disk.
 
-## Requirements
-- PHP >= 7.0
-- laravel/framework >= 5.5
+## Compatibility
+**laravel**  |  **aliyun-oss-laravel** 
+---|---
+\>=5.5,<9.0  | ^3.0  
+\>=9.0 | ^4.0  
 
 ## Installation
 1. If you use the composer to manage project dependencies, run the following command in your project's root directory:
@@ -26,7 +28,7 @@ This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alp
 2. Modify the environment file `.env`
     ```
     ALIYUN_OSS_ACCESS_ID = <Your aliyun accessKeyId, Required>
-    ALIYUN_OSS_ACCESS_KEY= <Your aliyun accessKeySecret, Required>
+    ALIYUN_OSS_ACCESS_SECRET= <Your aliyun accessKeySecret, Required>
     ALIYUN_OSS_BUCKET    = <Your oss bucket name, Required>
     ALIYUN_OSS_ENDPOINT  = <Your oss endpoint domain, Required>
     ```
@@ -40,7 +42,7 @@ This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alp
         'aliyun' => [
             'driver'     => 'aliyun',
             'access_id'  => env('ALIYUN_OSS_ACCESS_ID'),      // AccessKey ID, For example: LTAI4**************qgcsA
-            'access_key' => env('ALIYUN_OSS_ACCESS_KEY'),     // AccessKey Secret, For example: PkT4F********************Bl9or
+            'access_secret' => env('ALIYUN_OSS_ACCESS_SECRET'),     // AccessKey Secret, For example: PkT4F********************Bl9or
             'bucket'     => env('ALIYUN_OSS_BUCKET'),         // For example: my-storage
             'endpoint'   => env('ALIYUN_OSS_ENDPOINT'),       // For example: oss-cn-shanghai.aliyuncs.com
             'internal'   => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
@@ -110,20 +112,6 @@ Storage::disk('aliyun')->allFiles('dir/path');
 
 Storage::disk('aliyun')->directories('dir/path'); 
 Storage::disk('aliyun')->allDirectories('dir/path'); 
-```
-
-#### Use Plugin
-```php
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The first line paragraph.', 0);
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The second line paragraph.', 25);
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The last line paragraph.', 51);
-```
-
-#### Use OssClient
-```php
-$adapter = Storage::disk('aliyun')->getAdapter(); 
-$client = $adapter->getClient();
-$client->appendObject($adapter->getBucket(), $adapter->applyPathPrefix('dir/path/file.txt'), 'Append Text', 0);
 ```
 
 ## Documentation

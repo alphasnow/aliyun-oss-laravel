@@ -13,8 +13,10 @@ Laravel 的阿里云对象存储 Storage 扩展
 这个包是封装 [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) 到 Laravel 来作为 Storage 使用.
 
 ## 环境要求
-- PHP >= 7.0
-- laravel/framework >= 5.5
+**laravel**  |  **aliyun-oss-laravel**
+---|---
+\>=5.5,<9.0  | ^3.0
+\>=9.0 | ^4.0
 
 ## 安装依赖
 1. 通过composer管理您的项目依赖，可以在你的项目根目录运行：  
@@ -26,7 +28,7 @@ Laravel 的阿里云对象存储 Storage 扩展
 2. 修改环境配置 `.env`
     ```
     ALIYUN_OSS_ACCESS_ID = <Your aliyun accessKeyId, Required>
-    ALIYUN_OSS_ACCESS_KEY= <Your aliyun accessKeySecret, Required>
+    ALIYUN_OSS_ACCESS_SECRET= <Your aliyun accessKeySecret, Required>
     ALIYUN_OSS_BUCKET    = <Your oss bucket name, Required>
     ALIYUN_OSS_ENDPOINT  = <Your oss endpoint domain, Required>
     ```
@@ -40,7 +42,7 @@ Laravel 的阿里云对象存储 Storage 扩展
         'aliyun' => [
             'driver'     => 'aliyun',
             'access_id'  => env('ALIYUN_OSS_ACCESS_ID'),      // AccessKey ID, For example: LTAI4**************qgcsA
-            'access_key' => env('ALIYUN_OSS_ACCESS_KEY'),     // AccessKey Secret, For example: PkT4F********************Bl9or
+            'access_secret' => env('ALIYUN_OSS_ACCESS_SECRET'),     // AccessKey Secret, For example: PkT4F********************Bl9or
             'bucket'     => env('ALIYUN_OSS_BUCKET'),         // For example: my-storage
             'endpoint'   => env('ALIYUN_OSS_ENDPOINT'),       // For example: oss-cn-shanghai.aliyuncs.com
             'internal'   => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
@@ -112,20 +114,6 @@ Storage::disk('aliyun')->directories('dir/path');
 Storage::disk('aliyun')->allDirectories('dir/path'); 
 ```
 
-#### 使用 Plugin
-```php
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The first line paragraph.', 0);
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The second line paragraph.', 25);
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The last line paragraph.', 51);
-```
-
-#### 使用 OssClient
-```php
-$adapter = Storage::disk('aliyun')->getAdapter(); 
-$client = $adapter->getClient();
-$client->appendObject($adapter->getBucket(), $adapter->applyPathPrefix('dir/path/file.txt'), 'Append Text', 0);
-```
-
 ## 文档
 - [对象存储 OSS-阿里云](https://help.aliyun.com/product/31815.html)
 
@@ -134,3 +122,5 @@ $client->appendObject($adapter->getBucket(), $adapter->applyPathPrefix('dir/path
 
 ## 许可证
 [MIT](LICENSE)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Falphasnow%2Faliyun-oss-laravel?ref=badge_large)

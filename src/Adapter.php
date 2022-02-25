@@ -1,8 +1,8 @@
 <?php
 
-namespace AlphaSnow\AliyunOss;
+namespace AlphaSnow\LaravelFilesystem\Aliyun;
 
-use AlphaSnow\Flysystem\AliyunOss\AliyunOssAdapter as BaseAdapter;
+use AlphaSnow\Flysystem\Aliyun\AliyunAdapter as BaseAdapter;
 use League\Flysystem\Config as FlysystemConfig;
 use OSS\OssClient;
 
@@ -27,33 +27,33 @@ class Adapter extends BaseAdapter
     }
 
     /**
-     * Used by \Illuminate\Filesystem\FilesystemAdapter::url
      * Get the URL for the file at the given path.
      *
-     * @param string $path
-     * @return string
-     */
-    public function getUrl($path)
-    {
-        $object = $this->applyPathPrefix($path);
-        return $this->ossConfig->getUrlDomain() . '/' . ltrim($object, '/');
-    }
-
-    /**
-     * Used by \Illuminate\Filesystem\FilesystemAdapter::temporaryUrl
-     * Get a temporary URL for the file at the given path.
-     *
-     * @param string $path
-     * @param \DateTimeInterface|null $expiration
-     * @param array $options
+     * @param  string  $path
      * @return string
      *
      * @throws \RuntimeException
      */
-    public function getTemporaryUrl($path, $expiration = null, array $options = [])
+    public function getUrl(string $path): string
     {
-        $object = $this->applyPathPrefix($path);
-        $clientOptions = $this->getOptionsFromConfig(new FlysystemConfig($options));
+        $object = $this->prefixer->prefixPath($path);
+        return $this->ossConfig->getUrlDomain() . '/' . ltrim($object, '/');
+    }
+
+    /**
+     * Get a temporary URL for the file at the given path.
+     *
+     * @param  string  $path
+     * @param \DateTimeInterface|null $expiration
+     * @param  array  $options
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function getTemporaryUrl(string $path, \DateTimeInterface $expiration = null, array $options = []): string
+    {
+        $object = $this->prefixer->prefixPath($path);
+        $clientOptions = $this->options->mergeConfig(new FlysystemConfig($options), $this->visibility);
 
         if (is_null($expiration)) {
             $expiration = new \DateTime($this->ossConfig->get('signature_expires'));
