@@ -40,15 +40,15 @@ This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alp
     'disks'=>[
         // ...
         'aliyun' => [
-            'driver'     => 'aliyun',
-            'access_id'  => env('ALIYUN_OSS_ACCESS_ID'),      // AccessKey ID, For example: LTAI4**************qgcsA
-            'access_secret' => env('ALIYUN_OSS_ACCESS_SECRET'),     // AccessKey Secret, For example: PkT4F********************Bl9or
-            'bucket'     => env('ALIYUN_OSS_BUCKET'),         // For example: my-storage
-            'endpoint'   => env('ALIYUN_OSS_ENDPOINT'),       // For example: oss-cn-shanghai.aliyuncs.com
-            'internal'   => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
-            'domain'     => env('ALIYUN_OSS_DOMAIN', null),   // For example: oss.my-domain.com
-            'use_ssl'    => env('ALIYUN_OSS_USE_SSL', false), // Whether to use https
-            'prefix'     => env('ALIYUN_OSS_PREFIX', null),   // The prefix of the store path
+            'driver'        => 'aliyun',
+            'access_id'     => env('ALIYUN_OSS_ACCESS_ID'),      // AccessKey ID
+            'access_secret' => env('ALIYUN_OSS_ACCESS_SECRET'),  // AccessKey Secret
+            'bucket'        => env('ALIYUN_OSS_BUCKET'),         // For example: my-bucket
+            'endpoint'      => env('ALIYUN_OSS_ENDPOINT'),       // For example: oss-cn-shanghai.aliyuncs.com
+            'internal'      => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
+            'domain'        => env('ALIYUN_OSS_DOMAIN', null),   // For example: oss.my-domain.com
+            'use_ssl'       => env('ALIYUN_OSS_USE_SSL', false), // Whether to use https
+            'prefix'        => env('ALIYUN_OSS_PREFIX', null),   // The prefix of the store path
         ],
         // ...
     ]
