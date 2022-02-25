@@ -13,10 +13,10 @@ Alibaba Cloud Object Storage Service For Laravel
 This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) into Laravel as an available storage disk.
 
 ## Compatibility
-**laravel**  |  **aliyun-oss-laravel** 
----|---
-\>=5.5,<9.0  | ^3.0  
-\>=9.0 | ^4.0  
+|**laravel**  |  **aliyun-oss-laravel** |
+|---|---|
+|\>=5.5,<9.0  | ^3.0  |
+|\>=9.0 | ^4.0  |
 
 ## Installation
 1. If you use the composer to manage project dependencies, run the following command in your project's root directory:
