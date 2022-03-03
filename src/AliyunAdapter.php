@@ -57,7 +57,7 @@ class AliyunAdapter extends BaseAdapter
 
         if (is_null($expiration)) {
             $timeout = intval($this->config->get('signature_expires'));
-        }else{
+        } else {
             $timeout = $expiration->getTimestamp() - (new \DateTime())->getTimestamp();
         }
 

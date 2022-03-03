@@ -62,7 +62,7 @@ class AliyunConfig extends Collection
      * @param string $url
      * @return string
      */
-    public function correctUrl(string $url):string
+    public function correctUrl(string $url): string
     {
         if ($this->get('internal')) {
             return str_replace($this->getInternalDomain(), $this->getDomain(), $url);
