@@ -2,7 +2,7 @@
 
 namespace AlphaSnow\LaravelFilesystem\Aliyun\Tests;
 
-use AlphaSnow\LaravelFilesystem\Aliyun\ServiceProvider;
+use AlphaSnow\LaravelFilesystem\Aliyun\AliyunServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 /**
@@ -15,7 +15,7 @@ class TestCase extends BaseTestCase
 {
     protected function getPackageProviders($app)
     {
-        return [ServiceProvider::class];
+        return [AliyunServiceProvider::class];
     }
 
     protected function getPackageAliases($app)

@@ -23,13 +23,11 @@
         </whitelist>
     </filter>
     <php>
-        <const name="PHPUNIT_RUNNING" value="true" />
         <env name="APP_ENV" value="testing"/>
-        <env name="ALIYUN_OSS_ACCESS_ID" value="access_id" />
-        <env name="ALIYUN_OSS_ACCESS_SECRET" value="access_secret" />
-        <env name="ALIYUN_OSS_BUCKET" value="bucket" />
-        <env name="ALIYUN_OSS_ENDPOINT" value="endpoint.com" />
-        <env name="ALIYUN_OSS_INTERNAL" value="internal.com" />
-        <env name="ALIYUN_OSS_PREFIX" value="module" />
+        <env name="OSS_ACCESS_KEY_ID" value="access_id" />
+        <env name="OSS_ACCESS_KEY_SECRET" value="access_secret" />
+        <env name="OSS_BUCKET" value="bucket" />
+        <env name="OSS_ENDPOINT" value="endpoint.com" />
+        <env name="OSS_PREFIX" value="tests" />
     </php>
 </phpunit>

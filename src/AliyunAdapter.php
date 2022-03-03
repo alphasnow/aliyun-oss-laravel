@@ -9,21 +9,21 @@ use OSS\OssClient;
 /**
  * Class Adapter
  */
-class Adapter extends BaseAdapter
+class AliyunAdapter extends BaseAdapter
 {
     /**
-     * @var Config
+     * @var AliyunConfig
      */
-    protected $ossConfig;
+    protected $config;
 
     /**
      * @param OssClient $ossClient
-     * @param Config $ossConfig
+     * @param AliyunConfig $ossConfig
      */
-    public function __construct(OssClient $ossClient, Config $ossConfig)
+    public function __construct(OssClient $ossClient, AliyunConfig $aliyunConfig)
     {
-        $this->ossConfig = $ossConfig;
-        parent::__construct($ossClient, $ossConfig->get('bucket'), ltrim($ossConfig->get('prefix', null), '/'), $ossConfig->get('options', []));
+        $this->config = $aliyunConfig;
+        parent::__construct($ossClient, $this->config->get('bucket'), $this->config->get('prefix', ""), $this->config->get('options', []));
     }
 
     /**
@@ -37,7 +37,7 @@ class Adapter extends BaseAdapter
     public function getUrl(string $path): string
     {
         $object = $this->prefixer->prefixPath($path);
-        return $this->ossConfig->getUrlDomain() . '/' . ltrim($object, '/');
+        return $this->config->getDomain() . '/' . ltrim($object, '/');
     }
 
     /**
@@ -53,14 +53,15 @@ class Adapter extends BaseAdapter
     public function getTemporaryUrl(string $path, \DateTimeInterface $expiration = null, array $options = []): string
     {
         $object = $this->prefixer->prefixPath($path);
-        $clientOptions = $this->options->mergeConfig(new FlysystemConfig($options), $this->visibility);
+        $options = $this->options->mergeConfig(new FlysystemConfig($options));
 
         if (is_null($expiration)) {
-            $expiration = new \DateTime($this->ossConfig->get('signature_expires'));
+            $timeout = intval($this->config->get('signature_expires'));
+        }else{
+            $timeout = $expiration->getTimestamp() - (new \DateTime())->getTimestamp();
         }
-        $timeout = $expiration->getTimestamp() - (new \DateTime('now'))->getTimestamp();
 
-        $url = $this->client->signUrl($this->bucket, $object, $timeout, OssClient::OSS_HTTP_GET, $clientOptions);
-        return $this->ossConfig->correctUrl($url);
+        $url = $this->client->signUrl($this->bucket, $object, $timeout, OssClient::OSS_HTTP_GET, $options);
+        return $this->config->correctUrl($url);
     }
 }

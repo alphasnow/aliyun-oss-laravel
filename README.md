@@ -27,91 +27,93 @@ This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alp
 
 2. Modify the environment file `.env`
     ```
-    ALIYUN_OSS_ACCESS_ID = <Your aliyun accessKeyId, Required>
-    ALIYUN_OSS_ACCESS_SECRET= <Your aliyun accessKeySecret, Required>
-    ALIYUN_OSS_BUCKET    = <Your oss bucket name, Required>
-    ALIYUN_OSS_ENDPOINT  = <Your oss endpoint domain, Required>
+    OSS_ACCESS_KEY_ID=<Your aliyun accessKeyId, Required>
+    OSS_ACCESS_KEY_SECRET=<Your aliyun accessKeySecret, Required>
+    OSS_BUCKET=<Your oss bucket name, Required>
+    OSS_ENDPOINT=<Your oss endpoint domain, Required>
     ```
 
-3. (Optional) Modify the configuration file `config/filesystems.php`
-    ```
-    'default' => env('FILESYSTEM_DRIVER', 'aliyun'),
-    // ...
-    'disks'=>[
-        // ...
-        'aliyun' => [
-            'driver'        => 'aliyun',
-            'access_id'     => env('ALIYUN_OSS_ACCESS_ID'),      // AccessKey ID
-            'access_secret' => env('ALIYUN_OSS_ACCESS_SECRET'),  // AccessKey Secret
-            'bucket'        => env('ALIYUN_OSS_BUCKET'),         // For example: my-bucket
-            'endpoint'      => env('ALIYUN_OSS_ENDPOINT'),       // For example: oss-cn-shanghai.aliyuncs.com
-            'internal'      => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
-            'domain'        => env('ALIYUN_OSS_DOMAIN', null),   // For example: oss.my-domain.com
-            'use_ssl'       => env('ALIYUN_OSS_USE_SSL', false), // Whether to use https
-            'prefix'        => env('ALIYUN_OSS_PREFIX', null),   // The prefix of the store path
-        ],
-        // ...
-    ]
-    ```
+   1. (Optional) Modify the configuration file `config/filesystems.php`
+       ```
+       'default' => env('FILESYSTEM_DRIVER', 'oss'),
+       // ...
+       'disks'=>[
+           // ...
+           'oss' => [
+               'driver'            => 'oss',
+               'access_key_id'     => env('OSS_ACCESS_KEY_ID'),           // Required, YourAccessKeyId
+               'access_key_secret' => env('OSS_ACCESS_KEY_SECRET'),       // Required, YourAccessKeySecret
+               'bucket'            => env('OSS_BUCKET'),                  // Required, For example: my-bucket
+               'endpoint'          => env('OSS_ENDPOINT'),                // Required, For example: oss-cn-shanghai.aliyuncs.com
+               'internal'          => env('OSS_INTERNAL', null),          // Optional, For example: oss-cn-shanghai-internal.aliyuncs.com
+               'domain'            => env('OSS_DOMAIN', null),            // Optional, For example: oss.my-domain.com
+               'use_ssl'           => env('OSS_SSL', false),              // Optional, Whether to use HTTPS
+               'prefix'            => env('OSS_PREFIX', ''),              // Optional, The prefix of the store path
+               "reverse_proxy'     => env('OSS_REVERSE_PROXY', false),    // Optional, Nginx reverse proxy domain
+               'signature_expires' => env('OSS_SIGNATURE_EXPIRES', 3600), // Optional, Default expiration time for temporary url
+           ],
+           // ...
+       ]
+       ```
 
 ## Usage
 ```php
 use Illuminate\Support\Facades\Storage;
-$storage = Storage::disk('aliyun');
+$storage = Storage::disk('oss');
 ```
 #### Write
 ```php
-Storage::disk('aliyun')->putFile('dir/path', '/local/path/file.txt');
-Storage::disk('aliyun')->putFileAs('dir/path', '/local/path/file.txt', 'file.txt');
+Storage::disk('oss')->putFile('dir/path', '/local/path/file.txt');
+Storage::disk('oss')->putFileAs('dir/path', '/local/path/file.txt', 'file.txt');
 
-Storage::disk('aliyun')->put('dir/path/file.txt', file_get_contents('/local/path/file.txt'));
+Storage::disk('oss')->put('dir/path/file.txt', file_get_contents('/local/path/file.txt'));
 $fp = fopen('/local/path/file.txt','r');
-Storage::disk('aliyun')->put('dir/path/file.txt', $fp);
+Storage::disk('oss')->put('dir/path/file.txt', $fp);
 fclose($fp);
 
-Storage::disk('aliyun')->prepend('dir/path/file.txt', 'Prepend Text'); 
-Storage::disk('aliyun')->append('dir/path/file.txt', 'Append Text');
+Storage::disk('oss')->prepend('dir/path/file.txt', 'Prepend Text'); 
+Storage::disk('oss')->append('dir/path/file.txt', 'Append Text');
 
-Storage::disk('aliyun')->put('dir/path/secret.txt', 'My secret', 'private');
-Storage::disk('aliyun')->put('dir/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
+Storage::disk('oss')->put('dir/path/secret.txt', 'My secret', 'private');
+Storage::disk('oss')->put('dir/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
 ```
 
 #### Read
 ```php
-Storage::disk('aliyun')->url('dir/path/file.txt');
-Storage::disk('aliyun')->temporaryUrl('dir/path/file.txt');
-Storage::disk('aliyun')->temporaryUrl('dir/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
+Storage::disk('oss')->url('dir/path/file.txt');
+Storage::disk('oss')->temporaryUrl('dir/path/file.txt');
+Storage::disk('oss')->temporaryUrl('dir/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
 
-Storage::disk('aliyun')->get('dir/path/file.txt'); 
+Storage::disk('oss')->get('dir/path/file.txt'); 
 
-Storage::disk('aliyun')->exists('dir/path/file.txt'); 
-Storage::disk('aliyun')->size('dir/path/file.txt'); 
-Storage::disk('aliyun')->lastModified('dir/path/file.txt');
+Storage::disk('oss')->exists('dir/path/file.txt'); 
+Storage::disk('oss')->size('dir/path/file.txt'); 
+Storage::disk('oss')->lastModified('dir/path/file.txt');
 ```
 
 #### Delete
 ```php
-Storage::disk('aliyun')->delete('dir/path/file.txt');
-Storage::disk('aliyun')->delete(['dir/path/file1.txt', 'dir/path/file2.txt']);
+Storage::disk('oss')->delete('dir/path/file.txt');
+Storage::disk('oss')->delete(['dir/path/file1.txt', 'dir/path/file2.txt']);
 ```
 
 #### File operation
 ```php
-Storage::disk('aliyun')->copy('dir/path/file.txt', 'dir/path/file_new.txt');
-Storage::disk('aliyun')->move('dir/path/file.txt', 'dir/path/file_new.txt');
-Storage::disk('aliyun')->rename('dir/path/file.txt', 'dir/path/file_new.txt');
+Storage::disk('oss')->copy('dir/path/file.txt', 'dir/path/file_new.txt');
+Storage::disk('oss')->move('dir/path/file.txt', 'dir/path/file_new.txt');
+Storage::disk('oss')->rename('dir/path/file.txt', 'dir/path/file_new.txt');
 ```
 
 #### Folder operation
 ```php
-Storage::disk('aliyun')->makeDirectory('dir/path'); 
-Storage::disk('aliyun')->deleteDirectory('dir/path');
+Storage::disk('oss')->makeDirectory('dir/path'); 
+Storage::disk('oss')->deleteDirectory('dir/path');
 
-Storage::disk('aliyun')->files('dir/path');
-Storage::disk('aliyun')->allFiles('dir/path');
+Storage::disk('oss')->files('dir/path');
+Storage::disk('oss')->allFiles('dir/path');
 
-Storage::disk('aliyun')->directories('dir/path'); 
-Storage::disk('aliyun')->allDirectories('dir/path'); 
+Storage::disk('oss')->directories('dir/path'); 
+Storage::disk('oss')->allDirectories('dir/path'); 
 ```
 
 ## Documentation
