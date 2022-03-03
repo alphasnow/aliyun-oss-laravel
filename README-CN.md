@@ -13,10 +13,10 @@ Laravel 的阿里云对象存储 Storage 扩展
 这个包是封装 [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) 到 Laravel 来作为 Storage 使用.
 
 ## 版本兼容
-|**laravel**  |  **aliyun-oss-laravel** |
-|---|---|
-|\>=5.5,<9.0  | ^3.0  |
-|\>=9.0 | ^4.0  |
+| laravel  |  aliyun-oss-laravel |
+| --- | --- |
+| \>=5.5,<9.0 | ^3.0 |
+| \>=9.0 | ^4.0 |
 
 ## 安装依赖
 1. 通过composer管理您的项目依赖，可以在你的项目根目录运行：  
