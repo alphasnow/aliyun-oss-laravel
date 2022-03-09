@@ -2,6 +2,9 @@
 
 namespace AlphaSnow\LaravelFilesystem\Aliyun;
 
+use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AliyunMacro;
+use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendFile;
+use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendObject;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Filesystem\FilesystemAdapter;
 use League\Flysystem\Filesystem;
@@ -9,6 +12,11 @@ use OSS\OssClient;
 
 class AliyunServiceProvider extends BaseServiceProvider
 {
+    private $defaultMacros = [
+        AppendObject::class,
+        AppendFile::class,
+    ];
+
     public function boot()
     {
         $this->mergeConfigFrom(
@@ -27,9 +35,17 @@ class AliyunServiceProvider extends BaseServiceProvider
                 $aliyunConfig->get("timeout") && $ossClient->setTimeout($config["timeout"]);
                 $aliyunConfig->get("connect_timeout") && $ossClient->setConnectTimeout($config["connect_timeout"]);
 
-                $ossAdapter = new AliyunAdapter($ossClient, $aliyunConfig);
+                $aliyunAdapter = new AliyunAdapter($ossClient, $aliyunConfig);
+                $filesystemAdapter = new FilesystemAdapter(new Filesystem($aliyunAdapter), $aliyunAdapter, $config);
 
-                return new FilesystemAdapter(new Filesystem($ossAdapter), $ossAdapter, $config);
+                $macros = array_merge($this->defaultMacros, $aliyunConfig->get('macros', []));
+                foreach ($macros as $macro) {
+                    $aliyunMacro = $app->make($macro);
+                    if ($aliyunMacro instanceof AliyunMacro) {
+                        $filesystemAdapter::macro($aliyunMacro->name(), $aliyunMacro->macro());
+                    }
+                }
+                return $filesystemAdapter;
             });
     }
 }

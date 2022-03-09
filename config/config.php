@@ -22,4 +22,5 @@ return [
     'signature_expires' => env('OSS_SIGNATURE_EXPIRES', 3600),
     'internal' => env('OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
     'domain' => env('OSS_DOMAIN', null), // For example: oss.my-domain.com
+    'macros' => []
 ];

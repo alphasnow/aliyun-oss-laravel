@@ -116,6 +116,13 @@ Storage::disk('oss')->directories('dir/path');
 Storage::disk('oss')->allDirectories('dir/path'); 
 ```
 
+#### Use Macro
+```php
+Storage::disk('oss')->appendObject('dir/path/news.txt', 'The first line paragraph.', 0);
+Storage::disk('oss')->appendObject('dir/path/news.txt', 'The second line paragraph.', 25);
+Storage::disk('oss')->appendObject('dir/path/news.txt', 'The last line paragraph.', 51);
+```
+
 ## Documentation
 - [Object storage OSS-aliyun](https://help.aliyun.com/product/31815.html)
 

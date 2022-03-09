@@ -15,7 +15,7 @@ class AliyunConfig extends Collection
     public function getDomain()
     {
         if ($this->get('domain')) {
-            return $this->getProtocol().'://'.$this->get('domain');
+            return $this->getProtocol() . '://' . $this->get('domain');
         }
         return $this->getEndpointDomain();
     }
@@ -25,7 +25,7 @@ class AliyunConfig extends Collection
      */
     protected function getEndpointDomain()
     {
-        return $this->getProtocol().'://'.$this->get('bucket').'.'.$this->get('endpoint');
+        return $this->getProtocol() . '://' . $this->get('bucket') . '.' . $this->get('endpoint');
     }
 
     /**
@@ -33,7 +33,7 @@ class AliyunConfig extends Collection
      */
     protected function getInternalDomain()
     {
-        return $this->getProtocol().'://'.$this->get('bucket').'.'.$this->get('internal');
+        return $this->getProtocol() . '://' . $this->get('bucket') . '.' . $this->get('internal');
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace AlphaSnow\LaravelFilesystem\Aliyun;
 
 use AlphaSnow\Flysystem\Aliyun\AliyunAdapter as BaseAdapter;
+use AlphaSnow\Flysystem\Aliyun\OssOptions;
 use League\Flysystem\Config as FlysystemConfig;
+use League\Flysystem\PathPrefixer;
 use OSS\OssClient;
 
 /**
@@ -29,7 +31,7 @@ class AliyunAdapter extends BaseAdapter
     /**
      * Get the URL for the file at the given path.
      *
-     * @param  string  $path
+     * @param string $path
      * @return string
      *
      * @throws \RuntimeException
@@ -43,9 +45,9 @@ class AliyunAdapter extends BaseAdapter
     /**
      * Get a temporary URL for the file at the given path.
      *
-     * @param  string  $path
+     * @param string $path
      * @param \DateTimeInterface|null $expiration
-     * @param  array  $options
+     * @param array $options
      * @return string
      *
      * @throws \RuntimeException
@@ -63,5 +65,37 @@ class AliyunAdapter extends BaseAdapter
 
         $url = $this->client->signUrl($this->bucket, $object, $timeout, OssClient::OSS_HTTP_GET, $options);
         return $this->config->correctUrl($url);
+    }
+
+    /**
+     * @return OssClient
+     */
+    public function getClient(): OssClient
+    {
+        return $this->client;
+    }
+
+    /**
+     * @return OssOptions
+     */
+    public function getOptions(): OssOptions
+    {
+        return $this->options;
+    }
+
+    /**
+     * @return PathPrefixer
+     */
+    public function getPrefixer(): PathPrefixer
+    {
+        return $this->prefixer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBucket(): string
+    {
+        return $this->bucket;
     }
 }
