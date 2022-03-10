@@ -50,7 +50,6 @@ Laravel 的阿里云对象存储 Storage 扩展
                'use_ssl'           => env('OSS_SSL', false),              // Optional, 是否使用HTTPS
                'prefix'            => env('OSS_PREFIX', ''),              // Optional, 统一存储地址前缀
                "reverse_proxy'     => env('OSS_REVERSE_PROXY', false),    // Optional, 域名是否使用NGINX代理绑定
-               'signature_expires' => env('OSS_SIGNATURE_EXPIRES', 3600), // Optional, 临时域名的默认过期时间, 单位秒
         ],
         // ...
     ]
@@ -81,7 +80,6 @@ Storage::disk('oss')->put('dir/path/download.txt', 'Download content', ["headers
 #### 读取
 ```php
 Storage::disk('oss')->url('dir/path/file.txt');
-Storage::disk('oss')->temporaryUrl('dir/path/file.txt');
 Storage::disk('oss')->temporaryUrl('dir/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
 
 Storage::disk('oss')->get('dir/path/file.txt'); 

@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="vendor/autoload.php"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
-    <testsuites>
-        <testsuite name="Application Test Suite">
-            <directory>./tests/</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/</directory>
-            <exclude>
-                <directory suffix="ServiceProvider.php">src/</directory>
-                <directory suffix="Exception.php">src/</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-    <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="OSS_ACCESS_KEY_ID" value="access_id" />
-        <env name="OSS_ACCESS_KEY_SECRET" value="access_secret" />
-        <env name="OSS_BUCKET" value="bucket" />
-        <env name="OSS_ENDPOINT" value="endpoint.com" />
-        <env name="OSS_PREFIX" value="tests" />
-    </php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">./src/</directory>
+    </include>
+    <exclude>
+      <directory suffix="ServiceProvider.php">./src/</directory>
+      <directory suffix=".php">./macros/</directory>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Tests">
+      <directory>./tests/</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="APP_ENV" value="testing"/>
+    <env name="OSS_ACCESS_KEY_ID" value="access_id" />
+    <env name="OSS_ACCESS_KEY_SECRET" value="access_secret" />
+    <env name="OSS_BUCKET" value="bucket" />
+    <env name="OSS_ENDPOINT" value="endpoint.com" />
+    <env name="OSS_PREFIX" value="tests" />
+  </php>
 </phpunit>

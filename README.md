@@ -50,7 +50,6 @@ This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alp
                'use_ssl'           => env('OSS_SSL', false),              // Optional, Whether to use HTTPS
                'prefix'            => env('OSS_PREFIX', ''),              // Optional, The prefix of the store path
                "reverse_proxy'     => env('OSS_REVERSE_PROXY', false),    // Optional, Nginx reverse proxy domain
-               'signature_expires' => env('OSS_SIGNATURE_EXPIRES', 3600), // Optional, Default expiration time for temporary url
            ],
            // ...
        ]
@@ -81,7 +80,6 @@ Storage::disk('oss')->put('dir/path/download.txt', 'Download content', ["headers
 #### Read
 ```php
 Storage::disk('oss')->url('dir/path/file.txt');
-Storage::disk('oss')->temporaryUrl('dir/path/file.txt');
 Storage::disk('oss')->temporaryUrl('dir/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
 
 Storage::disk('oss')->get('dir/path/file.txt'); 

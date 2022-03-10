@@ -1,18 +1,18 @@
-filter:
-    excluded_paths:
-        - 'tests/*'
 checks:
     php: true
-coding_style:
-    php: {  }
+
 build:
     environment:
         php:
-            version: 8.0
-    tests:
-        override:
-            -
-                command: 'vendor/bin/phpunit --coverage-clover=some-file'
-                coverage:
-                    file: 'some-file'
-                    format: 'clover'
+            version: '8.0.2'
+        variables:
+            XDEBUG_MODE: coverage
+    nodes:
+        analysis:
+            tests:
+                override:
+                    - php-scrutinizer-run
+
+tools:
+    external_code_coverage:
+        timeout: 600

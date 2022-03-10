@@ -2,6 +2,7 @@
 
 namespace AlphaSnow\LaravelFilesystem\Aliyun\Macros;
 
+use AlphaSnow\Flysystem\Aliyun\AliyunAdapter;
 use AlphaSnow\Flysystem\Aliyun\AliyunException;
 use Illuminate\Filesystem\FilesystemAdapter;
 use League\Flysystem\Config;
@@ -21,13 +22,15 @@ class AppendFile implements AliyunMacro
             try {
                 /**
                  * @var FilesystemAdapter $this
+                 * @var AliyunAdapter $adapter
                  */
-                return $this->getAdapter()->getClient()->appendFile(
-                    $this->getAdapter()->getBucket(),
-                    $this->getAdapter()->getPrefixer()->prefixPath($path),
+                $adapter = $this->getAdapter();
+                return $adapter->getClient()->appendFile(
+                    $adapter->getBucket(),
+                    $adapter->getPrefixer()->prefixPath($path),
                     $content,
                     $position,
-                    $this->getAdapter()->getOptions()->mergeConfig(new Config($options))
+                    $adapter->getOptions()->mergeConfig(new Config($options))
                 );
             } catch (OssException $exception) {
                 throw new AliyunException($exception->getErrorMessage(), 0, $exception);
