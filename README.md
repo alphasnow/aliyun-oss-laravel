@@ -51,7 +51,7 @@ This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alp
                'domain'            => env('OSS_DOMAIN', null),            // Optional, For example: oss.my-domain.com
                'use_ssl'           => env('OSS_SSL', false),              // Optional, Whether to use HTTPS
                'prefix'            => env('OSS_PREFIX', ''),              // Optional, The prefix of the store path
-               "reverse_proxy'     => env('OSS_REVERSE_PROXY', false),    // Optional, Nginx reverse proxy domain
+               'reverse_proxy'     => env('OSS_REVERSE_PROXY', false),    // Optional, Nginx reverse proxy domain
            ],
            // ...
        ]
