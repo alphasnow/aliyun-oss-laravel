@@ -12,6 +12,8 @@ Alibaba Cloud Object Storage Service For Laravel
 
 This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) into Laravel as an available storage disk.
 
+- [Web server signature direct transmission OSS extension package](https://github.com/alphasnow/aliyun-oss-appserver)
+
 ## Compatibility
 | laravel  |  aliyun-oss-laravel | doc |
 | --- | --- | --- |
