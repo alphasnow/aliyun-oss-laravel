@@ -14,10 +14,10 @@ Laravel 的阿里云对象存储 Storage 扩展
 如果需要客户端直传, 可使用 Web服务端签名直传OSS扩展包 [aliyun-oss-appserver](https://github.com/alphasnow/aliyun-oss-appserver)  
 
 ## 版本兼容
-| laravel  |  aliyun-oss-laravel | doc |
-| --- | --- | --- |
-| \>=5.5,\<9.0 | ^3.0 | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/3.x/README.md) |
-| \>=9.0 | ^4.0 | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/master/README.md) |
+laravel      | aliyun-oss-laravel | readme
+:------------|:-------------------|:------------
+\>=5.5,\<9.0 | ^3.0               | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/3.x/README.md)
+\>=9.0       | ^4.0               | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/master/README.md)
 
 ## 安装依赖
 1. 通过composer管理您的项目依赖，可以在你的项目根目录运行：  
