@@ -14,6 +14,7 @@ This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alp
 If client direct transmission is required, Use web server signature direct transmission OSS extension package [aliyun-oss-appserver](https://github.com/alphasnow/aliyun-oss-appserver).  
 
 ## Compatibility
+
 | laravel      | aliyun-oss-laravel | readme |
 |:-------------|:-------------------|:-------|
 | \>=5.5,\<9.0 | ^3.0               | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/3.x/README.md) |

@@ -14,6 +14,7 @@ Laravel 的阿里云对象存储 Storage 扩展
 如果需要客户端直传, 可使用 Web服务端签名直传OSS扩展包 [aliyun-oss-appserver](https://github.com/alphasnow/aliyun-oss-appserver)  
 
 ## 版本兼容
+
 | laravel      | aliyun-oss-laravel | readme |
 |:-------------|:-------------------|:-------|
 | \>=5.5,\<9.0 | ^3.0               | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/3.x/README.md) |
