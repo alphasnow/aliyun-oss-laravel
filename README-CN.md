@@ -16,18 +16,18 @@ Laravel 的阿里云对象存储 Storage 扩展
 ## 版本兼容
 | laravel  |  aliyun-oss-laravel | doc |
 | --- | --- | --- |
-| \>=5.5,<9.0 | ^3.0 | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/3.x/README.md) |
+| \>=5.5,\<9.0 | ^3.0 | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/3.x/README.md) |
 | \>=9.0 | ^4.0 | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/master/README.md) |
 
 ## 安装依赖
 1. 通过composer管理您的项目依赖，可以在你的项目根目录运行：  
-    ```
-    $ composer require alphasnow/aliyun-oss-laravel
+    ```bash
+    composer require alphasnow/aliyun-oss-laravel
     ```
     然后通过`composer install`安装依赖。  
 
 2. 修改环境配置 `.env`
-    ```
+    ```env
     OSS_ACCESS_KEY_ID=<必填, 阿里云的AccessKeyId>
     OSS_ACCESS_KEY_SECRET=<必填, 阿里云的AccessKeySecret>
     OSS_BUCKET=<必填, 对象存储的Bucket>
@@ -35,7 +35,7 @@ Laravel 的阿里云对象存储 Storage 扩展
     ```
 
 3. (可选) 修改文件配置 `config/filesystems.php`
-    ```
+    ```php
     'default' => env('FILESYSTEM_DRIVER', 'oss'),
     // ...
     'disks'=>[
@@ -75,7 +75,7 @@ Storage::disk('oss')->prepend('dir/path/file.txt', 'Prepend Text');
 Storage::disk('oss')->append('dir/path/file.txt', 'Append Text');
 
 Storage::disk('oss')->put('dir/path/secret.txt', 'My secret', 'private');
-Storage::disk('oss')->put('dir/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
+Storage::disk('oss')->put('dir/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=download.txt"]]);
 ```
 
 #### 读取
