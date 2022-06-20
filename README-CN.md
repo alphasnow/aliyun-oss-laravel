@@ -37,21 +37,21 @@ Laravel 的阿里云对象存储 Storage 扩展
 
 3. (可选) 修改文件配置 `config/filesystems.php`
     ```php
-    'default' => env('FILESYSTEM_DRIVER', 'oss'),
+    "default" => env("FILESYSTEM_DRIVER", "oss"),
     // ...
-    'disks'=>[
+    "disks"=>[
         // ...
-        'oss' => [
-               'driver'            => 'oss',
-               'access_key_id'     => env('OSS_ACCESS_KEY_ID'),           // 必填, 阿里云的AccessKeyId
-               'access_key_secret' => env('OSS_ACCESS_KEY_SECRET'),       // 必填, 阿里云的AccessKeySecret
-               'bucket'            => env('OSS_BUCKET'),                  // 必填, 对象存储的Bucket, 示例: my-bucket
-               'endpoint'          => env('OSS_ENDPOINT'),                // 必填, 对象存储的Endpoint, 示例: oss-cn-shanghai.aliyuncs.com
-               'internal'          => env('OSS_INTERNAL', null),          // 选填, 内网上传地址, 示例: oss-cn-shanghai-internal.aliyuncs.com
-               'domain'            => env('OSS_DOMAIN', null),            // 选填, 绑定域名, 示例: oss.my-domain.com
-               'use_ssl'           => env('OSS_SSL', false),              // 选填, 是否使用HTTPS
-               'prefix'            => env('OSS_PREFIX', ''),              // 选填, 统一存储地址前缀
-               'reverse_proxy'     => env('OSS_REVERSE_PROXY', false),    // 选填, 域名是否使用NGINX代理绑定
+        "oss" => [
+               "driver"            => "oss",
+               "access_key_id"     => env("OSS_ACCESS_KEY_ID"),           // 必填, 阿里云的AccessKeyId
+               "access_key_secret" => env("OSS_ACCESS_KEY_SECRET"),       // 必填, 阿里云的AccessKeySecret
+               "bucket"            => env("OSS_BUCKET"),                  // 必填, 对象存储的Bucket, 示例: my-bucket
+               "endpoint"          => env("OSS_ENDPOINT"),                // 必填, 对象存储的Endpoint, 示例: oss-cn-shanghai.aliyuncs.com
+               "internal"          => env("OSS_INTERNAL", null),          // 选填, 内网上传地址, 示例: oss-cn-shanghai-internal.aliyuncs.com
+               "domain"            => env("OSS_DOMAIN", null),            // 选填, 绑定域名, 示例: oss.my-domain.com
+               "use_ssl"           => env("OSS_SSL", false),              // 选填, 是否使用HTTPS
+               "prefix"            => env("OSS_PREFIX", ""),              // 选填, 统一存储地址前缀
+               "reverse_proxy"     => env("OSS_REVERSE_PROXY", false),    // 选填, 域名是否使用NGINX代理绑定
         ],
         // ...
     ]
@@ -60,71 +60,77 @@ Laravel 的阿里云对象存储 Storage 扩展
 ## 快速使用
 ```php
 use Illuminate\Support\Facades\Storage;
-$storage = Storage::disk('oss');
+$storage = Storage::disk("oss");
 ```
 #### 写入
 ```php
-Storage::disk('oss')->putFile('dir/path', '/local/path/file.txt');
-Storage::disk('oss')->putFileAs('dir/path', '/local/path/file.txt', 'file.txt');
+Storage::disk("oss")->putFile("dir/path", "/local/path/file.txt");
+Storage::disk("oss")->putFileAs("dir/path", "/local/path/file.txt", "file.txt");
 
-Storage::disk('oss')->put('dir/path/file.txt', file_get_contents('/local/path/file.txt'));
-$fp = fopen('/local/path/file.txt','r');
-Storage::disk('oss')->put('dir/path/file.txt', $fp);
+Storage::disk("oss")->put("dir/path/file.txt", file_get_contents("/local/path/file.txt"));
+$fp = fopen("/local/path/file.txt","r");
+Storage::disk("oss")->put("dir/path/file.txt", $fp);
 fclose($fp);
 
-Storage::disk('oss')->prepend('dir/path/file.txt', 'Prepend Text'); 
-Storage::disk('oss')->append('dir/path/file.txt', 'Append Text');
+Storage::disk("oss")->prepend("dir/path/file.txt", "Prepend Text"); 
+Storage::disk("oss")->append("dir/path/file.txt", "Append Text");
 
-Storage::disk('oss')->put('dir/path/secret.txt', 'My secret', 'private');
-Storage::disk('oss')->put('dir/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=download.txt"]]);
+Storage::disk("oss")->put("dir/path/secret.txt", "My secret", "private");
+Storage::disk("oss")->put("dir/path/download.txt", "Download content", ["headers" => ["Content-Disposition" => "attachment; filename=download.txt"]]);
 ```
 
 #### 读取
 ```php
-Storage::disk('oss')->url('dir/path/file.txt');
-Storage::disk('oss')->temporaryUrl('dir/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
+Storage::disk("oss")->url("dir/path/file.txt");
+Storage::disk("oss")->temporaryUrl("dir/path/file.txt", \Carbon\Carbon::now()->addMinutes(30));
 
-Storage::disk('oss')->get('dir/path/file.txt'); 
+Storage::disk("oss")->get("dir/path/file.txt"); 
 
-Storage::disk('oss')->exists('dir/path/file.txt'); 
-Storage::disk('oss')->size('dir/path/file.txt'); 
-Storage::disk('oss')->lastModified('dir/path/file.txt');
+Storage::disk("oss")->exists("dir/path/file.txt"); 
+Storage::disk("oss")->size("dir/path/file.txt"); 
+Storage::disk("oss")->lastModified("dir/path/file.txt");
 ```
 
 #### 删除
 ```php
-Storage::disk('oss')->delete('dir/path/file.txt');
-Storage::disk('oss')->delete(['dir/path/file1.txt', 'dir/path/file2.txt']);
+Storage::disk("oss")->delete("dir/path/file.txt");
+Storage::disk("oss")->delete(["dir/path/file1.txt", "dir/path/file2.txt"]);
 ```
 
 #### 文件操作
 ```php
-Storage::disk('oss')->copy('dir/path/file.txt', 'dir/path/file_new.txt');
-Storage::disk('oss')->move('dir/path/file.txt', 'dir/path/file_new.txt');
-Storage::disk('oss')->rename('dir/path/file.txt', 'dir/path/file_new.txt');
+Storage::disk("oss")->copy("dir/path/file.txt", "dir/path/file_new.txt");
+Storage::disk("oss")->move("dir/path/file.txt", "dir/path/file_new.txt");
+Storage::disk("oss")->rename("dir/path/file.txt", "dir/path/file_new.txt");
 ```
 
 #### 文件夹操作
 ```php
-Storage::disk('oss')->makeDirectory('dir/path'); 
-Storage::disk('oss')->deleteDirectory('dir/path');
+Storage::disk("oss")->makeDirectory("dir/path"); 
+Storage::disk("oss")->deleteDirectory("dir/path");
 
-Storage::disk('oss')->files('dir/path');
-Storage::disk('oss')->allFiles('dir/path');
+Storage::disk("oss")->files("dir/path");
+Storage::disk("oss")->allFiles("dir/path");
 
-Storage::disk('oss')->directories('dir/path'); 
-Storage::disk('oss')->allDirectories('dir/path'); 
+Storage::disk("oss")->directories("dir/path"); 
+Storage::disk("oss")->allDirectories("dir/path"); 
 ```
 
 #### 使用宏扩展
 ```php
-Storage::disk('oss')->appendObject('dir/path/news.txt', 'The first line paragraph.', 0);
-Storage::disk('oss')->appendObject('dir/path/news.txt', 'The second line paragraph.', 25);
-Storage::disk('oss')->appendObject('dir/path/news.txt', 'The last line paragraph.', 51);
+Storage::disk("oss")->appendObject("dir/path/news.txt", "The first line paragraph.", 0);
+Storage::disk("oss")->appendObject("dir/path/news.txt", "The second line paragraph.", 25);
+Storage::disk("oss")->appendObject("dir/path/news.txt", "The last line paragraph.", 51);
 
-$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.001', 0);
-$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.002', $position);
-$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.003', $position);
+$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.001", 0);
+$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.002", $position);
+$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", $position);
+```
+
+#### 使用 `OssClient`
+```php
+$client = Storage::disk("oss")->getAdapter()->getClient();
+$bucketCors = $client->getBucketCors("bucket-name")
 ```
 
 ## 文档

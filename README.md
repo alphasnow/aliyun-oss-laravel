@@ -21,7 +21,7 @@ If client direct transmission is required, Use web server signature direct trans
 | \>=9.0       | ^4.0               | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/master/README.md) |
 
 ## Installation
-1. If you use the composer to manage project dependencies, run the following command in your project's root directory:
+1. If you use the composer to manage project dependencies, run the following command in your project"s root directory:
     ```bash
     composer require alphasnow/aliyun-oss-laravel
     ```
@@ -37,21 +37,21 @@ If client direct transmission is required, Use web server signature direct trans
 
    1. (Optional) Modify the configuration file `config/filesystems.php`
        ```php
-       'default' => env('FILESYSTEM_DRIVER', 'oss'),
+       "default" => env("FILESYSTEM_DRIVER", "oss"),
        // ...
-       'disks'=>[
+       "disks"=>[
            // ...
-           'oss' => [
-               'driver'            => 'oss',
-               'access_key_id'     => env('OSS_ACCESS_KEY_ID'),           // Required, YourAccessKeyId
-               'access_key_secret' => env('OSS_ACCESS_KEY_SECRET'),       // Required, YourAccessKeySecret
-               'bucket'            => env('OSS_BUCKET'),                  // Required, For example: my-bucket
-               'endpoint'          => env('OSS_ENDPOINT'),                // Required, For example: oss-cn-shanghai.aliyuncs.com
-               'internal'          => env('OSS_INTERNAL', null),          // Optional, For example: oss-cn-shanghai-internal.aliyuncs.com
-               'domain'            => env('OSS_DOMAIN', null),            // Optional, For example: oss.my-domain.com
-               'use_ssl'           => env('OSS_SSL', false),              // Optional, Whether to use HTTPS
-               'prefix'            => env('OSS_PREFIX', ''),              // Optional, The prefix of the store path
-               'reverse_proxy'     => env('OSS_REVERSE_PROXY', false),    // Optional, Nginx reverse proxy domain
+           "oss" => [
+               "driver"            => "oss",
+               "access_key_id"     => env("OSS_ACCESS_KEY_ID"),           // Required, YourAccessKeyId
+               "access_key_secret" => env("OSS_ACCESS_KEY_SECRET"),       // Required, YourAccessKeySecret
+               "bucket"            => env("OSS_BUCKET"),                  // Required, For example: my-bucket
+               "endpoint"          => env("OSS_ENDPOINT"),                // Required, For example: oss-cn-shanghai.aliyuncs.com
+               "internal"          => env("OSS_INTERNAL", null),          // Optional, For example: oss-cn-shanghai-internal.aliyuncs.com
+               "domain"            => env("OSS_DOMAIN", null),            // Optional, For example: oss.my-domain.com
+               "use_ssl"           => env("OSS_SSL", false),              // Optional, Whether to use HTTPS
+               "prefix"            => env("OSS_PREFIX", ""),              // Optional, The prefix of the store path
+               "reverse_proxy"     => env("OSS_REVERSE_PROXY", false),    // Optional, Nginx reverse proxy domain
            ],
            // ...
        ]
@@ -60,71 +60,77 @@ If client direct transmission is required, Use web server signature direct trans
 ## Usage
 ```php
 use Illuminate\Support\Facades\Storage;
-$storage = Storage::disk('oss');
+$storage = Storage::disk("oss");
 ```
 #### Write
 ```php
-Storage::disk('oss')->putFile('dir/path', '/local/path/file.txt');
-Storage::disk('oss')->putFileAs('dir/path', '/local/path/file.txt', 'file.txt');
+Storage::disk("oss")->putFile("dir/path", "/local/path/file.txt");
+Storage::disk("oss")->putFileAs("dir/path", "/local/path/file.txt", "file.txt");
 
-Storage::disk('oss')->put('dir/path/file.txt', file_get_contents('/local/path/file.txt'));
-$fp = fopen('/local/path/file.txt','r');
-Storage::disk('oss')->put('dir/path/file.txt', $fp);
+Storage::disk("oss")->put("dir/path/file.txt", file_get_contents("/local/path/file.txt"));
+$fp = fopen("/local/path/file.txt","r");
+Storage::disk("oss")->put("dir/path/file.txt", $fp);
 fclose($fp);
 
-Storage::disk('oss')->prepend('dir/path/file.txt', 'Prepend Text'); 
-Storage::disk('oss')->append('dir/path/file.txt', 'Append Text');
+Storage::disk("oss")->prepend("dir/path/file.txt", "Prepend Text"); 
+Storage::disk("oss")->append("dir/path/file.txt", "Append Text");
 
-Storage::disk('oss')->put('dir/path/secret.txt', 'My secret', 'private');
-Storage::disk('oss')->put('dir/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=download.txt"]]);
+Storage::disk("oss")->put("dir/path/secret.txt", "My secret", "private");
+Storage::disk("oss")->put("dir/path/download.txt", "Download content", ["headers" => ["Content-Disposition" => "attachment; filename=download.txt"]]);
 ```
 
 #### Read
 ```php
-Storage::disk('oss')->url('dir/path/file.txt');
-Storage::disk('oss')->temporaryUrl('dir/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
+Storage::disk("oss")->url("dir/path/file.txt");
+Storage::disk("oss")->temporaryUrl("dir/path/file.txt", \Carbon\Carbon::now()->addMinutes(30));
 
-Storage::disk('oss')->get('dir/path/file.txt'); 
+Storage::disk("oss")->get("dir/path/file.txt"); 
 
-Storage::disk('oss')->exists('dir/path/file.txt'); 
-Storage::disk('oss')->size('dir/path/file.txt'); 
-Storage::disk('oss')->lastModified('dir/path/file.txt');
+Storage::disk("oss")->exists("dir/path/file.txt"); 
+Storage::disk("oss")->size("dir/path/file.txt"); 
+Storage::disk("oss")->lastModified("dir/path/file.txt");
 ```
 
 #### Delete
 ```php
-Storage::disk('oss')->delete('dir/path/file.txt');
-Storage::disk('oss')->delete(['dir/path/file1.txt', 'dir/path/file2.txt']);
+Storage::disk("oss")->delete("dir/path/file.txt");
+Storage::disk("oss")->delete(["dir/path/file1.txt", "dir/path/file2.txt"]);
 ```
 
 #### File operation
 ```php
-Storage::disk('oss')->copy('dir/path/file.txt', 'dir/path/file_new.txt');
-Storage::disk('oss')->move('dir/path/file.txt', 'dir/path/file_new.txt');
-Storage::disk('oss')->rename('dir/path/file.txt', 'dir/path/file_new.txt');
+Storage::disk("oss")->copy("dir/path/file.txt", "dir/path/file_new.txt");
+Storage::disk("oss")->move("dir/path/file.txt", "dir/path/file_new.txt");
+Storage::disk("oss")->rename("dir/path/file.txt", "dir/path/file_new.txt");
 ```
 
 #### Folder operation
 ```php
-Storage::disk('oss')->makeDirectory('dir/path'); 
-Storage::disk('oss')->deleteDirectory('dir/path');
+Storage::disk("oss")->makeDirectory("dir/path"); 
+Storage::disk("oss")->deleteDirectory("dir/path");
 
-Storage::disk('oss')->files('dir/path');
-Storage::disk('oss')->allFiles('dir/path');
+Storage::disk("oss")->files("dir/path");
+Storage::disk("oss")->allFiles("dir/path");
 
-Storage::disk('oss')->directories('dir/path'); 
-Storage::disk('oss')->allDirectories('dir/path'); 
+Storage::disk("oss")->directories("dir/path"); 
+Storage::disk("oss")->allDirectories("dir/path"); 
 ```
 
 #### Use Macro
 ```php
-Storage::disk('oss')->appendObject('dir/path/news.txt', 'The first line paragraph.', 0);
-Storage::disk('oss')->appendObject('dir/path/news.txt', 'The second line paragraph.', 25);
-Storage::disk('oss')->appendObject('dir/path/news.txt', 'The last line paragraph.', 51);
+Storage::disk("oss")->appendObject("dir/path/news.txt", "The first line paragraph.", 0);
+Storage::disk("oss")->appendObject("dir/path/news.txt", "The second line paragraph.", 25);
+Storage::disk("oss")->appendObject("dir/path/news.txt", "The last line paragraph.", 51);
 
-$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.001', 0);
-$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.002', $position);
-$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.003', $position);
+$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.001", 0);
+$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.002", $position);
+$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", $position);
+```
+
+#### Use `OssClient`
+```php
+$client = Storage::disk("oss")->getAdapter()->getClient();
+$bucketCors = $client->getBucketCors("bucket-name")
 ```
 
 ## Documentation
