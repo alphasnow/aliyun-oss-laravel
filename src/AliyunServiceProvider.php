@@ -19,16 +19,17 @@ class AliyunServiceProvider extends BaseServiceProvider
     public function boot(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/config.php',
-            'filesystems.disks.oss'
+            __DIR__ . "/../config/config.php",
+            "filesystems.disks.oss"
         );
 
-        $this->app->make('filesystem')
-            ->extend('oss', function ($app, array $config) {
-                $adapter = (new AliyunFactory())->createAdapter($config);
-                $filesystemAdapter = new FilesystemAdapter(new Filesystem($adapter), $adapter, $config);
-                $this->registerMicros($config['macros'] ?? [], $filesystemAdapter, $app);
-                return $filesystemAdapter;
+        $this->app->make("filesystem")
+            ->extend("oss", function (Container $app, array $config) {
+                $adapter = $app->make(AliyunFactory::class)->createAdapter($config);
+                $driver = $app->make(Filesystem::class, ["adapter" => $adapter]);
+                $filesystem = $app->make(FilesystemAdapter::class, ["driver" => $driver,"adapter" => $adapter,"config" => $config]);
+                $this->registerMicros($config["macros"] ?? [], $filesystem, $app);
+                return $filesystem;
             });
     }
 

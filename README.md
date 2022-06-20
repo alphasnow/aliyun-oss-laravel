@@ -122,9 +122,9 @@ Storage::disk('oss')->appendObject('dir/path/news.txt', 'The first line paragrap
 Storage::disk('oss')->appendObject('dir/path/news.txt', 'The second line paragraph.', 25);
 Storage::disk('oss')->appendObject('dir/path/news.txt', 'The last line paragraph.', 51);
 
-$position001 = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.001', 0);
-$position002 = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.002', $position001);
-$position003 = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.003', $position002);
+$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.001', 0);
+$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.002', $position);
+$position = Storage::disk('oss')->appendFile('dir/path/file.zip', 'dir/path/file.zip.003', $position);
 ```
 
 ## Documentation

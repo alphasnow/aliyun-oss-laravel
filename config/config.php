@@ -15,12 +15,9 @@ return [
     "timeout" => env('OSS_TIMEOUT', null),
     "connect_timeout" => env('OSS_CONNECT_TIMEOUT', null),
     "enable_sts_in_url" => env('OSS_STS_URL', null),
-    "options" => [
-        // \OSS\OssClient::OSS_CHECK_MD5 => false,
-    ],
+    "options" => [], // For example: \OSS\OssClient::OSS_CHECK_MD5 => false
     'internal' => env('OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
     'domain' => env('OSS_DOMAIN', null), // For example: oss.my-domain.com
     "reverse_proxy" => env('OSS_REVERSE_PROXY', false),
-
     'macros' => []
 ];

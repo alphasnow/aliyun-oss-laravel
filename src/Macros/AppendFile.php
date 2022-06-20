@@ -11,11 +11,17 @@ use Closure;
 
 class AppendFile implements AliyunMacro
 {
+    /**
+     * @return string
+     */
     public function name(): string
     {
         return "appendFile";
     }
 
+    /**
+     * @return Closure
+     */
     public function macro(): Closure
     {
         return function (string $path, string $content, int $position = 0, array $options = []) {
