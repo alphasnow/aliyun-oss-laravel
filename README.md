@@ -127,10 +127,10 @@ $position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file
 $position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", $position);
 ```
 
-#### Use `OssClient`
+#### Use OssClient
 ```php
-$client = Storage::disk("oss")->getAdapter()->getClient();
-$bucketCors = $client->getBucketCors("bucket-name")
+$ossClient  = Storage::disk("oss")->getAdapter()->getClient();
+$bucketCors = $ossClient->getBucketCors("bucket-name")
 ```
 
 ## Documentation

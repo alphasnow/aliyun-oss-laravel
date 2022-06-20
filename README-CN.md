@@ -116,7 +116,7 @@ Storage::disk("oss")->directories("dir/path");
 Storage::disk("oss")->allDirectories("dir/path"); 
 ```
 
-#### 使用宏扩展
+#### 使用 Macro
 ```php
 Storage::disk("oss")->appendObject("dir/path/news.txt", "The first line paragraph.", 0);
 Storage::disk("oss")->appendObject("dir/path/news.txt", "The second line paragraph.", 25);
@@ -127,10 +127,10 @@ $position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file
 $position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", $position);
 ```
 
-#### 使用 `OssClient`
+#### 使用 OssClient
 ```php
-$client = Storage::disk("oss")->getAdapter()->getClient();
-$bucketCors = $client->getBucketCors("bucket-name")
+$ossClient  = Storage::disk("oss")->getAdapter()->getClient();
+$bucketCors = $ossClient->getBucketCors("bucket-name")
 ```
 
 ## 文档
