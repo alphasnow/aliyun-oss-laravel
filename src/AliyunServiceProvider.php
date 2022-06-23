@@ -6,12 +6,12 @@ use AlphaSnow\Flysystem\Aliyun\AliyunFactory;
 use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AliyunMacro;
 use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendFile;
 use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendObject;
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
 
-class AliyunServiceProvider extends BaseServiceProvider
+class AliyunServiceProvider extends ServiceProvider
 {
     /**
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
@@ -24,37 +24,41 @@ class AliyunServiceProvider extends BaseServiceProvider
         );
 
         $this->app->make("filesystem")
-            ->extend("oss", function (Container $app, array $config) {
-                $adapter = $app->make(AliyunFactory::class)->createAdapter($config);
-                $driver = $app->make(Filesystem::class, ["adapter" => $adapter]);
-                $filesystem = $app->make(FilesystemAdapter::class, ["driver" => $driver,"adapter" => $adapter,"config" => $config]);
-                $this->registerMicros($config["macros"] ?? [], $filesystem, $app);
+            ->extend("oss", function (Application $app, array $config) {
+                $adapter = (new AliyunFactory())->createAdapter($config);
+                $driver = (new Filesystem($adapter));
+                $filesystem = new FilesystemAdapter($driver, $adapter, $config);
+                $this->registerMicros($filesystem, array_merge($this->defaultMacros, $config["macros"] ?? []));
                 return $filesystem;
             });
     }
 
     /**
-     * @var string[]
+     * @var array
      */
-    protected $defaultMacroClasses = [
+    protected $defaultMacros = [
         AppendFile::class,
         AppendObject::class,
     ];
 
     /**
-     * @param array $macroClasses
      * @param FilesystemAdapter $filesystemAdapter
-     * @param Container $app
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @param array $macros
      */
-    protected function registerMicros(array $macroClasses, FilesystemAdapter $filesystemAdapter, Container $app): void
+    protected function registerMicros(FilesystemAdapter $filesystemAdapter, array $macros): void
     {
-        $macroClasses = array_merge($this->defaultMacroClasses, $macroClasses);
-        foreach ($macroClasses as $macroClass) {
-            $macro = $app->make($macroClass);
-            if ($macro instanceof AliyunMacro) {
-                $filesystemAdapter::macro($macro->name(), $macro->macro());
+        foreach ($macros as $macro) {
+            if (!class_exists($macro)) {
+                continue;
             }
+            $aliyunMacro = new $macro();
+            if (!$aliyunMacro instanceof AliyunMacro) {
+                continue;
+            }
+            if ($filesystemAdapter->hasMacro($aliyunMacro->name())) {
+                continue;
+            }
+            $filesystemAdapter::macro($aliyunMacro->name(), $aliyunMacro->macro());
         }
     }
 }
