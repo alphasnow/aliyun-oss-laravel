@@ -7,6 +7,7 @@ use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AliyunMacro;
 use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendFile;
 use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendObject;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
@@ -14,21 +15,47 @@ use League\Flysystem\Filesystem;
 class AliyunServiceProvider extends ServiceProvider
 {
     /**
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return void
      */
-    public function boot(): void
+    public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__ . "/../config/config.php",
-            "filesystems.disks.oss"
-        );
+        $this->registerConfig();
+    }
 
+    /**
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        if ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached()) {
+            return;
+        }
+
+        $config = $this->app->make('config');
+        $disks = $config->get("filesystems.disks", []);
+        $drivers = array_column($disks, "driver");
+        if (in_array("oss", $drivers)) {
+            return;
+        }
+
+        $config->set("filesystems.disks.oss", array_merge(
+            require __DIR__ . "/../config/config.php",
+            $config->get("filesystems.disks.oss", [])
+        ));
+    }
+
+    /**
+     * @return void
+     */
+    public function boot()
+    {
         $this->app->make("filesystem")
             ->extend("oss", function (Application $app, array $config) {
                 $adapter = (new AliyunFactory())->createAdapter($config);
                 $driver = (new Filesystem($adapter));
                 $filesystem = new FilesystemAdapter($driver, $adapter, $config);
-                $this->registerMicros($filesystem, array_merge($this->defaultMacros, $config["macros"] ?? []));
+                $macros = array_merge($this->defaultMacros, $config["macros"] ?? []);
+                $this->registerMicros($filesystem, $macros);
                 return $filesystem;
             });
     }
