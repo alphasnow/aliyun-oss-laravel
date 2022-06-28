@@ -56,7 +56,7 @@ class AliyunServiceProvider extends ServiceProvider
         $this->app->make("filesystem")
             ->extend("oss", function (Application $app, array $config) {
                 $adapter = (new AliyunFactory())->createAdapter($config);
-                $driver = (new Filesystem($adapter));
+                $driver = new Filesystem($adapter);
                 $filesystem = new FilesystemAdapter($driver, $adapter, $config);
                 $macros = array_merge($this->defaultMacros, $config["macros"] ?? []);
                 $this->registerMicros($filesystem, $macros);
