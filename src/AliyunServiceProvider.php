@@ -19,7 +19,7 @@ class AliyunServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app instanceof \Laravel\Lumen\Application) {
+        if ($this->app::class == "Laravel\Lumen\Application") {
             return;
         }
 
