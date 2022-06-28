@@ -6,20 +6,17 @@ use AlphaSnow\LaravelFilesystem\Aliyun\AliyunServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 /**
- * https://github.com/orchestral/testbench
- *
- * Class TestCase
- * @package AlphaSnow\AliyunOss\Tests
+ * @link https://github.com/orchestral/testbench
  */
 class TestCase extends BaseTestCase
 {
-    protected function getPackageProviders($app)
-    {
-        return [AliyunServiceProvider::class];
-    }
-
     protected function getPackageAliases($app)
     {
         return [];
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [AliyunServiceProvider::class];
     }
 }
