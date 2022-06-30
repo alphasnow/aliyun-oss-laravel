@@ -5,5 +5,6 @@ parameters:
         - src
 
     ignoreErrors:
+        - '~Right side of && is always false.~'
 
     checkMissingIterableValueType: false

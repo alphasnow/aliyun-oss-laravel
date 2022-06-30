@@ -14,8 +14,8 @@ class Config extends Collection
      */
     public function getUrlDomain()
     {
-        if ($this->get('domain')) {
-            return $this->getProtocol().'://'.$this->get('domain');
+        if ($this->get("domain")) {
+            return $this->getProtocol()."://".$this->get("domain");
         }
         return $this->getEndpointDomain();
     }
@@ -25,14 +25,15 @@ class Config extends Collection
      */
     protected function getEndpointDomain()
     {
-        return $this->getProtocol().'://'.$this->get('bucket').'.'.$this->get('endpoint');
+        return $this->getProtocol()."://".$this->get("bucket").".".$this->get("endpoint");
     }
+
     /**
      * @return string
      */
     protected function getInternalDomain()
     {
-        return $this->getProtocol().'://'.$this->get('bucket').'.'.$this->get('internal');
+        return $this->getProtocol()."://".$this->get("bucket").".".$this->get("internal");
     }
 
     /**
@@ -40,7 +41,7 @@ class Config extends Collection
      */
     protected function getProtocol()
     {
-        return $this->get('use_ssl', false) ? 'https' : 'http';
+        return $this->get("use_ssl", false) ? "https" : "http";
     }
 
     /**
@@ -48,21 +49,21 @@ class Config extends Collection
      */
     public function getOssEndpoint()
     {
-        if ($internal = $this->get('internal')) {
+        if ($internal = $this->get("internal")) {
             return $internal;
         }
         if ($this->isCName()) {
-            return $this->get('domain');
+            return $this->get("domain");
         }
-        return $this->get('endpoint');
+        return $this->get("endpoint");
     }
 
     /**
      * @return bool
      */
-    protected function isCName()
+    public function isCName()
     {
-        return $this->get('use_domain_endpoint') && $this->get('domain');
+        return $this->get("use_domain_endpoint", false) && $this->get("domain");
     }
 
     /**
@@ -71,11 +72,12 @@ class Config extends Collection
     public function getOssClientParameters()
     {
         return [
-            'accessKeyId' => $this->get('access_id'),
-            'accessKeySecret' => $this->get('access_key'),
-            'endpoint' => $this->getOssEndpoint(),
-            'isCName' => $this->isCName(),
-            'securityToken' => $this->get('security_token', null)
+            "accessKeyId" => $this->get("access_id"),
+            "accessKeySecret" => $this->get("access_key"),
+            "endpoint" => $this->getOssEndpoint(),
+            "isCName" => $this->isCName(),
+            "securityToken" => $this->get("security_token", null),
+            "requestProxy" => $this->get("request_proxy", null)
         ];
     }
 
@@ -85,13 +87,11 @@ class Config extends Collection
      */
     public function correctUrl($url)
     {
-        // correct internal domain
-        if ($this->get('internal')) {
+        if ($this->get("internal")) {
             return str_replace($this->getInternalDomain(), $this->getUrlDomain(), $url);
         }
 
-        // correct domain
-        if ($this->get('domain') && $this->get('use_domain_endpoint') == false) {
+        if ($this->get("domain") && $this->get("use_domain_endpoint") == false) {
             return str_replace($this->getEndpointDomain(), $this->getUrlDomain(), $url);
         }
 

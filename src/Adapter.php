@@ -23,7 +23,7 @@ class Adapter extends BaseAdapter
     public function __construct(OssClient $ossClient, Config $ossConfig)
     {
         $this->ossConfig = $ossConfig;
-        parent::__construct($ossClient, $ossConfig->get('bucket'), ltrim($ossConfig->get('prefix', null), '/'), $ossConfig->get('options', []));
+        parent::__construct($ossClient, $ossConfig->get("bucket"), ltrim($ossConfig->get("prefix", null), "/"), $ossConfig->get("options", []));
     }
 
     /**
@@ -36,7 +36,7 @@ class Adapter extends BaseAdapter
     public function getUrl($path)
     {
         $object = $this->applyPathPrefix($path);
-        return $this->ossConfig->getUrlDomain() . '/' . ltrim($object, '/');
+        return $this->ossConfig->getUrlDomain() . "/" . ltrim($object, "/");
     }
 
     /**
@@ -56,9 +56,9 @@ class Adapter extends BaseAdapter
         $clientOptions = $this->getOptionsFromConfig(new FlysystemConfig($options));
 
         if (is_null($expiration)) {
-            $expiration = new \DateTime($this->ossConfig->get('signature_expires'));
+            $expiration = new \DateTime($this->ossConfig->get("signature_expires", "+60 minutes"));
         }
-        $timeout = $expiration->getTimestamp() - (new \DateTime('now'))->getTimestamp();
+        $timeout = $expiration->getTimestamp() - (new \DateTime("now"))->getTimestamp();
 
         $url = $this->client->signUrl($this->bucket, $object, $timeout, OssClient::OSS_HTTP_GET, $clientOptions);
         return $this->ossConfig->correctUrl($url);

@@ -6,7 +6,7 @@ class StorageTest extends TestCase
 {
     public function testInstance()
     {
-        $storage = \Illuminate\Support\Facades\Storage::disk('aliyun');
+        $storage = \Illuminate\Support\Facades\Storage::disk("aliyun");
         $this->assertInstanceOf(\Illuminate\Contracts\Filesystem\Filesystem::class, $storage);
 
         $filesystem = $storage->getDriver();

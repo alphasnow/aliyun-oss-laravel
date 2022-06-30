@@ -10,7 +10,7 @@ class AdapterTest extends TestCase
 {
     public function adapterProvider()
     {
-        $defaultConfig = require __DIR__.'/../src/config/config.php';
+        $defaultConfig = require __DIR__ . "/../config/config.php";
         $config = new Config($defaultConfig);
         $clientParameters = $config->getOssClientParameters();
         $client = \Mockery::mock(OssClient::class, array_values($clientParameters))
@@ -26,8 +26,8 @@ class AdapterTest extends TestCase
      */
     public function testUrl($adapter)
     {
-        $url = $adapter->getUrl('foo/bar.txt');
-        $this->assertSame('http://bucket.endpoint.com/foo/bar.txt', $url);
+        $url = $adapter->getUrl("foo/bar.txt");
+        $this->assertSame("http://bucket.endpoint.com/foo/bar.txt", $url);
     }
 
     /**
@@ -35,9 +35,9 @@ class AdapterTest extends TestCase
      */
     public function testDomainUrl($adapter, $config)
     {
-        $config['domain'] = 'www.domain.com';
-        $url = $adapter->getUrl('foo/bar.txt');
-        $this->assertSame('http://www.domain.com/foo/bar.txt', $url);
+        $config["domain"] = "www.domain.com";
+        $url = $adapter->getUrl("foo/bar.txt");
+        $this->assertSame("http://www.domain.com/foo/bar.txt", $url);
     }
 
     /**
@@ -45,8 +45,8 @@ class AdapterTest extends TestCase
      */
     public function testTemporaryUrl($adapter)
     {
-        $url = $adapter->getTemporaryUrl('foo/bar.txt', new \DateTime('+30 minutes'));
-        $preg = '/http:\/\/bucket.endpoint.com\/foo\/bar.txt\?OSSAccessKeyId=access_id&Expires=\d{10}&Signature=.+/';
+        $url = $adapter->getTemporaryUrl("foo/bar.txt", new \DateTime("+30 minutes"));
+        $preg = "/http:\/\/bucket.endpoint.com\/foo\/bar.txt\?OSSAccessKeyId=access_id&Expires=\d{10}&Signature=.+/";
         $this->assertSame(1, preg_match($preg, $url));
     }
 }

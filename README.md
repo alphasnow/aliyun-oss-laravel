@@ -127,7 +127,7 @@ $client->appendObject($adapter->getBucket(), $adapter->applyPathPrefix('dir/path
 ```
 
 ## Documentation
-- [Object storage OSS-aliyun](https://help.aliyun.com/product/31815.html)
+- [Object storage OSS-aliyun](https://www.alibabacloud.com/help/en/object-storage-service)
 
 ## Issues
 [Opening an Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues/new)
