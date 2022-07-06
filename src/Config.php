@@ -15,6 +15,9 @@ class Config extends Collection
     public function getUrlDomain()
     {
         if ($this->get("domain")) {
+            if (strpos("$".$this->get("domain"), "http") != false) {
+                return $this->get("domain");
+            }
             return $this->getProtocol()."://".$this->get("domain");
         }
         return $this->getEndpointDomain();
@@ -67,6 +70,7 @@ class Config extends Collection
     }
 
     /**
+     * @deprecated
      * @return array
      */
     public function getOssClientParameters()

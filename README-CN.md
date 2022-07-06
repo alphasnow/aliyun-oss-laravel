@@ -33,20 +33,20 @@ Laravel 的阿里云对象存储 Storage 扩展
 
 3. (可选) 修改文件配置 `config/filesystems.php`
     ```
-    'default' => env('FILESYSTEM_DRIVER', 'aliyun'),
+    "default" => env("FILESYSTEM_DRIVER", "aliyun"),
     // ...
-    'disks'=>[
+    "disks"=>[
         // ...
-        'aliyun' => [
-            'driver'     => 'aliyun',
-            'access_id'  => env('ALIYUN_OSS_ACCESS_ID'),      // AccessKey ID, For example: LTAI4**************qgcsA
-            'access_key' => env('ALIYUN_OSS_ACCESS_KEY'),     // AccessKey Secret, For example: PkT4F********************Bl9or
-            'bucket'     => env('ALIYUN_OSS_BUCKET'),         // For example: my-storage
-            'endpoint'   => env('ALIYUN_OSS_ENDPOINT'),       // For example: oss-cn-shanghai.aliyuncs.com
-            'internal'   => env('ALIYUN_OSS_INTERNAL', null), // For example: oss-cn-shanghai-internal.aliyuncs.com
-            'domain'     => env('ALIYUN_OSS_DOMAIN', null),   // For example: oss.my-domain.com
-            'use_ssl'    => env('ALIYUN_OSS_USE_SSL', false), // Whether to use https
-            'prefix'     => env('ALIYUN_OSS_PREFIX', null),   // The prefix of the store path
+        "aliyun" => [
+            "driver"     => "aliyun",
+            "access_id"  => env("ALIYUN_OSS_ACCESS_ID"),      // AccessKey ID, For example: LTAI4**************qgcsA
+            "access_key" => env("ALIYUN_OSS_ACCESS_KEY"),     // AccessKey Secret, For example: PkT4F********************Bl9or
+            "bucket"     => env("ALIYUN_OSS_BUCKET"),         // For example: my-storage
+            "endpoint"   => env("ALIYUN_OSS_ENDPOINT"),       // For example: oss-cn-shanghai.aliyuncs.com
+            "internal"   => env("ALIYUN_OSS_INTERNAL", null), // For example: oss-cn-shanghai-internal.aliyuncs.com
+            "domain"     => env("ALIYUN_OSS_DOMAIN", null),   // For example: oss.my-domain.com
+            "use_ssl"    => env("ALIYUN_OSS_USE_SSL", false), // Whether to use https
+            "prefix"     => env("ALIYUN_OSS_PREFIX", null),   // The prefix of the store path
         ],
         // ...
     ]
@@ -55,75 +55,79 @@ Laravel 的阿里云对象存储 Storage 扩展
 ## 快速使用
 ```php
 use Illuminate\Support\Facades\Storage;
-$storage = Storage::disk('aliyun');
+$storage = Storage::disk("aliyun");
 ```
 #### 写入
 ```php
-Storage::disk('aliyun')->putFile('dir/path', '/local/path/file.txt');
-Storage::disk('aliyun')->putFileAs('dir/path', '/local/path/file.txt', 'file.txt');
+Storage::disk("aliyun")->putFile("dir/path", "/local/path/file.txt");
+Storage::disk("aliyun")->putFileAs("dir/path", "/local/path/file.txt", "file.txt");
 
-Storage::disk('aliyun')->put('dir/path/file.txt', file_get_contents('/local/path/file.txt'));
-$fp = fopen('/local/path/file.txt','r');
-Storage::disk('aliyun')->put('dir/path/file.txt', $fp);
+Storage::disk("aliyun")->put("dir/path/file.txt", file_get_contents("/local/path/file.txt"));
+$fp = fopen("/local/path/file.txt","r");
+Storage::disk("aliyun")->put("dir/path/file.txt", $fp);
 fclose($fp);
 
-Storage::disk('aliyun')->prepend('dir/path/file.txt', 'Prepend Text'); 
-Storage::disk('aliyun')->append('dir/path/file.txt', 'Append Text');
+Storage::disk("aliyun")->prepend("dir/path/file.txt", "Prepend Text"); 
+Storage::disk("aliyun")->append("dir/path/file.txt", "Append Text");
 
-Storage::disk('aliyun')->put('dir/path/secret.txt', 'My secret', 'private');
-Storage::disk('aliyun')->put('dir/path/download.txt', 'Download content', ["headers" => ["Content-Disposition" => "attachment; filename=file.txt"]]);
+Storage::disk("aliyun")->put("dir/path/secret.txt", "My secret", "private");
+Storage::disk("aliyun")->put("dir/path/download.txt", "Download content", ["headers" => ["Content-Disposition" => "attachment;download.txt"]]);
 ```
 
 #### 读取
 ```php
-Storage::disk('aliyun')->url('dir/path/file.txt');
-Storage::disk('aliyun')->temporaryUrl('dir/path/file.txt');
-Storage::disk('aliyun')->temporaryUrl('dir/path/file.txt', \Carbon\Carbon::now()->addMinutes(30));
+Storage::disk("aliyun")->url("dir/path/file.txt");
+Storage::disk("aliyun")->temporaryUrl("dir/path/file.txt");
+Storage::disk("aliyun")->temporaryUrl("dir/path/file.txt", \Carbon\Carbon::now()->addMinutes(30));
 
-Storage::disk('aliyun')->get('dir/path/file.txt'); 
+Storage::disk("aliyun")->get("dir/path/file.txt"); 
 
-Storage::disk('aliyun')->exists('dir/path/file.txt'); 
-Storage::disk('aliyun')->size('dir/path/file.txt'); 
-Storage::disk('aliyun')->lastModified('dir/path/file.txt');
+Storage::disk("aliyun")->exists("dir/path/file.txt"); 
+Storage::disk("aliyun")->size("dir/path/file.txt"); 
+Storage::disk("aliyun")->lastModified("dir/path/file.txt");
 ```
 
 #### 删除
 ```php
-Storage::disk('aliyun')->delete('dir/path/file.txt');
-Storage::disk('aliyun')->delete(['dir/path/file1.txt', 'dir/path/file2.txt']);
+Storage::disk("aliyun")->delete("dir/path/file.txt");
+Storage::disk("aliyun")->delete(["dir/path/file1.txt", "dir/path/file2.txt"]);
 ```
 
 #### 文件操作
 ```php
-Storage::disk('aliyun')->copy('dir/path/file.txt', 'dir/path/file_new.txt');
-Storage::disk('aliyun')->move('dir/path/file.txt', 'dir/path/file_new.txt');
-Storage::disk('aliyun')->rename('dir/path/file.txt', 'dir/path/file_new.txt');
+Storage::disk("aliyun")->copy("dir/path/file.txt", "dir/path/file_new.txt");
+Storage::disk("aliyun")->move("dir/path/file.txt", "dir/path/file_new.txt");
+Storage::disk("aliyun")->rename("dir/path/file.txt", "dir/path/file_new.txt");
 ```
 
 #### 文件夹操作
 ```php
-Storage::disk('aliyun')->makeDirectory('dir/path'); 
-Storage::disk('aliyun')->deleteDirectory('dir/path');
+Storage::disk("aliyun")->makeDirectory("dir/path"); 
+Storage::disk("aliyun")->deleteDirectory("dir/path");
 
-Storage::disk('aliyun')->files('dir/path');
-Storage::disk('aliyun')->allFiles('dir/path');
+Storage::disk("aliyun")->files("dir/path");
+Storage::disk("aliyun")->allFiles("dir/path");
 
-Storage::disk('aliyun')->directories('dir/path'); 
-Storage::disk('aliyun')->allDirectories('dir/path'); 
+Storage::disk("aliyun")->directories("dir/path"); 
+Storage::disk("aliyun")->allDirectories("dir/path"); 
 ```
 
 #### 使用 Plugin
 ```php
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The first line paragraph.', 0);
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The second line paragraph.', 25);
-Storage::disk('aliyun')->appendContent('dir/path/news.txt', 'The last line paragraph.', 51);
+Storage::disk("aliyun")->appendObject("dir/path/news.txt", "The first line paragraph.", 0);
+Storage::disk("aliyun")->appendObject("dir/path/news.txt", "The second line paragraph.", 25);
+Storage::disk("aliyun")->appendObject("dir/path/news.txt", "The last line paragraph.", 51);
+
+Storage::disk("aliyun")->appendFile("dir/path/file.zip", "dir/path/file.zip.001", 0);
+Storage::disk("aliyun")->appendFile("dir/path/file.zip", "dir/path/file.zip.002", 1000);
+Storage::disk("aliyun")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", 1000);
 ```
 
 #### 使用 OssClient
 ```php
-$adapter = Storage::disk('aliyun')->getAdapter(); 
+$adapter  = Storage::disk("aliyun")->getAdapter();
 $client = $adapter->getClient();
-$client->appendObject($adapter->getBucket(), $adapter->applyPathPrefix('dir/path/file.txt'), 'Append Text', 0);
+$bucketCors = $client->getBucketCors($adapter->getBucket());
 ```
 
 ## 文档

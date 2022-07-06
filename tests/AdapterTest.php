@@ -15,7 +15,9 @@ class AdapterTest extends TestCase
         $clientParameters = $config->getOssClientParameters();
         $client = \Mockery::mock(OssClient::class, array_values($clientParameters))
             ->makePartial();
-        $adapter = new Adapter($client, $config);
+        $adapter = new Adapter($client, $config->get("bucket"), $config->get("prefix", ""), $config->get("options", []));
+        $adapter->setOssConfig($config);
+
         return [
             [$adapter,$config]
         ];

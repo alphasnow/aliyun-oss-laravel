@@ -3,6 +3,8 @@
 namespace AlphaSnow\AliyunOss;
 
 use AlphaSnow\Flysystem\AliyunOss\Plugins\AppendContent;
+use AlphaSnow\Flysystem\AliyunOss\Plugins\AppendFile;
+use AlphaSnow\Flysystem\AliyunOss\Plugins\AppendObject;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use League\Flysystem\Config as FlysystemConfig;
@@ -31,8 +33,13 @@ class ServiceProvider extends BaseServiceProvider
                 $ossConfig->has("timeout") && $ossClient->setTimeout($ossConfig->get("timeout"));
                 $ossConfig->has("connect_timeout") && $ossClient->setConnectTimeout($ossConfig->get("connect_timeout"));
 
-                $filesystem = new Filesystem(new Adapter($ossClient, $ossConfig), new FlysystemConfig(["disable_asserts" => true]));
+                $adapter = new Adapter($ossClient, $ossConfig->get("bucket"), $ossConfig->get("prefix", ""), $ossConfig->get("options", []));
+                $adapter->setOssConfig($ossConfig);
+
+                $filesystem = new Filesystem($adapter, new FlysystemConfig(["disable_asserts" => true]));
                 $filesystem->addPlugin(new AppendContent());
+                $filesystem->addPlugin(new AppendObject());
+                $filesystem->addPlugin(new AppendFile());
 
                 return $filesystem;
             });
