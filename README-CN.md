@@ -76,7 +76,7 @@ Storage::disk("oss")->prepend("dir/path/file.txt", "Prepend Text");
 Storage::disk("oss")->append("dir/path/file.txt", "Append Text");
 
 Storage::disk("oss")->put("dir/path/secret.txt", "My secret", "private");
-Storage::disk("oss")->put("dir/path/download.txt", "Download content", ["headers" => ["Content-Disposition" => "attachment; filename=download.txt"]]);
+Storage::disk("oss")->put("dir/path/download.txt", "Download content", ["headers" => ["Content-Disposition" => "attachment;filename=download.txt"]]);
 ```
 
 #### 读取
@@ -122,9 +122,9 @@ Storage::disk("oss")->appendObject("dir/path/news.txt", "The first line paragrap
 Storage::disk("oss")->appendObject("dir/path/news.txt", "The second line paragraph.", 25);
 Storage::disk("oss")->appendObject("dir/path/news.txt", "The last line paragraph.", 51);
 
-$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.001", 0);
-$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.002", $position);
-$position = Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", $position);
+Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.001", 0);
+Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.002", 1024);
+Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", 1024);
 ```
 
 #### 使用 OssClient
