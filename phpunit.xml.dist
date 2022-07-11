@@ -2,15 +2,14 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
   <coverage>
     <include>
-      <directory suffix=".php">./src/</directory>
+      <directory suffix=".php">src/</directory>
     </include>
-    <exclude>
-      <directory suffix=".php">./src/Macros/</directory>
-    </exclude>
   </coverage>
   <testsuites>
-    <testsuite name="Tests">
-      <file>./tests/StorageTest.php</file>
+    <testsuite name="Application Test Suite">
+      <file>tests/StorageTest.php</file>
+      <file>tests/ProviderTest.php</file>
+      <file>tests/MacroTest.php</file>
     </testsuite>
   </testsuites>
   <php>

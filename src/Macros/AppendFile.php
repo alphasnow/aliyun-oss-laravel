@@ -24,7 +24,7 @@ class AppendFile implements AliyunMacro
      */
     public function macro(): Closure
     {
-        return function (string $path, string $content, int $position = 0, array $options = []) {
+        return function (string $path, string $file, int $position = 0, array $options = []) {
             try {
                 /**
                  * @var FilesystemAdapter $this
@@ -34,7 +34,7 @@ class AppendFile implements AliyunMacro
                 return $adapter->getClient()->appendFile(
                     $adapter->getBucket(),
                     $adapter->getPrefixer()->prefixPath($path),
-                    $content,
+                    $file,
                     $position,
                     $adapter->getOptions()->mergeConfig(new Config($options))
                 );
