@@ -5,8 +5,7 @@
       <directory suffix=".php">./src/</directory>
     </include>
     <exclude>
-      <directory suffix="ServiceProvider.php">./src/</directory>
-      <directory suffix=".php">./macros/</directory>
+      <directory suffix=".php">./src/Macros/</directory>
     </exclude>
   </coverage>
   <testsuites>
