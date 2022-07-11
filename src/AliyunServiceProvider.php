@@ -19,6 +19,10 @@ class AliyunServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(AliyunFactory::class, function () {
+            return new AliyunFactory();
+        });
+
         if ($this->app::class == "Laravel\Lumen\Application") {
             return;
         }
@@ -55,7 +59,7 @@ class AliyunServiceProvider extends ServiceProvider
     {
         $this->app->make("filesystem")
             ->extend("oss", function (Application $app, array $config) {
-                $adapter = (new AliyunFactory())->createAdapter($config);
+                $adapter = $app->make(AliyunFactory::class)->createAdapter($config);
                 $driver = new Filesystem($adapter);
                 $filesystem = new FilesystemAdapter($driver, $adapter, $config);
                 $macros = array_merge($this->defaultMacros, $config["macros"] ?? []);
