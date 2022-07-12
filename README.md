@@ -130,8 +130,8 @@ Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", 1
 ```php
 use AlphaSnow\LaravelFilesystem\Aliyun\OssClientAdapter;
 
-$clientAdapter = new OssClientAdapter(Storage::disk("oss"));
-$bucketCors = $clientAdapter->client()->getBucketCors("bucket-name")
+$adapter = new OssClientAdapter(Storage::disk("oss"));
+$adapter->client()->appendObject($adapter->bucket(), $adapter->path("dir/path/file.txt"), "Content of text", 0, $adapter->options(["visibility" => "private"]));
 ```
 
 ## Documentation
