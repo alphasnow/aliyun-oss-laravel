@@ -128,8 +128,10 @@ Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", 1
 
 #### Use OssClient
 ```php
-$ossClient  = Storage::disk("oss")->getAdapter()->getClient();
-$bucketCors = $ossClient->getBucketCors("bucket-name")
+use AlphaSnow\LaravelFilesystem\Aliyun\OssClientAdapter;
+
+$clientAdapter = new OssClientAdapter(Storage::disk("oss"));
+$bucketCors = $clientAdapter->client()->getBucketCors("bucket-name")
 ```
 
 ## Documentation

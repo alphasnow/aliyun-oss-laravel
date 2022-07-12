@@ -19,7 +19,7 @@ class AliyunServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(AliyunFactory::class, function () {
+        $this->app->singleton(AliyunFactory::class, function ($app) {
             return new AliyunFactory();
         });
 

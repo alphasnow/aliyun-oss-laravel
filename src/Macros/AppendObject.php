@@ -2,10 +2,9 @@
 
 namespace AlphaSnow\LaravelFilesystem\Aliyun\Macros;
 
-use AlphaSnow\Flysystem\Aliyun\AliyunAdapter;
 use AlphaSnow\Flysystem\Aliyun\AliyunException;
+use AlphaSnow\LaravelFilesystem\Aliyun\OssClientAdapter;
 use Illuminate\Filesystem\FilesystemAdapter;
-use League\Flysystem\Config;
 use OSS\Core\OssException;
 use Closure;
 
@@ -25,18 +24,18 @@ class AppendObject implements AliyunMacro
     public function macro(): Closure
     {
         return function (string $path, string $content, int $position = 0, array $options = []) {
+            /**
+             * @var FilesystemAdapter $this
+             */
+            $adapter = new OssClientAdapter($this);
+
             try {
-                /**
-                 * @var FilesystemAdapter $this
-                 * @var AliyunAdapter $adapter
-                 */
-                $adapter = $this->getAdapter();
-                return $adapter->getClient()->appendObject(
-                    $adapter->getBucket(),
-                    $adapter->getPrefixer()->prefixPath($path),
+                return $adapter->client()->appendObject(
+                    $adapter->bucket(),
+                    $adapter->path($path),
                     $content,
                     $position,
-                    $adapter->getOptions()->mergeConfig(new Config($options))
+                    $adapter->options($options)
                 );
             } catch (OssException $exception) {
                 throw new AliyunException($exception->getErrorMessage(), 0, $exception);

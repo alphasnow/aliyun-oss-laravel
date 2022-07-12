@@ -14,14 +14,7 @@ class MacroTest extends TestCase
     {
         parent::setUp();
 
-        $accessId = getenv("OSS_ACCESS_KEY_ID");
-        $accessKey = getenv("OSS_ACCESS_KEY_SECRET");
-        $bucket = getenv("OSS_BUCKET");
-        $endpoint = getenv("OSS_ENDPOINT");
-
-        $client = \Mockery::mock(OssClient::class, [$accessId,$accessKey,$endpoint])
-            ->makePartial()
-            ->shouldAllowMockingProtectedMethods();
+        $client = \Mockery::mock(OssClient::class, ["access_id","access_secret","endpoint.com"]);
         $this->ossClient = $client;
 
         $factory = \Mockery::mock(AliyunFactory::class);
@@ -36,12 +29,13 @@ class MacroTest extends TestCase
      */
     public function append_file()
     {
-        $this->ossClient->shouldReceive("appendFile")
-            ->andReturn(7);
-
         $file = __DIR__."/stubs/file.txt";
-        $position = Storage::disk("oss")->appendFile("tests/file.txt", $file);
 
+        $this->ossClient->shouldReceive("appendFile")
+            ->with("bucket", "tests/stubs/file.txt", $file, 0, ["headers" => ["Content-Disposition" => "attachment;filename=file.txt"]])
+            ->once()
+            ->andReturn(7);
+        $position = Storage::disk("oss")->appendFile("stubs/file.txt", $file, 0, ["headers" => ["Content-Disposition" => "attachment;filename=file.txt"]]);
         $this->assertSame($position, 7);
     }
 
@@ -51,10 +45,10 @@ class MacroTest extends TestCase
     public function append_object()
     {
         $this->ossClient->shouldReceive("appendObject")
+            ->with("bucket", "tests/stubs/file.txt", "content", 0, ["checkmd5" => false])
+            ->once()
             ->andReturn(7);
-
-        $position = Storage::disk("oss")->appendObject("tests/file.txt", "content");
-
+        $position = Storage::disk("oss")->appendObject("stubs/file.txt", "content", 0, ["options" => ["checkmd5" => false]]);
         $this->assertSame($position, 7);
     }
 }
