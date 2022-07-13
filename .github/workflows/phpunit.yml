@@ -1,0 +1,33 @@
+name: PHPUnit
+
+on:
+    push:
+        branches: ["master"]
+    pull_request:
+        branches: ["master"]
+
+jobs:
+    test:
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-20.04]
+                php: [8.0, 8.1]
+                dependency-version: [prefer-lowest, prefer-stable]
+
+        runs-on: ${{ matrix.os }}
+
+        name: P${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Validate composer.json
+              run: composer validate --strict
+
+            - name: Install dependencies
+              run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+
+            - name: Run PHPUnit
+              run: ./vendor/bin/phpunit
