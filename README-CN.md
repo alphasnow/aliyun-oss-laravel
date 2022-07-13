@@ -41,16 +41,18 @@ Laravel 的阿里云对象存储 Storage 扩展
     "disks"=>[
         // ...
         "oss" => [
-               "driver"            => "oss",
-               "access_key_id"     => env("OSS_ACCESS_KEY_ID"),           // 必填, 阿里云的AccessKeyId
-               "access_key_secret" => env("OSS_ACCESS_KEY_SECRET"),       // 必填, 阿里云的AccessKeySecret
-               "bucket"            => env("OSS_BUCKET"),                  // 必填, 对象存储的Bucket, 示例: my-bucket
-               "endpoint"          => env("OSS_ENDPOINT"),                // 必填, 对象存储的Endpoint, 示例: oss-cn-shanghai.aliyuncs.com
-               "internal"          => env("OSS_INTERNAL", null),          // 选填, 内网上传地址, 示例: oss-cn-shanghai-internal.aliyuncs.com
-               "domain"            => env("OSS_DOMAIN", null),            // 选填, 绑定域名, 示例: oss.my-domain.com
-               "use_ssl"           => env("OSS_SSL", false),              // 选填, 是否使用HTTPS
-               "prefix"            => env("OSS_PREFIX", ""),              // 选填, 统一存储地址前缀
-               "reverse_proxy"     => env("OSS_REVERSE_PROXY", false),    // 选填, 域名是否使用NGINX代理绑定
+            "driver"            => "oss",
+            "access_key_id"     => env("OSS_ACCESS_KEY_ID"),           // 必填, 阿里云的AccessKeyId
+            "access_key_secret" => env("OSS_ACCESS_KEY_SECRET"),       // 必填, 阿里云的AccessKeySecret
+            "bucket"            => env("OSS_BUCKET"),                  // 必填, 对象存储的Bucket, 示例: my-bucket
+            "endpoint"          => env("OSS_ENDPOINT"),                // 必填, 对象存储的Endpoint, 示例: oss-cn-shanghai.aliyuncs.com
+            "internal"          => env("OSS_INTERNAL", null),          // 选填, 内网上传地址,填写即启用 示例: oss-cn-shanghai-internal.aliyuncs.com
+            "domain"            => env("OSS_DOMAIN", null),            // 选填, 绑定域名,填写即启用 示例: oss.my-domain.com
+            "prefix"            => env("OSS_PREFIX", ""),              // 选填, 统一存储地址前缀
+            "use_ssl"           => env("OSS_SSL", false),              // 选填, 是否使用HTTPS
+            "reverse_proxy"     => env("OSS_REVERSE_PROXY", false),    // 选填, 域名是否使用NGINX代理绑定
+            "options"           => [],                                 // 选填, 添加全局配置参数, 示例: [\OSS\OssClient::OSS_CHECK_MD5 => false]
+            "macros"            => []                                  // 选填, 添加自定义Macro, 示例: [\App\Macros\ListBuckets::class, \App\Macros\CreateBucket::class]
         ],
         // ...
     ]
@@ -126,7 +128,32 @@ Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.002", 1
 Storage::disk("oss")->appendFile("dir/path/file.zip", "dir/path/file.zip.003", 1024);
 ```
 
-#### Use OssClient
+##### 自定义 Macro
+1. 开发 Macro
+    ```php
+    namespace App\Macros;
+    use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AliyunMacro;
+    
+    class ListBuckets implements AliyunMacro
+    {
+        // ... 
+    }
+    ```
+    参考实例代码: [AppendObject.php](https://github.com/alphasnow/aliyun-oss-laravel/blob/4.5.0/src/Macros/AppendObject.php)
+
+2. 修改配置
+    ```php
+    [
+        "macros" => [\App\Macros\ListBuckets::class]
+    ]
+    ```
+   
+3. 使用 Macro
+    ```php
+    Storage::disk("oss")->listBuckets()
+    ```
+
+#### 使用 OssClient
 ```php
 use AlphaSnow\LaravelFilesystem\Aliyun\OssClientAdapter;
 
