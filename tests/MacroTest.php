@@ -45,10 +45,10 @@ class MacroTest extends TestCase
     public function append_object()
     {
         $this->ossClient->shouldReceive("appendObject")
-            ->with("bucket", "tests/stubs/file.txt", "content", 0, ["checkmd5" => false])
+            ->with("bucket", "tests/stubs/file.txt", "contents", 0, ["checkmd5" => false])
             ->once()
-            ->andReturn(7);
-        $position = Storage::disk("oss")->appendObject("stubs/file.txt", "content", 0, ["options" => ["checkmd5" => false]]);
-        $this->assertSame($position, 7);
+            ->andReturn(8);
+        $position = Storage::disk("oss")->appendObject("stubs/file.txt", "contents", 0, ["options" => ["checkmd5" => false]]);
+        $this->assertSame($position, 8);
     }
 }

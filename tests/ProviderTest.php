@@ -4,25 +4,11 @@ namespace AlphaSnow\LaravelFilesystem\Aliyun\Tests;
 
 use AlphaSnow\Flysystem\Aliyun\AliyunFactory;
 use AlphaSnow\LaravelFilesystem\Aliyun\AliyunServiceProvider;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 
 class ProviderTest extends TestCase
 {
-    protected function getPackageProviders($app)
-    {
-        $app['config']['filesystems.disks.aliyun'] = require __DIR__ . "/../config/config.php";
-        return [AliyunServiceProvider::class];
-    }
-
-    /**
-     * @test
-     */
-    public function without_default_filesystem_disk()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        Storage::disk("oss");
-    }
-
     /**
      * @test
      */
@@ -33,4 +19,24 @@ class ProviderTest extends TestCase
 
         $this->assertSame($factory1, $factory2);
     }
+
+    /**
+     * @test
+     */
+    public function merge_default_config()
+    {
+        $config = require __DIR__ . "/../config/config.php";
+        $appCfg = $this->app["config"]->get("filesystems.disks.oss");
+        $this->assertSame($config,$appCfg);
+    }
+
+    /**
+     * @test
+     */
+    public function default_filesystem_disk()
+    {
+        $storage = Storage::disk("oss");
+        $this->assertInstanceOf(Filesystem::class, $storage);
+    }
+
 }
