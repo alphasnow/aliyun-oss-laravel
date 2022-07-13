@@ -42,7 +42,7 @@
         "phpstan": "vendor/bin/phpstan analyse",
         "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.php --dry-run --ansi",
         "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.php --ansi",
-        "test": "vendor/bin/phpunit --colors=always --testdox"
+        "test": "vendor/bin/phpunit --colors=always --testdox --configuration phpunit.xml.dist"
     },
     "scripts-descriptions": {
         "phpstan": "Run static analysis",

@@ -11,7 +11,7 @@ class AdapterTest extends TestCase
     /**
      * @test
      */
-    public function client()
+    public function use_client()
     {
         $adapter = new OssClientAdapter(Storage::disk("oss"));
         $client = $adapter->client();
@@ -21,7 +21,7 @@ class AdapterTest extends TestCase
     /**
      * @test
      */
-    public function bucket()
+    public function use_bucket()
     {
         $adapter = new OssClientAdapter(Storage::disk("oss"));
         $bucket = $adapter->bucket();
@@ -31,7 +31,7 @@ class AdapterTest extends TestCase
     /**
      * @test
      */
-    public function path()
+    public function use_path()
     {
         $adapter = new OssClientAdapter(Storage::disk("oss"));
         $path = $adapter->path("foo/bar.jpg");
@@ -41,7 +41,7 @@ class AdapterTest extends TestCase
     /**
      * @test
      */
-    public function options()
+    public function use_options()
     {
         $adapter = new OssClientAdapter(Storage::disk("oss"));
         $options = $adapter->options([
