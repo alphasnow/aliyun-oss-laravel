@@ -16,7 +16,6 @@ class FilesystemTest extends TestCase
         ];
     }
 
-
     /**
      * @param FilesystemAdapter $filesystem
      * @dataProvider filesystemProvider

@@ -5,12 +5,6 @@ namespace AlphaSnow\AliyunOss\Tests;
 use AlphaSnow\AliyunOss\ServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
-/**
- * https://github.com/orchestral/testbench
- *
- * Class TestCase
- * @package AlphaSnow\AliyunOss\Tests
- */
 class TestCase extends BaseTestCase
 {
     protected function getPackageProviders($app)
