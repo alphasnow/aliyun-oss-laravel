@@ -5,7 +5,7 @@ Laravel 的阿里云对象存储 Storage 扩展
 
 [![Latest Stable Version](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/v/stable)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Total Downloads](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/downloads)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
-[![Test](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/test.yml/badge.svg)](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/test.yml)
+[![Test](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/test.yml/badge.svg?branch=3.x)](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/test.yml)
 [![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 
 这个包是封装 [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) 到 Laravel 来作为 Storage 使用.
