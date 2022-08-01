@@ -5,7 +5,7 @@ Alibaba Cloud Object Storage Service For Laravel
 
 [![Latest Stable Version](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/v/stable)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Total Downloads](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/downloads)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
-[![Test](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/test.yml/badge.svg)](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/test.yml)
+[![Test](https://github.com/alphasnow/aliyun-oss-laravel/workflows/Test/badge.svg?branch=4.x)](https://github.com/alphasnow/aliyun-oss-laravel/actions?query=branch:4.x)
 [![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 
 This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) into Laravel as an available storage disk.  
@@ -16,7 +16,7 @@ If client direct transmission is required, Use web server signature direct trans
 | laravel      | aliyun-oss-laravel | driver | readme |
 |:-------------|:-------------------|:-------|:-------|
 | \>=5.5,\<9.0 | ^3.0               | aliyun | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/3.x/README.md) |
-| \>=9.0       | ^4.0               | oss    | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/master/README.md) |
+| \>=9.0       | ^4.0               | oss    | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/4.x/README.md) |
 
 ## Installation
 1. If you use the composer to manage project dependencies, run the following command in your project"s root directory:

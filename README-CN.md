@@ -5,7 +5,7 @@ Laravel 的阿里云对象存储 Storage 扩展
 
 [![Latest Stable Version](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/v/stable)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Total Downloads](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/downloads)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
-[![Test](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/test.yml/badge.svg)](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/test.yml)
+[![Test](https://github.com/alphasnow/aliyun-oss-laravel/workflows/Test/badge.svg?branch=4.x)](https://github.com/alphasnow/aliyun-oss-laravel/actions?query=branch:4.x)
 [![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 
 这个包是封装 [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) 到 Laravel 来作为 Storage 使用.  
@@ -16,7 +16,7 @@ Laravel 的阿里云对象存储 Storage 扩展
 | laravel      | aliyun-oss-laravel | driver | readme |
 |:-------------|:-------------------|:-------|:-------|
 | \>=5.5,\<9.0 | ^3.0               | aliyun | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/3.x/README-CN.md) |
-| \>=9.0       | ^4.0               | oss    | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/master/README-CN.md) |
+| \>=9.0       | ^4.0               | oss    | [readme](https://github.com/alphasnow/aliyun-oss-laravel/blob/4.x/README-CN.md) |
 
 ## 安装依赖
 1. 通过composer管理您的项目依赖，可以在你的项目根目录运行：  
