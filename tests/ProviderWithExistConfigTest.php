@@ -2,7 +2,6 @@
 
 namespace AlphaSnow\LaravelFilesystem\Aliyun\Tests;
 
-use AlphaSnow\Flysystem\Aliyun\AliyunFactory;
 use AlphaSnow\LaravelFilesystem\Aliyun\AliyunServiceProvider;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
@@ -26,5 +25,4 @@ class ProviderWithExistConfigTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         Storage::disk("oss");
     }
-
 }

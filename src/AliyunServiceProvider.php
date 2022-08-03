@@ -3,9 +3,7 @@
 namespace AlphaSnow\LaravelFilesystem\Aliyun;
 
 use AlphaSnow\Flysystem\Aliyun\AliyunFactory;
-use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AliyunMacro;
-use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendFile;
-use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendObject;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -16,29 +14,25 @@ class AliyunServiceProvider extends ServiceProvider
 {
     /**
      * @return void
+     * @throws BindingResolutionException
      */
     public function register()
     {
-        $this->app->singleton(AliyunFactory::class, function ($app) {
-            return new AliyunFactory();
-        });
-
-        if ($this->app::class == "Laravel\Lumen\Application") {
-            return;
-        }
-
-        $this->registerConfig();
+        $this->mergeOssConfig();
     }
 
     /**
      * @return void
+     * @throws BindingResolutionException
      */
-    protected function registerConfig()
+    protected function mergeOssConfig()
     {
         if ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached()) {
             return;
         }
 
+        // If a driver for OSS has been defined
+        // Then configuration merge will not be performed
         $config = $this->app->make('config');
         $disks = $config->get("filesystems.disks", []);
         $drivers = array_column($disks, "driver");
@@ -54,46 +48,17 @@ class AliyunServiceProvider extends ServiceProvider
 
     /**
      * @return void
+     * @throws BindingResolutionException
      */
     public function boot()
     {
         $this->app->make("filesystem")
             ->extend("oss", function (Application $app, array $config) {
-                $adapter = $app->make(AliyunFactory::class)->createAdapter($config);
+                $adapter = $this->app->make(AliyunFactory::class)->createAdapter($config);
                 $driver = new Filesystem($adapter);
                 $filesystem = new FilesystemAdapter($driver, $adapter, $config);
-                $macros = array_merge($this->defaultMacros, $config["macros"] ?? []);
-                $this->registerMicros($filesystem, $macros);
+                (new FilesystemMacroManager($filesystem))->defaultRegister()->register($config["macros"] ?? []);
                 return $filesystem;
             });
-    }
-
-    /**
-     * @var array
-     */
-    protected $defaultMacros = [
-        AppendFile::class,
-        AppendObject::class,
-    ];
-
-    /**
-     * @param FilesystemAdapter $filesystemAdapter
-     * @param array $macros
-     */
-    protected function registerMicros(FilesystemAdapter $filesystemAdapter, array $macros): void
-    {
-        foreach ($macros as $macro) {
-            if (!class_exists($macro)) {
-                continue;
-            }
-            $aliyunMacro = new $macro();
-            if (!$aliyunMacro instanceof AliyunMacro) {
-                continue;
-            }
-            if ($filesystemAdapter->hasMacro($aliyunMacro->name())) {
-                continue;
-            }
-            $filesystemAdapter::macro($aliyunMacro->name(), $aliyunMacro->macro());
-        }
     }
 }
