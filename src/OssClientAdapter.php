@@ -35,12 +35,11 @@ class OssClientAdapter
     }
 
     /**
-     * @param string $bucket
      * @return string
      */
-    public function bucket($bucket = "")
+    public function bucket()
     {
-        return $bucket == "" ? $this->adapter->getBucket() : $bucket;
+        return $this->adapter->getBucket();
     }
 
     /**
