@@ -1,6 +1,7 @@
 ## 运行环境 / Runtime environment
 
 * php: 
+* laravel: 
 * aliyun-oss-laravel: 
 
 ## 描述问题 / Describe the bug
