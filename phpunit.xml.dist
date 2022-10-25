@@ -4,6 +4,10 @@
     <include>
       <directory suffix=".php">src/</directory>
     </include>
+    <report>
+      <clover outputFile="coverage.xml"/>
+      <html outputDirectory="html-coverage" lowUpperBound="50" highLowerBound="90"/>
+    </report>
   </coverage>
   <testsuites>
     <testsuite name="Application Test Suite">

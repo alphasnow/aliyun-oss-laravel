@@ -4,3 +4,7 @@
 /.php_cs.cache
 /.phpunit.result.cache
 /phpunit.xml
+/html-coverage
+/.coveralls.yml
+/coverage.json
+/coverage.xml

@@ -19,7 +19,8 @@
         "phpunit/phpunit": "^9.5",
         "friendsofphp/php-cs-fixer": "^3.6",
         "phpstan/phpstan": "^1.4",
-        "orchestra/testbench": "^7.0"
+        "orchestra/testbench": "^7.0",
+        "php-coveralls/php-coveralls": "^2.5"
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +43,8 @@
         "phpstan": "vendor/bin/phpstan analyse",
         "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.php --dry-run --ansi",
         "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.php --ansi",
-        "test": "vendor/bin/phpunit --colors=always --testdox --configuration phpunit.xml.dist"
+        "test": "vendor/bin/phpunit --colors=always --testdox --configuration phpunit.xml.dist",
+        "coveralls":  "vendor/bin/php-coveralls"
     },
     "scripts-descriptions": {
         "phpstan": "Run static analysis",
