@@ -12,15 +12,15 @@
     ],
     "require": {
         "laravel/framework": "^9.33.0",
-        "alphasnow/aliyun-oss-flysystem": "^3.0"
+        "alphasnow/aliyun-oss-flysystem": "^3.2.10"
     },
     "require-dev": {
         "mockery/mockery": "^1.5",
         "phpunit/phpunit": "^9.5",
-        "friendsofphp/php-cs-fixer": "^3.6",
-        "phpstan/phpstan": "^1.4",
-        "orchestra/testbench": "^7.0",
-        "php-coveralls/php-coveralls": "^2.5"
+        "friendsofphp/php-cs-fixer": "^3.12",
+        "phpstan/phpstan": "^1.9",
+        "orchestra/testbench": "^7.13",
+        "php-coveralls/php-coveralls": "*"
     },
     "autoload": {
         "psr-4": {

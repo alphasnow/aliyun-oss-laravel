@@ -54,7 +54,7 @@ class AliyunServiceProvider extends ServiceProvider
     {
         $this->app->make("filesystem")
             ->extend("oss", function (Application $app, array $config) {
-                $client = (new AliyunFactory())->createClient($config);
+                $client = $app->make(AliyunFactory::class)->createClient($config);
                 $adapter = new AliyunAdapter($client, $config["bucket"], $config["prefix"] ?? "", $config);
                 $driver = new Filesystem($adapter);
                 $filesystem = new FilesystemAdapter($driver, $adapter, $config);
