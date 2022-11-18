@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
-        "alphasnow/aliyun-oss-flysystem": "^3.2"
+        "laravel/framework": "^9.33.0",
+        "alphasnow/aliyun-oss-flysystem": "^3.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.5",

@@ -8,3 +8,4 @@
 /.coveralls.yml
 /coverage.json
 /coverage.xml
+/.php-cs-fixer.cache
