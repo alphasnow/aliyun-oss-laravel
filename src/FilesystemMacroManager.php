@@ -3,9 +3,9 @@
 namespace AlphaSnow\LaravelFilesystem\Aliyun;
 
 use AlphaSnow\Flysystem\Aliyun\AliyunException;
+use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AliyunMacro;
 use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendFile;
 use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AppendObject;
-use AlphaSnow\LaravelFilesystem\Aliyun\Macros\AliyunMacro;
 use Illuminate\Filesystem\FilesystemAdapter;
 
 class FilesystemMacroManager

@@ -4,9 +4,9 @@ namespace AlphaSnow\LaravelFilesystem\Aliyun\Macros;
 
 use AlphaSnow\Flysystem\Aliyun\AliyunException;
 use AlphaSnow\LaravelFilesystem\Aliyun\OssClientAdapter;
+use Closure;
 use Illuminate\Filesystem\FilesystemAdapter;
 use OSS\Core\OssException;
-use Closure;
 
 class AppendFile implements AliyunMacro
 {
