@@ -51,6 +51,7 @@ Laravel 的阿里云对象存储 Storage 扩展
             "prefix"            => env("OSS_PREFIX", ""),              // 选填, 统一存储地址前缀
             "use_ssl"           => env("OSS_SSL", false),              // 选填, 是否使用HTTPS
             "reverse_proxy"     => env("OSS_REVERSE_PROXY", false),    // 选填, 域名是否使用NGINX代理绑定
+            "throw"             => env("OSS_THROW", false),            // 选填, 是否抛出引起错误的异常,默认出现错误时,不抛出异常仅返回false
             "options"           => [],                                 // 选填, 添加全局配置参数, 示例: [\OSS\OssClient::OSS_CHECK_MD5 => false]
             "macros"            => []                                  // 选填, 添加自定义Macro, 示例: [\App\Macros\ListBuckets::class, \App\Macros\CreateBucket::class]
         ],

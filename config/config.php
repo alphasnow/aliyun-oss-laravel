@@ -18,6 +18,7 @@ return [
     "internal" => env("OSS_INTERNAL", null), // For example: oss-cn-shanghai-internal.aliyuncs.com
     "domain" => env("OSS_DOMAIN", null), // For example: oss.my-domain.com
     "reverse_proxy" => env("OSS_REVERSE_PROXY", false), // Whether to use the Reverse proxy, such as nginx
+    "throw" => env("OSS_THROW", false), // Optional, Whether to throw an exception that causes an error
     "options" => [], // For example: [\OSS\OssClient::OSS_CHECK_MD5 => false]
     "macros" => [] // For example: [\App\Macros\ListBuckets::class,\App\Macros\CreateBucket::class]
 ];
