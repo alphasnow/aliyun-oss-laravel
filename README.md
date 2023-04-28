@@ -1,13 +1,14 @@
 English | [简体中文](README-CN.md)  
 
 # Aliyun Oss Storage for Laravel
-Alibaba Cloud Object Storage Service For Laravel
 
 [![Latest Stable Version](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/v/stable)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Total Downloads](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/downloads)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Test](https://github.com/alphasnow/aliyun-oss-laravel/workflows/Test/badge.svg?branch=4.x)](https://github.com/alphasnow/aliyun-oss-laravel/actions?query=branch:4.x)
 [![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Coverage Status](https://coveralls.io/repos/github/alphasnow/aliyun-oss-laravel/badge.svg?branch=4)](https://coveralls.io/github/alphasnow/aliyun-oss-laravel?branch=4)
+
+[![Banner](https://banners.beyondco.de/Aliyun%20OSS%20Laravel.png?theme=light&packageManager=composer+require&packageName=alphasnow%2Faliyun-oss-laravel&pattern=architect&style=style_1&description=Alibaba+Cloud+Object+Storage+Service+For+Laravel&md=1&showWatermark=1&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg)]()
 
 This package is a wrapper bridging [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) into Laravel as an available storage disk.  
 If client direct transmission is required, Use web server signature direct transmission OSS extension package [aliyun-oss-appserver](https://github.com/alphasnow/aliyun-oss-appserver).  
