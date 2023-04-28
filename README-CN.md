@@ -8,7 +8,7 @@
 [![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Coverage Status](https://coveralls.io/repos/github/alphasnow/aliyun-oss-laravel/badge.svg?branch=4)](https://coveralls.io/github/alphasnow/aliyun-oss-laravel?branch=4)
 
-[![Banner](https://banners.beyondco.de/Aliyun%20OSS%20Laravel.png?theme=light&packageManager=composer+require&packageName=alphasnow%2Faliyun-oss-laravel&pattern=architect&style=style_1&description=Alibaba+Cloud+Object+Storage+Service+For+Laravel&md=1&showWatermark=1&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg)]()
+[![Banner](https://banners.beyondco.de/Aliyun%20OSS%20Laravel.png?theme=light&packageManager=composer+require&packageName=alphasnow%2Faliyun-oss-laravel&pattern=architect&style=style_1&description=Alibaba+Cloud+Object+Storage+Service+For+Laravel&md=1&showWatermark=1&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg)](https://github.com/alphasnow/aliyun-oss-laravel)
 
 这个包是封装 [aliyun-oss-flysystem](https://github.com/alphasnow/aliyun-oss-flysystem) 到 Laravel 来作为 Storage 使用.  
 如果需要客户端直传, 可使用 Web服务端签名直传OSS扩展包 [aliyun-oss-appserver](https://github.com/alphasnow/aliyun-oss-appserver)  
