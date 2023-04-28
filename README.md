@@ -167,7 +167,7 @@ $adapter->client()->appendObject($adapter->bucket(), $adapter->path("dir/path/fi
 - [Object storage OSS-aliyun](https://www.alibabacloud.com/help/en/object-storage-service)
 
 ## Issues
-[Opening an Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues/new)
+[Opening an Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues)
 
 ## License
 [MIT](LICENSE)

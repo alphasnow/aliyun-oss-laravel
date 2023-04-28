@@ -167,7 +167,7 @@ $adapter->client()->appendObject($adapter->bucket(), $adapter->path("dir/path/fi
 - [对象存储 OSS-阿里云](https://help.aliyun.com/product/31815.html)
 
 ## 问题
-如使用中遇到问题，[提交 Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues/new)
+如使用中遇到问题，[提交 Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues)
 
 ## 许可证
 [MIT](LICENSE)
