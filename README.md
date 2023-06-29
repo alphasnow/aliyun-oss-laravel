@@ -4,7 +4,7 @@ English | [简体中文](README-CN.md)
 
 [![Latest Stable Version](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/v/stable)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Total Downloads](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/downloads)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
-[![Test](https://github.com/alphasnow/aliyun-oss-laravel/workflows/Test/badge.svg?branch=4.x)](https://github.com/alphasnow/aliyun-oss-laravel/actions?query=branch:4.x)
+[![tests](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/tests.yml/badge.svg?branch=4.x)](https://github.com/alphasnow/aliyun-oss-laravel/actions/workflows/tests.yml)
 [![License](https://poser.pugx.org/alphasnow/aliyun-oss-laravel/license)](https://packagist.org/packages/alphasnow/aliyun-oss-laravel)
 [![Coverage Status](https://coveralls.io/repos/github/alphasnow/aliyun-oss-laravel/badge.svg?branch=4)](https://coveralls.io/github/alphasnow/aliyun-oss-laravel?branch=4)
 

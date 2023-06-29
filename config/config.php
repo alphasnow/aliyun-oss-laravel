@@ -9,7 +9,7 @@ return [
     "prefix" => env("OSS_PREFIX", ""), // For example: user/uploads
     "request_proxy" => env("OSS_PROXY", null), // Used by \OSS\OssClient
     "security_token" => env("OSS_TOKEN", null), // Used by \OSS\OssClient
-    "is_cname" => env("OSS_CNAME", false), // If this is the CName and binded in the bucket.
+    "is_cname" => env("OSS_CNAME", false), // If this is the CName and bound in the bucket.
     "use_ssl" => env("OSS_SSL", null), // Whether to use HTTPS
     "max_retries" => env("OSS_MAX_TRIES", null), // Sets the max retry count
     "timeout" => env("OSS_TIMEOUT", null), // The request timeout time
