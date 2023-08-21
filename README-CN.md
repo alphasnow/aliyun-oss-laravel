@@ -49,6 +49,7 @@
             "endpoint"          => env("OSS_ENDPOINT"),                // 必填, 对象存储的Endpoint, 示例: oss-cn-shanghai.aliyuncs.com
             "internal"          => env("OSS_INTERNAL", null),          // 选填, 内网上传地址,填写即启用 示例: oss-cn-shanghai-internal.aliyuncs.com
             "domain"            => env("OSS_DOMAIN", null),            // 选填, 绑定域名,填写即启用 示例: oss.my-domain.com
+            "is_cname"          => env("OSS_CNAME", false),            // 选填, 若Endpoint为自定义域名，此项要为true，见：https://github.com/aliyun/aliyun-oss-php-sdk/blob/572d0f8e099e8630ae7139ed3fdedb926c7a760f/src/OSS/OssClient.php#L113C1-L122C78
             "prefix"            => env("OSS_PREFIX", ""),              // 选填, 统一存储地址前缀
             "use_ssl"           => env("OSS_SSL", false),              // 选填, 是否使用HTTPS
             "reverse_proxy"     => env("OSS_REVERSE_PROXY", false),    // 选填, 域名是否使用NGINX代理绑定
