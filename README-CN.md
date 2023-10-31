@@ -165,10 +165,18 @@ $adapter->client()->appendObject($adapter->bucket(), $adapter->path("dir/path/fi
 ```
 
 ## 文档
-- [对象存储 OSS-阿里云](https://help.aliyun.com/product/31815.html)
+[阿里云 对象存储 OSS文档](https://help.aliyun.com/zh/oss/)
 
 ## 问题
 如使用中遇到问题，[提交 Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues)
+
+## 贡献者
+<a href="https://github.com/alphasnow/aliyun-oss-laravel/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=alphasnow/aliyun-oss-laravel" />
+</a>
+
+## Star 历史
+[![Star History Chart](https://api.star-history.com/svg?repos=alphasnow/aliyun-oss-laravel&type=Timeline)](https://star-history.com/#alphasnow/aliyun-oss-laravel&Timeline)
 
 ## 许可证
 [MIT](LICENSE)

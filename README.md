@@ -165,10 +165,18 @@ $adapter->client()->appendObject($adapter->bucket(), $adapter->path("dir/path/fi
 ```
 
 ## Documentation
-- [Object storage OSS-aliyun](https://www.alibabacloud.com/help/en/object-storage-service)
+[AlibabaCloud Object Storage Service Documentation](https://www.alibabacloud.com/help/en/oss/)
 
 ## Issues
 [Opening an Issue](https://github.com/alphasnow/aliyun-oss-laravel/issues)
+
+## Contributors
+<a href="https://github.com/alphasnow/aliyun-oss-laravel/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=alphasnow/aliyun-oss-laravel" />
+</a>
+
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=alphasnow/aliyun-oss-laravel&type=Timeline)](https://star-history.com/#alphasnow/aliyun-oss-laravel&Timeline)
 
 ## License
 [MIT](LICENSE)
