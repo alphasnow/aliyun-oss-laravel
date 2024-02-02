@@ -52,7 +52,6 @@ If client direct transmission is required, Use web server signature direct trans
             "is_cname"          => env("OSS_CNAME", false),            // Optional, if the Endpoint is a custom domain name, this must be true, see: https://github.com/aliyun/aliyun-oss-php-sdk/blob/572d0f8e099e8630ae7139ed3fdedb926c7a760f/src/OSS/OssClient.php#L113C1-L122C78
             "prefix"            => env("OSS_PREFIX", ""),              // Optional, The prefix of the store path
             "use_ssl"           => env("OSS_SSL", false),              // Optional, Whether to use HTTPS
-            "reverse_proxy"     => env("OSS_REVERSE_PROXY", false),    // Optional, Whether to use the Reverse proxy, such as nginx
             "throw"             => env("OSS_THROW", false),            // Optional, Whether to throw an exception that causes an error
             "options"           => [],                                 // Optional, Add global configuration parameters, For example: [\OSS\OssClient::OSS_CHECK_MD5 => false]
             "macros"            => []                                  // Optional, Add custom Macro, For example: [\App\Macros\ListBuckets::class, \App\Macros\CreateBucket::class]

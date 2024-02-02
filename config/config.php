@@ -10,14 +10,13 @@ return [
     "request_proxy" => env("OSS_PROXY", null), // Used by \OSS\OssClient
     "security_token" => env("OSS_TOKEN", null), // Used by \OSS\OssClient
     "is_cname" => env("OSS_CNAME", false), // If this is the CName and bound in the bucket.
-    "use_ssl" => env("OSS_SSL", null), // Whether to use HTTPS
+    "use_ssl" => env("OSS_SSL", false), // Whether to use HTTPS
     "max_retries" => env("OSS_MAX_TRIES", null), // Sets the max retry count
     "timeout" => env("OSS_TIMEOUT", null), // The request timeout time
     "connect_timeout" => env("OSS_CONNECT_TIMEOUT", null), // The connection timeout time
     "enable_sts_in_url" => env("OSS_STS_URL", null), // Enable/disable STS in the URL
     "internal" => env("OSS_INTERNAL", null), // For example: oss-cn-shanghai-internal.aliyuncs.com
     "domain" => env("OSS_DOMAIN", null), // For example: oss.my-domain.com
-    "reverse_proxy" => env("OSS_REVERSE_PROXY", false), // Whether to use the Reverse proxy, such as nginx
     "throw" => env("OSS_THROW", false), // Optional, Whether to throw an exception that causes an error
     "options" => [], // For example: [\OSS\OssClient::OSS_CHECK_MD5 => false]
     "macros" => [] // For example: [\App\Macros\ListBuckets::class,\App\Macros\CreateBucket::class]
